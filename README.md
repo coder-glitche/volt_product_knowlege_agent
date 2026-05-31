@@ -1,14 +1,37 @@
-# Volt PRDs — Knowledge Agent
+<div align="center">
 
-Query the entire Volt Money / DSP Finance product knowledge base directly inside Claude Code. Ask about any feature, flow, PRD, or system — and get accurate answers sourced from the actual product repository.
+# 🧠 Volt PRDs — Knowledge Agent
+
+**Ask anything about Volt Money / DSP Finance product flows — right inside Claude Code.**
+
+Powered by 760+ PRDs, full-text search, topic summaries, and a semantic knowledge graph.
+
+</div>
 
 ---
 
-## Setup
+## ✨ What it does
 
-**Requirements:** Python 3.10+, Claude Code installed.
+Type `/volt` in Claude Code and ask naturally:
 
-### 1. Clone the repo
+```
+How does the pledge flow work today?
+What is the current KYC process for DSP?
+Show me the mandate registration PRD
+How do we perform bulk unlink collateral for LAMF?
+What is the STP logic for sell-off repayment reconciliation?
+What changed recently in repayment?
+```
+
+Claude pulls answers directly from the actual PRDs — no hallucinations, no stale memory.
+
+---
+
+## 🚀 Setup
+
+**Requirements:** Python 3.10+, [Claude Code](https://claude.ai/code) installed.
+
+### 1. Clone
 
 ```bash
 git clone https://github.com/coder-glitche/volt_product_knowlege_agent.git
@@ -17,9 +40,9 @@ cd volt_product_knowlege_agent
 
 ### 2. Download the Product Repository
 
-Download **Product Repository.zip** from the link below and place it in the repo folder:
+Download **`Product Repository.zip`** and place it in the repo folder:
 
-> **[Download Product Repository.zip](YOUR_GOOGLE_DRIVE_LINK_HERE)**
+> 📦 **[Download Product Repository.zip](https://drive.google.com/file/d/1HNzRUyJEmuHOo-1vquCnpFjA23wxzEbD/view?usp=drive_link)**
 
 ```
 volt_product_knowlege_agent/
@@ -32,87 +55,78 @@ volt_product_knowlege_agent/
 python3 setup.py
 ```
 
-Setup will:
+This will:
 - Extract `Product Repository.zip`
 - Install dependencies
-- Build the search index
+- Build the search index (SQLite FTS5)
 - Build topic summaries
 - Register the MCP server with Claude Code
 - Install the `/volt` slash command
 
-**Restart Claude Code** once setup completes.
+> **Restart Claude Code** once setup completes, then type `/volt` to activate.
 
 ---
 
-## Usage
+## 🔄 Keeping it up to date
 
-Type `/volt` in any Claude Code session to activate the knowledge agent:
-
-```
-/volt
-```
-
-Then ask anything naturally:
-
-```
-How does the pledge flow work today?
-What is the current KYC process for DSP?
-Show me the mandate registration PRD
-What changed recently in repayment?
-How do we perform bulk unlink collateral for LAMF?
-What is the STP logic for sell-off repayment reconciliation?
-```
-
----
-
-## Keeping it up to date
-
-Just drop new markdown files into the `Product Repository/` folder and run:
+Drop new `.md` files into `Product Repository/` and run:
 
 ```bash
-# Reindex everything
 python3 setup.py --refresh
+```
 
-# Reindex a specific topic only (faster)
+Refresh a single topic for a quicker update:
+
+```bash
 python3 setup.py --refresh --topic pledge
 ```
 
-If you don't have the folder yet (fresh clone), place `Product Repository.zip` in the repo root first — `--refresh` will extract it automatically.
+<details>
+<summary>Available topics</summary>
 
-Available topics: `pledge`, `mandate`, `kyc`, `repayment`, `disbursement`, `foreclosure`, `loan-origination`, `loan-management`, `comms`, `ops-tools`, `b2b`, `mfd`, `analytics`, `compliance`, `credit-limit`, `collections`
+`pledge` · `mandate` · `kyc` · `repayment` · `disbursement` · `foreclosure` · `loan-origination` · `loan-management` · `comms` · `ops-tools` · `b2b` · `mfd` · `analytics` · `compliance` · `credit-limit` · `collections`
+
+</details>
+
+> **Fresh clone?** If you don't have the `Product Repository/` folder yet, just place the zip in the repo root before running `--refresh` — it will be extracted automatically.
 
 ---
 
-## Repo structure
+## 🛠️ How it works
+
+```
+Your question
+     │
+     ▼
+ /volt mode
+     │
+     ├── get_topic    → pre-built summary of a topic area (newest PRD first)
+     ├── search       → BM25 full-text search across all 760+ PRDs
+     ├── get_prd      → full content of a specific PRD
+     ├── find_related → knowledge graph + explicit content mentions
+     ├── list_topics  → all topic areas with PRD counts
+     └── get_graph_summary → most connected PRDs and community clusters
+```
+
+- **Search index** — SQLite FTS5 with BM25 ranking, built from all markdown files
+- **Topic summaries** — synthesised from all PRDs per topic, newest first, pre-committed so Claude can answer without re-reading everything
+- **Knowledge graph** — semantic relationships inferred across PRDs via graphify; surfaces `conceptually_related_to` and `part_of` connections in `find_related`
+
+No external APIs. Runs entirely on your machine.
+
+---
+
+## 📁 Repo structure
 
 ```
 volt_product_knowlege_agent/
 ├── knowledge/
-│   └── summaries/          # Pre-built topic summaries (committed)
-├── setup.py                # One-command setup & refresh
-├── server.py               # MCP server (6 tools)
-├── _build.py               # Indexer and summariser (internal)
+│   └── summaries/      # pre-built topic summaries (committed to git)
+├── setup.py            # one-command setup & refresh
+├── server.py           # MCP server — 6 tools
+├── _build.py           # indexer + summariser (called by setup.py)
 └── requirements.txt
 ```
 
-`Product Repository/` and `Product Repository.zip` are never committed — they live only on your local machine.  
-`knowledge/index.db` is generated locally on setup and is not committed.
-
----
-
-## How it works
-
-- `setup.py` extracts the zip, scans all markdown files, builds a SQLite full-text search index (BM25), and generates per-topic "current state" summaries ordered by last edited date.
-- A knowledge graph (`graphify-out/graph.json`) maps semantic relationships between PRDs — used by `find_related` to surface conceptually connected specs.
-- The MCP server exposes 6 tools that Claude Code calls automatically in `/volt` mode:
-
-| Tool | Use |
-|---|---|
-| `search` | Full-text search across all PRDs |
-| `get_topic` | Current state summary for a topic area |
-| `get_prd` | Full content of a specific PRD |
-| `find_related` | Semantic + explicit connections to a PRD |
-| `list_topics` | All available topic areas with counts |
-| `get_graph_summary` | Knowledge graph overview and god nodes |
-
-No external APIs. Everything runs locally.
+> `Product Repository/` and `Product Repository.zip` are **never committed** — they stay on your local machine only.  
+> `knowledge/index.db` is generated locally and not committed.
