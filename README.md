@@ -64,6 +64,8 @@ This will:
 - Install the `/volt` slash command
 
 > **Restart Claude Code** once setup completes, then type `/volt` to activate.
+```claude /volt
+```
 
 ---
 
