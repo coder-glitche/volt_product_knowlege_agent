@@ -65,7 +65,7 @@ This will:
 
 ### 3. Use the agent
 
-> In a new terminal Restart Claude Code** once setup completes, then type `/volt` to activate.
+> In a new terminal Restart Claude Code once setup completes, then type `/volt` to activate.
 ```
 claude /volt
 ```
