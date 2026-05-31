@@ -1,135 +1,245 @@
 #!/usr/bin/env python3
 """
-Volt PRDs MCP Server
-Exposes the graphify knowledge graph of Volt Money PRDs as MCP tools for Claude Code.
+Volt PRDs MCP Server — Knowledge agent for the Volt Money product repository.
+Serves search, topic summaries, full PRD content, and related PRD discovery.
 """
 
+import asyncio
 import json
 import os
-from collections import defaultdict
+import re
+import sqlite3
+import sys
 from pathlib import Path
 
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import TextContent, Tool
 
-# ---------------------------------------------------------------------------
-# Resolve data path
-# ---------------------------------------------------------------------------
+ROOT = Path(__file__).resolve().parent
+PRODUCT_REPO = ROOT / "Product Repository"
+KNOWLEDGE = ROOT / "knowledge"
+DB_PATH = KNOWLEDGE / "index.db"
+SUMMARIES_PATH = KNOWLEDGE / "summaries"
+GRAPHIFY_PATH = ROOT / "graphify-out"
 
-def _resolve_graphify_path() -> Path:
-    env = os.environ.get("GRAPHIFY_PATH")
-    if env:
-        p = Path(env)
-    else:
-        p = Path(__file__).parent / "graphify-out"
-    if not p.exists():
-        raise RuntimeError(
-            f"graphify-out not found at {p}.\n"
-            "Set GRAPHIFY_PATH env var or place graphify-out/ next to server.py.\n"
-            "See README.md for setup instructions."
-        )
-    return p
-
+sys.path.insert(0, str(ROOT))
 
 # ---------------------------------------------------------------------------
-# Load graph and build indices at startup
+# Auto-build index if missing
 # ---------------------------------------------------------------------------
 
-class Graph:
-    def __init__(self, graphify_path: Path):
-        self.path = graphify_path
-        self.obsidian_path = graphify_path / "obsidian"
-        self.report_path = graphify_path / "GRAPH_REPORT.md"
+def ensure_index():
+    if not DB_PATH.exists():
+        print("[volt-prds] Index not found — building now (first run)...", file=sys.stderr)
+        from _build import build_index, build_summaries
+        build_index(verbose=False)
+        build_summaries(verbose=False)
+        print("[volt-prds] Index ready.", file=sys.stderr)
 
-        data = json.loads((graphify_path / "graph.json").read_text())
-        nodes = data["nodes"]
-        links = data["links"]
 
-        # label (lowercase) -> node
-        self.label_index: dict[str, dict] = {
-            n["label"].lower(): n for n in nodes
-        }
-        # original-case label list for search display
-        self.labels: list[str] = [n["label"] for n in nodes]
+# ---------------------------------------------------------------------------
+# DB helpers
+# ---------------------------------------------------------------------------
 
-        # community id -> [nodes]
-        self.community_index: dict[int, list[dict]] = defaultdict(list)
-        for n in nodes:
-            self.community_index[n["community"]].append(n)
+def get_db() -> sqlite3.Connection:
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
 
-        # node id -> node
-        self.id_index: dict[str, dict] = {n["id"]: n for n in nodes}
 
-        # adjacency: node id -> list of {label, relation, confidence_score}
-        self.adj: dict[str, list[dict]] = defaultdict(list)
-        for link in links:
-            src, tgt = link["source"], link["target"]
-            self.adj[src].append({
-                "label": self.id_index.get(tgt, {}).get("label", tgt),
-                "relation": link["relation"],
-                "confidence_score": link.get("confidence_score", 0),
-            })
-            self.adj[tgt].append({
-                "label": self.id_index.get(src, {}).get("label", src),
-                "relation": link["relation"],
-                "confidence_score": link.get("confidence_score", 0),
-            })
+def fts_search(query: str, limit: int = 5) -> list[dict]:
+    conn = get_db()
+    try:
+        # BM25 ranked FTS search
+        rows = conn.execute(
+            """
+            SELECT f.title, f.file_path, f.topic_areas, f.status, f.last_edited,
+                   snippet(files_fts, 1, '**', '**', '...', 32) AS snippet,
+                   bm25(files_fts) AS rank
+            FROM files_fts
+            JOIN files f ON f.id = files_fts.rowid
+            WHERE files_fts MATCH ?
+            ORDER BY rank
+            LIMIT ?
+            """,
+            (query, limit)
+        ).fetchall()
+        return [dict(r) for r in rows]
+    except Exception:
+        # Fallback to LIKE search if FTS fails
+        rows = conn.execute(
+            """
+            SELECT title, file_path, topic_areas, status, last_edited,
+                   substr(content, 1, 300) AS snippet
+            FROM files
+            WHERE title LIKE ? OR content LIKE ?
+            LIMIT ?
+            """,
+            (f"%{query}%", f"%{query}%", limit)
+        ).fetchall()
+        return [dict(r) for r in rows]
+    finally:
+        conn.close()
 
-    def fuzzy_find(self, name: str) -> dict | None:
-        """Return best matching node for a name string."""
-        key = name.lower().strip()
-        if key in self.label_index:
-            return self.label_index[key]
-        # substring match
-        matches = [(l, n) for l, n in self.label_index.items() if key in l]
-        if matches:
-            matches.sort(key=lambda x: len(x[0]))
-            return matches[0][1]
+
+def get_file_by_name(name: str) -> dict | None:
+    conn = get_db()
+    name_l = name.lower().strip()
+    # Exact title match
+    row = conn.execute(
+        "SELECT * FROM files WHERE lower(title) = ?", (name_l,)
+    ).fetchone()
+    if not row:
+        # Substring match, shortest title wins
+        rows = conn.execute(
+            "SELECT * FROM files WHERE lower(title) LIKE ? ORDER BY length(title)",
+            (f"%{name_l}%",)
+        ).fetchall()
+        row = rows[0] if rows else None
+    conn.close()
+    return dict(row) if row else None
+
+
+def get_related_from_index(title: str, limit: int = 8) -> list[dict]:
+    """Find files that mention this title or share most topic areas."""
+    conn = get_db()
+    title_l = title.lower()
+    # Files that mention this PRD's title in their content
+    rows = conn.execute(
+        """
+        SELECT title, file_path, topic_areas, status, last_edited
+        FROM files
+        WHERE lower(content) LIKE ? AND lower(title) != ?
+        ORDER BY last_edited DESC
+        LIMIT ?
+        """,
+        (f"%{title_l}%", title_l, limit)
+    ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def get_graphify_related(label: str) -> list[dict] | None:
+    """Use graphify graph for related PRDs if available."""
+    graph_json = GRAPHIFY_PATH / "graph.json"
+    if not graph_json.exists():
+        return None
+    try:
+        data = json.loads(graph_json.read_text())
+        nodes = {n["id"]: n for n in data["nodes"]}
+        label_to_id = {n["label"].lower(): n["id"] for n in data["nodes"]}
+        node_id = label_to_id.get(label.lower())
+        if not node_id:
+            return None
+        related = []
+        for link in data["links"]:
+            if link["source"] == node_id:
+                target = nodes.get(link["target"], {})
+                related.append({"label": target.get("label", ""), "relation": link["relation"]})
+            elif link["target"] == node_id:
+                source = nodes.get(link["source"], {})
+                related.append({"label": source.get("label", ""), "relation": link["relation"]})
+        return related[:10]
+    except Exception:
         return None
 
-    def read_obsidian(self, label: str) -> str | None:
-        f = self.obsidian_path / f"{label}.md"
-        return f.read_text() if f.exists() else None
+
+# ---------------------------------------------------------------------------
+# Format helpers
+# ---------------------------------------------------------------------------
+
+def format_search_results(results: list[dict], query: str) -> str:
+    if not results:
+        return f"No results found for **\"{query}\"**."
+
+    lines = [f"## Search results for \"{query}\"\n"]
+    for i, r in enumerate(results, 1):
+        topics = r.get("topic_areas", "").replace(",", " · ")
+        lines.append(
+            f"### {i}. {r['title']}\n"
+            f"**Topics:** {topics}  |  **Status:** {r.get('status') or '—'}  |  **Last edited:** {r.get('last_edited') or '—'}\n\n"
+            f"{r.get('snippet', '').strip()}\n"
+        )
+    lines.append(f"\n*Use `get_prd` with a title above for the full document.*")
+    return "\n".join(lines)
+
+
+def format_prd(row: dict) -> str:
+    file_path = ROOT / row["file_path"]
+    if file_path.exists():
+        content = file_path.read_text(errors="ignore")
+        # Strip base64 images
+        content = re.sub(r'!\[.*?\]\(data:image/[^)]+\)', '[image removed]', content)
+        return content
+    # Fallback to indexed content
+    return row.get("content", "Content not available.")
 
 
 # ---------------------------------------------------------------------------
-# MCP server
+# MCP Server
 # ---------------------------------------------------------------------------
 
 server = Server("volt-prds")
-graph: Graph | None = None
 
 
 @server.list_tools()
 async def list_tools() -> list[Tool]:
     return [
         Tool(
-            name="search_prds",
-            description="Search PRDs by keyword. Returns matching PRD names, their community, and source path.",
+            name="search",
+            description=(
+                "Search the entire Volt product knowledge base — PRDs, process notes, journeys, FAQs. "
+                "Returns the most relevant results with context snippets. "
+                "Use this for any question about how a feature works, what a flow does, or finding a specific PRD."
+            ),
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "query": {"type": "string", "description": "Search term (case-insensitive substring match on PRD name)"},
-                    "limit": {"type": "integer", "description": "Max results to return (default 10)", "default": 10},
+                    "query": {"type": "string", "description": "What you're looking for"},
+                    "limit": {"type": "integer", "default": 5, "description": "Max results (default 5)"},
                 },
                 "required": ["query"],
             },
         ),
         Tool(
-            name="get_prd",
-            description="Get the full content and connections of a specific PRD by name.",
+            name="get_topic",
+            description=(
+                "Get the current state summary for a product topic area — synthesised from all related PRDs, "
+                "newest first. Use this for 'how does X work today' questions. "
+                "Topics: pledge, mandate, kyc, repayment, disbursement, foreclosure, "
+                "loan-origination, loan-management, comms, ops-tools, b2b, mfd, analytics, compliance, credit-limit, collections."
+            ),
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "PRD name (exact or partial match)"},
+                    "topic": {"type": "string", "description": "Topic name (e.g. 'pledge', 'kyc', 'mandate')"},
+                },
+                "required": ["topic"],
+            },
+        ),
+        Tool(
+            name="get_prd",
+            description=(
+                "Get the full content of a specific PRD by name. Use when you need the complete spec, "
+                "edge cases, API details, or exact scope of a feature. "
+                "Partial name matching works — e.g. 'unpledge optimisations' will find the right PRD."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "PRD name or partial name"},
                 },
                 "required": ["name"],
             },
         ),
         Tool(
             name="find_related",
-            description="Find all PRDs directly connected to a given PRD in the knowledge graph, with relation types.",
+            description=(
+                "Find all PRDs connected to a given PRD — other specs that reference it, "
+                "enhancements built on top of it, or related flows. "
+                "Use this to understand the full scope of a feature area."
+            ),
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -139,24 +249,8 @@ async def list_tools() -> list[Tool]:
             },
         ),
         Tool(
-            name="list_communities",
-            description="List all topic communities in the PRD graph with member counts and sample PRD names.",
-            inputSchema={"type": "object", "properties": {}},
-        ),
-        Tool(
-            name="get_community",
-            description="Get all PRDs in a specific community cluster.",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "community_id": {"type": "integer", "description": "Community number (0–36)"},
-                },
-                "required": ["community_id"],
-            },
-        ),
-        Tool(
-            name="get_graph_summary",
-            description="Get the high-level graph report: god nodes, community overview, knowledge gaps, and suggested questions.",
+            name="list_topics",
+            description="List all available topic summaries with PRD counts. Use this to understand what topic areas exist.",
             inputSchema={"type": "object", "properties": {}},
         ),
     ]
@@ -164,105 +258,86 @@ async def list_tools() -> list[Tool]:
 
 @server.call_tool()
 async def call_tool(name: str, arguments: dict) -> list[TextContent]:
-    assert graph is not None
 
-    if name == "search_prds":
-        query = arguments["query"].lower()
-        limit = int(arguments.get("limit", 10))
-        matches = [
-            (label, node)
-            for label, node in graph.label_index.items()
-            if query in label
-        ]
-        matches.sort(key=lambda x: (not x[0].startswith(query), len(x[0])))
-        matches = matches[:limit]
+    if name == "search":
+        query = arguments["query"]
+        limit = int(arguments.get("limit", 5))
+        results = fts_search(query, limit)
+        return [TextContent(type="text", text=format_search_results(results, query))]
 
-        if not matches:
-            return [TextContent(type="text", text=f"No PRDs found matching '{arguments['query']}'.")]
-
-        lines = [f"Found {len(matches)} PRD(s) matching '{arguments['query']}':\n"]
-        for _, node in matches:
-            lines.append(
-                f"- **{node['label']}**\n"
-                f"  Community: {node['community']} | "
-                f"Type: {node.get('file_type', 'unknown')}\n"
-                f"  Source: {node.get('source_file', 'N/A')}"
-            )
-        return [TextContent(type="text", text="\n".join(lines))]
+    elif name == "get_topic":
+        topic = arguments["topic"].lower().strip()
+        summary_file = SUMMARIES_PATH / f"{topic}.md"
+        if summary_file.exists():
+            return [TextContent(type="text", text=summary_file.read_text())]
+        # Fuzzy: find closest topic
+        available = [f.stem for f in SUMMARIES_PATH.glob("*.md")] if SUMMARIES_PATH.exists() else []
+        matches = [t for t in available if topic in t or t in topic]
+        if matches:
+            return [TextContent(type="text", text=(SUMMARIES_PATH / f"{matches[0]}.md").read_text())]
+        topic_list = ", ".join(available) if available else "none built yet"
+        return [TextContent(type="text", text=f"Topic **\"{topic}\"** not found.\n\nAvailable topics: {topic_list}")]
 
     elif name == "get_prd":
-        node = graph.fuzzy_find(arguments["name"])
-        if not node:
-            return [TextContent(type="text", text=f"PRD '{arguments['name']}' not found. Try search_prds to find the exact name.")]
-
-        content = graph.read_obsidian(node["label"])
-        if content:
-            return [TextContent(type="text", text=content)]
-
-        # Fallback: return node metadata
-        return [TextContent(type="text", text=
-            f"# {node['label']}\n\n"
-            f"- Community: {node['community']}\n"
-            f"- Source: {node.get('source_file', 'N/A')}\n"
-            f"- Type: {node.get('file_type', 'unknown')}\n\n"
-            f"*(Obsidian file not found — obsidian/ folder may be missing)*"
-        )]
+        name_q = arguments["name"]
+        row = get_file_by_name(name_q)
+        if not row:
+            # Try search as fallback
+            results = fts_search(name_q, limit=3)
+            if results:
+                suggestions = "\n".join(f"- {r['title']}" for r in results)
+                return [TextContent(type="text", text=
+                    f"PRD **\"{name_q}\"** not found.\n\nDid you mean:\n{suggestions}\n\n"
+                    f"Try `search` with a broader term."
+                )]
+            return [TextContent(type="text", text=f"PRD **\"{name_q}\"** not found. Try `search` to locate it.")]
+        return [TextContent(type="text", text=format_prd(row))]
 
     elif name == "find_related":
-        node = graph.fuzzy_find(arguments["name"])
-        if not node:
-            return [TextContent(type="text", text=f"PRD '{arguments['name']}' not found. Try search_prds to find the exact name.")]
+        name_q = arguments["name"]
+        row = get_file_by_name(name_q)
+        if not row:
+            return [TextContent(type="text", text=f"PRD **\"{name_q}\"** not found.")]
 
-        connections = graph.adj.get(node["id"], [])
-        if not connections:
-            return [TextContent(type="text", text=f"No connections found for '{node['label']}'.")]
+        title = row["title"]
+        lines = [f"## Related PRDs for: {title}\n"]
 
-        connections_sorted = sorted(connections, key=lambda x: -x["confidence_score"])
-        lines = [f"## Connections for: {node['label']}\n"]
-        by_relation: dict[str, list[str]] = defaultdict(list)
-        for c in connections_sorted:
-            by_relation[c["relation"]].append(c["label"])
-        for relation, labels in by_relation.items():
-            lines.append(f"**{relation}:**")
-            for label in labels:
-                lines.append(f"  - {label}")
+        # Try graphify graph first
+        graph_related = get_graphify_related(title)
+        if graph_related:
+            by_relation: dict[str, list[str]] = {}
+            for r in graph_related:
+                by_relation.setdefault(r["relation"], []).append(r["label"])
+            lines.append("### From knowledge graph:")
+            for rel, labels in by_relation.items():
+                lines.append(f"\n**{rel}:**")
+                for label in labels:
+                    lines.append(f"  - {label}")
+
+        # Index-based: files that mention this PRD
+        index_related = get_related_from_index(title)
+        if index_related:
+            lines.append("\n\n### PRDs that reference this:")
+            for r in index_related:
+                lines.append(
+                    f"- **{r['title']}** — {r.get('status') or '—'} | last edited: {r.get('last_edited') or '—'}"
+                )
+
+        if not graph_related and not index_related:
+            lines.append("No related PRDs found.")
+
         return [TextContent(type="text", text="\n".join(lines))]
 
-    elif name == "list_communities":
-        lines = ["# Volt PRDs — Community Overview\n"]
-        lines.append(f"Total: {len(graph.community_index)} communities\n")
-        for cid in sorted(graph.community_index.keys()):
-            nodes = graph.community_index[cid]
-            if not nodes:
-                continue
-            sample = [n["label"] for n in nodes[:4]]
-            more = len(nodes) - 4
-            sample_str = ", ".join(sample)
-            if more > 0:
-                sample_str += f" (+{more} more)"
-            lines.append(f"**Community {cid}** ({len(nodes)} PRDs): {sample_str}")
+    elif name == "list_topics":
+        from _build import get_all_topics
+        topics = get_all_topics()
+        if not topics:
+            return [TextContent(type="text", text="No topic summaries built yet. Run `python3 setup.py` to build them.")]
+        lines = ["## Available Topic Summaries\n"]
+        for t in topics:
+            lines.append(f"- **{t['topic']}** — {t['prd_count']} PRDs")
+        lines.append("\n*Use `get_topic` with any topic name above.*")
         return [TextContent(type="text", text="\n".join(lines))]
-
-    elif name == "get_community":
-        cid = int(arguments["community_id"])
-        # Try reading obsidian community file first
-        community_file = graph.obsidian_path / f"_COMMUNITY_Community {cid}.md"
-        if community_file.exists():
-            return [TextContent(type="text", text=community_file.read_text())]
-
-        # Fallback: build from index
-        nodes = graph.community_index.get(cid, [])
-        if not nodes:
-            return [TextContent(type="text", text=f"Community {cid} not found.")]
-        lines = [f"# Community {cid} ({len(nodes)} PRDs)\n"]
-        for n in nodes:
-            lines.append(f"- {n['label']}")
-        return [TextContent(type="text", text="\n".join(lines))]
-
-    elif name == "get_graph_summary":
-        if graph.report_path.exists():
-            return [TextContent(type="text", text=graph.report_path.read_text())]
-        return [TextContent(type="text", text="GRAPH_REPORT.md not found in graphify-out/.")]
 
     return [TextContent(type="text", text=f"Unknown tool: {name}")]
 
@@ -272,14 +347,10 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
 # ---------------------------------------------------------------------------
 
 async def main():
-    global graph
-    graphify_path = _resolve_graphify_path()
-    graph = Graph(graphify_path)
-
+    ensure_index()
     async with stdio_server() as (read_stream, write_stream):
         await server.run(read_stream, write_stream, server.create_initialization_options())
 
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())

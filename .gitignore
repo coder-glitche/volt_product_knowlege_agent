@@ -1,4 +1,22 @@
-graphify-out/
+# Generated — rebuild with setup.py
+knowledge/index.db
 __pycache__/
 *.pyc
+.venv/
 .env
+
+# Large binary assets
+*.mov
+*.mp4
+*.xlsx
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.zip
+
+# Old / unused
+graphify-out/
+export_prds.py
+Product Repository 111e8d3af13a8082904ecc2dda306b69.md

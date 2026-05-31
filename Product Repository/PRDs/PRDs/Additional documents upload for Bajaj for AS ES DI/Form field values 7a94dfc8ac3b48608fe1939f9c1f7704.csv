@@ -1,0 +1,22 @@
+﻿Form name,Field,Value(s),Value source
+Co-applicant form,Prefix,Mr/Miss/Mrs,"KYC "
+Co-applicant form,First Name,,KYC
+Co-applicant form,Middle Name,,KYC
+Co-applicant form,Last Name,,KYC
+Co-applicant form,Father/Spouse/Mother’s name,,KYC
+Co-applicant form,Gender,Male/Female,KYC
+Co-applicant form,Marital Status,Married/Unmarried,KYC
+Co-applicant form,Qualification,Graduate/Diploma/upto 12/Post Graduate/MBA/Phd/Professional/Others,Additional KYC details
+Co-applicant form,PAN,,KYC
+Co-applicant form,Last 4 digits of aadhaar number (VID),,KYC
+Co-applicant form,Confirmation Indian resident,Checkbox,
+Co-applicant form,Date of birth,DD/MM/YYYY,KYC
+Addendum,Additional security providor name,,KYC
+Mandate,Date of mandate set up,DD/MM/YYYY,DB
+Mandate,Bank account number,Penny drop,Penny drop verified
+Mandate,IFSC code,Penny drop,Penny drop verified
+Mandate,Mandate amount,As per logic,DB
+Mandate,LAN,Bajaj VLAN,DB
+Mandate,From,Mandate creation date,DB
+Mandate,To,Mandate expiry date,DB
+Mandate,Name as per bank account,Name as per bank account,Penny drop verified

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Update approved scrip — Maker</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F7F8FA;
+  --surface: #FFFFFF;
+  --border: #E8E8E8;
+  --border-med: #D0D0D0;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-tertiary: #999999;
+  --blue: #2B5CE6;
+  --blue-light: #EEF2FD;
+  --blue-hover: #1E4BC7;
+  --green: #1D9E75;
+  --green-bg: #EAF6F1;
+  --green-text: #0F6E52;
+  --red: #D93025;
+  --red-bg: #FEF0EF;
+  --red-text: #C13A35;
+  --red-border: #F5C2C0;
+  --amber-bg: #FEF7EC;
+  --amber-text: #976210;
+  --amber-border: #F3D89A;
+  --orange-bg: #FEF3EC;
+  --orange-text: #9E4E15;
+  --input-bg: #F5F5F5;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --sans: -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --mono: 'SF Mono', 'Fira Code', monospace;
+}
+body { font-family: var(--sans); background: var(--bg); color: var(--text-primary); font-size: 13px; min-height: 100vh; }
+
+/* Page bg */
+.topbar { height: 44px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; }
+.topbar-logo { font-size: 13px; font-weight: 700; color: var(--blue); }
+.page-content { padding: 20px 24px; opacity: 0.3; pointer-events: none; user-select: none; }
+.page-heading { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+.page-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.page-tab { font-size: 13px; padding: 8px 14px; color: var(--text-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.page-tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 500; }
+
+/* Modal backdrop */
+.backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 20px; }
+
+/* Modal */
+.modal { background: var(--surface); border-radius: var(--radius-md); width: 100%; max-width: 520px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.modal-title { font-size: 15px; font-weight: 600; }
+.close-btn { width: 26px; height: 26px; border: none; background: none; cursor: pointer; color: var(--text-secondary); font-size: 18px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
+.close-btn:hover { background: var(--bg); }
+
+/* Stepper */
+.stepper { display: flex; align-items: center; padding: 13px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.step { display: flex; align-items: center; gap: 8px; }
+.step-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.step.active .step-num { background: var(--blue); color: #fff; }
+.step.done .step-num { background: var(--blue-light); color: var(--blue); }
+.step.inactive .step-num { background: var(--bg); color: var(--text-tertiary); border: 1px solid var(--border-med); }
+.step-label { font-size: 12px; font-weight: 500; }
+.step.active .step-label { color: var(--text-primary); }
+.step.done .step-label { color: var(--blue); }
+.step.inactive .step-label { color: var(--text-tertiary); }
+.step-line { flex: 1; height: 1px; background: var(--border-med); margin: 0 10px; }
+.step-line.done { background: var(--blue); }
+
+/* Val banner */
+.val-banner { display: none; align-items: flex-start; gap: 8px; background: var(--red-bg); border-bottom: 1px solid var(--red-border); padding: 10px 20px; font-size: 12px; color: var(--red-text); flex-shrink: 0; }
+.val-banner.show { display: flex; }
+
+/* Body */
+.modal-body { flex: 1; overflow-y: auto; }
+.section { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+.section-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.form-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; display: block; }
+.req { color: var(--red); }
+
+select, textarea {
+  font-family: var(--sans); font-size: 13px; color: var(--text-primary);
+  background: var(--input-bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 7px 10px; width: 100%; outline: none;
+  transition: border-color 0.12s; -webkit-appearance: none;
+}
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; cursor: pointer; }
+select:focus, textarea:focus { border-color: var(--blue); background: #fff; }
+textarea { resize: vertical; min-height: 70px; }
+
+/* Upload zone */
+.upload-zone { border: 1.5px dashed var(--border-med); border-radius: var(--radius-sm); padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: border-color 0.12s, background 0.12s; background: var(--bg); }
+.upload-zone:hover { border-color: var(--blue); background: var(--blue-light); }
+.upload-zone.has-file { border-style: solid; border-color: #C8D5F8; background: var(--blue-light); }
+.upload-icon { font-size: 24px; }
+.upload-main { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.upload-sub { font-size: 11px; color: var(--text-tertiary); }
+.upload-filename { font-family: var(--mono); font-size: 12px; color: var(--blue); font-weight: 500; }
+
+.sample-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--blue); cursor: pointer; margin-top: 8px; font-weight: 500; }
+.sample-link:hover { text-decoration: underline; }
+
+/* Attach btn */
+.attach-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; font-family: var(--sans); color: var(--blue); background: var(--blue-light); border: 1px solid #C8D5F8; border-radius: var(--radius-sm); padding: 6px 12px; cursor: pointer; }
+.attach-btn:hover { background: #E0E9FB; }
+.attached-files { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.attached-file { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 10px; }
+.attached-file .fname { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rm-btn { background: none; border: none; cursor: pointer; color: var(--text-tertiary); font-size: 14px; padding: 0 2px; }
+.rm-btn:hover { color: var(--red); }
+
+/* Validation summary (step 2) */
+.summary-bar { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px; }
+.summary-stats { display: flex; align-items: center; gap: 20px; }
+.stat { display: flex; flex-direction: column; gap: 1px; }
+.stat-val { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.stat-val.green { color: var(--green); }
+.stat-val.red { color: var(--red-text); }
+.stat-label { font-size: 11px; color: var(--text-tertiary); }
+.stat-divider { width: 1px; height: 32px; background: var(--border); }
+.download-verified { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--blue); background: var(--surface); border: 1px solid #C8D5F8; border-radius: var(--radius-sm); padding: 6px 12px; cursor: pointer; }
+.download-verified:hover { background: var(--blue-light); }
+
+.error-rows { margin-top: 2px; }
+.error-row-item { display: flex; align-items: flex-start; gap: 8px; background: var(--red-bg); border: 1px solid var(--red-border); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 6px; font-size: 12px; }
+.err-row-num { font-family: var(--mono); font-weight: 600; color: var(--red-text); flex-shrink: 0; min-width: 48px; }
+.err-msg { color: var(--red-text); }
+
+.all-verified { display: flex; align-items: center; gap: 8px; background: var(--green-bg); border: 1px solid #9FE1CB; border-radius: var(--radius-sm); padding: 10px 12px; font-size: 12px; color: var(--green-text); font-weight: 500; }
+
+/* Confirm modal */
+.confirm-wrap { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; z-index: 200; }
+.confirm-wrap.show { display: flex; }
+.confirm-box { background: var(--surface); border-radius: var(--radius-md); padding: 24px; width: 380px; border: 1px solid var(--border); }
+.confirm-box h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.confirm-box p { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
+.modal-btns { display: flex; justify-content: flex-end; gap: 10px; }
+
+/* Success */
+.success-wrap { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 56px 24px; text-align: center; }
+.success-wrap.show { display: flex; }
+.success-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--green); margin-bottom: 14px; }
+.success-wrap h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.success-wrap p { font-size: 13px; color: var(--text-secondary); }
+.req-id-tag { font-family: var(--mono); font-size: 12px; color: var(--blue); margin-top: 8px; }
+
+/* Footer */
+.modal-footer { padding: 13px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; background: var(--surface); }
+button.btn { font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 8px 20px; border-radius: var(--radius-sm); cursor: pointer; border: 1px solid var(--border-med); background: var(--surface); color: var(--text-primary); transition: background 0.12s; }
+button.btn:hover { background: var(--bg); }
+button.btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+button.btn-primary:hover { background: var(--blue-hover); }
+button.btn-primary:disabled { opacity: 0.4; cursor: default; pointer-events: none; }
+
+.spinner { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.65s linear infinite; display: inline-block; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+input[type="file"] { display: none; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><span class="topbar-logo">DSP Finance</span></div>
+<div class="page-content">
+  <div class="page-heading">Collaterals</div>
+  <div class="page-tabs">
+    <span class="page-tab">Approved scrips</span>
+    <span class="page-tab active">Service requests</span>
+    <span class="page-tab">Audit log</span>
+  </div>
+</div>
+
+<div class="backdrop">
+  <div class="modal">
+
+    <div class="modal-header">
+      <span class="modal-title">Update approved scrip</span>
+      <button class="close-btn">✕</button>
+    </div>
+
+    <div class="stepper" id="stepper">
+      <div class="step active" id="step1-el">
+        <div class="step-num" id="step1-num">1</div>
+        <span class="step-label">Enter details</span>
+      </div>
+      <div class="step-line" id="step-line"></div>
+      <div class="step inactive" id="step2-el">
+        <div class="step-num" id="step2-num">2</div>
+        <span class="step-label">Confirm details</span>
+      </div>
+    </div>
+
+    <div class="val-banner" id="val-banner">
+      <span style="flex-shrink:0;margin-top:1px">⚠</span>
+      <span id="val-text">Please fix the errors before proceeding.</span>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+
+      <!-- STEP 1 -->
+      <div id="screen-enter">
+
+        <div class="section">
+          <label class="form-label"><span class="req">* </span>Contract</label>
+          <select id="contract-select">
+            <option value="">Select contract</option>
+            <option value="non_colending">Non-colending (NBFC direct)</option>
+            <option value="colending_a">Colending — Partner A</option>
+            <option value="colending_b">Colending — Partner B</option>
+          </select>
+        </div>
+
+        <div class="section">
+          <label class="form-label"><span class="req">* </span>Upload scrip file</label>
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+            <div class="upload-icon">📄</div>
+            <div class="upload-main" id="upload-main">Click to upload or drag and drop</div>
+            <div class="upload-sub" id="upload-sub">CSV or XLSX — max 5 MB</div>
+            <div class="upload-filename" id="upload-filename" style="display:none"></div>
+          </div>
+          <input type="file" id="file-input" accept=".csv,.xlsx,.xls" onchange="onFileSelect(this)"/>
+          <div style="margin-top:8px">
+            <span class="sample-link" onclick="downloadSample()">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5.5L6 8.5L9 5.5M1 10.5h10" stroke="#2B5CE6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download sample file
+            </span>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Supporting documents</div>
+          <button class="attach-btn" onclick="attachDoc()">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="#2B5CE6" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Attach supporting documents
+          </button>
+          <div style="font-size:11px;color:var(--text-tertiary);margin-top:6px">PDF, CSV, XLSX, EML accepted</div>
+          <div class="attached-files" id="attached-files"></div>
+        </div>
+
+        <div class="section">
+          <label class="form-label"><span class="req">* </span>Remarks</label>
+          <textarea id="remarks" placeholder="Add context for the checker — reason for update, risk rationale, etc."></textarea>
+        </div>
+
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="screen-confirm" style="display:none">
+        <div class="section">
+          <div class="summary-bar">
+            <div class="summary-stats">
+              <div class="stat">
+                <span class="stat-val" id="stat-submitted">24</span>
+                <span class="stat-label">Rows submitted</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat">
+                <span class="stat-val green" id="stat-verified">21</span>
+                <span class="stat-label">Rows verified</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat">
+                <span class="stat-val red" id="stat-errors">3</span>
+                <span class="stat-label">Rows with errors</span>
+              </div>
+            </div>
+            <button class="download-verified" id="download-btn" onclick="downloadVerified()">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6.5L6.5 9.5L9.5 6.5M1 11.5h11" stroke="#2B5CE6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download verified file
+            </button>
+          </div>
+
+          <div id="error-detail"></div>
+          <div class="all-verified" id="all-verified-msg" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="#0F6E52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            All rows verified — you can now confirm the request
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Remarks</div>
+          <div id="confirm-remarks" style="font-size:13px;color:var(--text-secondary)">—</div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Supporting documents</div>
+          <div id="confirm-docs" style="font-size:13px;color:var(--text-secondary)">—</div>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-wrap" id="screen-success">
+        <div class="success-icon">✓</div>
+        <h3>Request submitted</h3>
+        <p>A checker task has been created and is pending approval by the risk manager.</p>
+        <div class="req-id-tag" id="success-id"></div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer" id="modal-footer">
+      <button class="btn" id="btn-back" style="visibility:hidden" onclick="goBack()">Back</button>
+      <button class="btn btn-primary" id="btn-continue" onclick="onContinue()">Continue</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="confirm-wrap" id="confirm-modal">
+  <div class="confirm-box">
+    <h3>Are you sure you want to submit this scrip update?</h3>
+    <p>This will create a checker task for the risk manager. Changes go live only after the checker approves the request.</p>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitRequest()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var step = 1;
+var selectedFile = null;
+var attachedDocs = [];
+var hasErrors = true; // simulate: step 2 starts with errors
+
+function onFileSelect(input) {
+  if (input.files && input.files[0]) {
+    selectedFile = input.files[0];
+    var zone = document.getElementById('upload-zone');
+    zone.classList.add('has-file');
+    document.getElementById('upload-main').style.display = 'none';
+    document.getElementById('upload-sub').style.display = 'none';
+    var fn = document.getElementById('upload-filename');
+    fn.textContent = selectedFile.name;
+    fn.style.display = 'block';
+    document.getElementById('val-banner').classList.remove('show');
+  }
+}
+
+function downloadSample() {
+  alert('Sample file template would download here.\nColumns: isin, scheme_code, scheme_name, asset_type, amfi_code, amc_name, scheme_type, revised_min_ltv, revised_risk_ltv, regulatory_ltv, is_approved, remarks');
+}
+
+function attachDoc() {
+  var names = ['Risk_committee_note.pdf', 'SEBI_circular_ref.pdf', 'LTV_change_rationale.xlsx', 'Approval_email.eml'];
+  var n = names[attachedDocs.length % names.length];
+  if (attachedDocs.length >= 3) return;
+  attachedDocs.push(n);
+  renderAttached();
+}
+
+function renderAttached() {
+  var c = document.getElementById('attached-files');
+  c.innerHTML = '';
+  attachedDocs.forEach(function(name, i) {
+    var d = document.createElement('div');
+    d.className = 'attached-file';
+    d.innerHTML = '<span style="font-size:14px">📎</span><span class="fname">' + name + '</span><button class="rm-btn" onclick="removeDoc(' + i + ')">✕</button>';
+    c.appendChild(d);
+  });
+}
+
+function removeDoc(i) { attachedDocs.splice(i, 1); renderAttached(); }
+
+function onContinue() {
+  if (step === 1) { runValidation(); }
+  else if (step === 2) {
+    if (hasErrors) {
+      document.getElementById('val-text').textContent = 'Please fix all row errors before confirming. Download the verified file to see details.';
+      document.getElementById('val-banner').classList.add('show');
+      return;
+    }
+    document.getElementById('confirm-modal').classList.add('show');
+  }
+}
+
+function runValidation() {
+  var contract = document.getElementById('contract-select').value;
+  var remarks = document.getElementById('remarks').value.trim();
+
+  if (!contract) {
+    document.getElementById('val-text').textContent = 'Please select a contract before continuing.';
+    document.getElementById('val-banner').classList.add('show');
+    return;
+  }
+  if (!selectedFile) {
+    document.getElementById('val-text').textContent = 'Please upload a scrip file before continuing.';
+    document.getElementById('val-banner').classList.add('show');
+    return;
+  }
+  if (!remarks) {
+    document.getElementById('val-text').textContent = 'Remarks are mandatory.';
+    document.getElementById('val-banner').classList.add('show');
+    return;
+  }
+
+  var btn = document.getElementById('btn-continue');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Validating...';
+  document.getElementById('val-banner').classList.remove('show');
+
+  // Simulate API validation — first attempt has 3 errors
+  setTimeout(function() {
+    btn.disabled = false;
+    btn.textContent = 'Continue';
+    buildConfirmScreen();
+    toStep2();
+  }, 1100);
+}
+
+function buildConfirmScreen() {
+  // Simulate errors on first load
+  var errDetail = document.getElementById('error-detail');
+  var errors = [
+    { row: 'Row 7', msg: 'regulatory_ltv (72%) exceeds current approved value — Regulatory LTV can only be reduced.' },
+    { row: 'Row 14', msg: 'revised_risk_ltv (55%) is greater than regulatory_ltv (50%) — Risk LTV must be ≤ Regulatory LTV.' },
+    { row: 'Row 19', msg: 'asset_type value "MF" is invalid — must be MUTUAL_FUNDS or SHARES.' }
+  ];
+
+  errDetail.innerHTML = '';
+  errors.forEach(function(e) {
+    var d = document.createElement('div');
+    d.className = 'error-row-item';
+    d.innerHTML = '<span class="err-row-num">' + e.row + '</span><span class="err-msg">' + e.msg + '</span>';
+    errDetail.appendChild(d);
+  });
+
+  document.getElementById('stat-submitted').textContent = '24';
+  document.getElementById('stat-verified').textContent = '21';
+  document.getElementById('stat-errors').textContent = '3';
+  document.getElementById('all-verified-msg').style.display = 'none';
+
+  var rmk = document.getElementById('remarks').value.trim();
+  document.getElementById('confirm-remarks').textContent = rmk || '—';
+  document.getElementById('confirm-remarks').style.fontStyle = rmk ? 'normal' : 'italic';
+
+  if (attachedDocs.length > 0) {
+    document.getElementById('confirm-docs').innerHTML = attachedDocs.map(function(n) {
+      return '<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);margin-bottom:4px">📎 ' + n + '</div>';
+    }).join('');
+  }
+}
+
+function downloadVerified() {
+  // Simulate: after downloading, user fixes errors and re-uploads — all pass
+  setTimeout(function() {
+    hasErrors = false;
+    document.getElementById('stat-verified').textContent = '24';
+    document.getElementById('stat-errors').textContent = '0';
+    document.getElementById('stat-errors').className = 'stat-val';
+    document.getElementById('error-detail').innerHTML = '';
+    document.getElementById('all-verified-msg').style.display = 'flex';
+    document.getElementById('val-banner').classList.remove('show');
+  }, 400);
+  alert('Downloading verified file with row-level validation results...\n\n(In this demo, clicking download simulates fixing all errors.)');
+}
+
+function toStep2() {
+  step = 2;
+  document.getElementById('screen-enter').style.display = 'none';
+  document.getElementById('screen-confirm').style.display = 'block';
+  document.getElementById('btn-back').style.visibility = 'visible';
+  document.getElementById('btn-continue').textContent = 'Confirm request';
+  document.getElementById('step1-el').className = 'step done';
+  document.getElementById('step1-num').innerHTML = '<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.2L3.9 7.5L10 1" stroke="#2B5CE6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.getElementById('step-line').className = 'step-line done';
+  document.getElementById('step2-el').className = 'step active';
+  document.getElementById('step2-num').textContent = '2';
+  document.getElementById('val-banner').classList.remove('show');
+  document.getElementById('modal-body').scrollTop = 0;
+}
+
+function goBack() {
+  step = 1; hasErrors = true;
+  document.getElementById('screen-enter').style.display = 'block';
+  document.getElementById('screen-confirm').style.display = 'none';
+  document.getElementById('btn-back').style.visibility = 'hidden';
+  document.getElementById('btn-continue').textContent = 'Continue';
+  document.getElementById('step1-el').className = 'step active';
+  document.getElementById('step1-num').textContent = '1';
+  document.getElementById('step-line').className = 'step-line';
+  document.getElementById('step2-el').className = 'step inactive';
+  document.getElementById('step2-num').textContent = '2';
+  document.getElementById('val-banner').classList.remove('show');
+}
+
+function closeModal() { document.getElementById('confirm-modal').classList.remove('show'); }
+
+function submitRequest() {
+  closeModal();
+  var id = 'UCRID' + Math.floor(1000000 + Math.random() * 9000000);
+  document.getElementById('screen-confirm').style.display = 'none';
+  document.getElementById('screen-success').classList.add('show');
+  document.getElementById('success-id').textContent = id;
+  document.getElementById('modal-footer').style.display = 'none';
+  document.getElementById('stepper').style.display = 'none';
+  document.getElementById('val-banner').classList.remove('show');
+}
+</script>
+</body>
+</html>

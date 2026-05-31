@@ -1,0 +1,11 @@
+Step,Description,Partner/Service,API Name
+Login,User logs in using mobile number and OTP validation,,
+PAN Verification,User enters DOB and PAN to validate PAN,Decentro,Decentro PAN API
+Fetch Folio,Ping CAMS/KFin to get the folio for the user,"CAMS/KFin, MF Central (optionally)","CAMS/KFin API, MF Central API"
+Run BRE and Calculate Eligible Limits,Run BRE to calculate eligible limits as per lender prescribed calculations,Internal BRE system,
+Assign Lender,Assign customer to either Bajaj or TATA Capital based on BRE,Internal BRE system,
+KYC Verification,KYC of the customer with different APIs for Bajaj and TATA Capital,Bajaj/TATA Capital KYC APIs,"Bajaj KYC API, TATA Capital KYC API"
+Bank Account Verification,Verify the user's bank account,,
+Mandate Setting,Set up the mandate for auto-debit,,
+Lodgement,Process loan lodgment,,
+KFS and Documentation,Complete KFS (Key Fact Statement) and documentation process,,

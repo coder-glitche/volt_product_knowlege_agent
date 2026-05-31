@@ -1,0 +1,4 @@
+Date,BO ID,ISIN,ISIN Description,Pledged Quantity,Pledgee Name,Status,Pledge Type,Remarks,Closed Quantity,Closure Date,Invoked Quantity,Invocation Date
+01-Jul-2025,1201916305123456,INE018A01030,RELIANCE EQ,100.0,DSP Finance Pvt Ltd,Confirmed,Margin,Pledge created successfully,,,,
+05-Jul-2025,1201916305123456,INE018A01030,RELIANCE EQ,,DSP Finance Pvt Ltd,Released,,Pledge closed successfully,100.0,05-Jul-2025,,
+07-Jul-2025,1201916305123456,INE018A01030,RELIANCE EQ,,DSP Finance Pvt Ltd,Invoked,,Partial invocation triggered,,,50.0,07-Jul-2025
