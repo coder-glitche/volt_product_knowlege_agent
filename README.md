@@ -67,15 +67,17 @@ What is the STP logic for sell-off repayment reconciliation?
 
 ## Keeping it up to date
 
-When new PRDs are added, get the updated zip from the Drive link, replace the old one, then run:
+Just drop new markdown files into the `Product Repository/` folder and run:
 
 ```bash
-# Re-extract zip + rebuild everything
+# Reindex everything
 python3 setup.py --refresh
 
-# Rebuild a specific topic only (faster)
+# Reindex a specific topic only (faster)
 python3 setup.py --refresh --topic pledge
 ```
+
+If you don't have the folder yet (fresh clone), place `Product Repository.zip` in the repo root first — `--refresh` will extract it automatically.
 
 Available topics: `pledge`, `mandate`, `kyc`, `repayment`, `disbursement`, `foreclosure`, `loan-origination`, `loan-management`, `comms`, `ops-tools`, `b2b`, `mfd`, `analytics`, `compliance`, `credit-limit`, `collections`
 

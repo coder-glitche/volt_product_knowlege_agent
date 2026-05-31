@@ -204,7 +204,7 @@ Examples:
     print("\n🔧 Volt PRDs Knowledge Agent\n")
 
     if args.refresh:
-        extract_repo(force=True)
+        extract_repo(force=False)
         build_index(verbose)
         build_summaries(topic=args.topic, verbose=verbose)
         print("\n✅ Refresh complete. Restart Claude Code to pick up changes.\n")
