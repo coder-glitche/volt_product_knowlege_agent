@@ -1,4 +1,0 @@
-Execution Date,Client ID,ISIN,ISIN Description,Pledged Quantity,Pledgee,Pledge Type,Margin Pledge,Status,Agreement No.,Closure Date,Closed Quantity,Lock-In Reason,Remarks,Invoked Quantity
-01-Jul-2025,41111111,INE018A01030,RELIANCE EQ,100.0,DSP1234,Margin,Yes,Confirmed,AGMT-56789,,,,,
-,41111111,INE018A01030,RELIANCE EQ,,DSP1234,,,Released,,05-Jul-2025,100.0,NA,Closure on user request,
-07-Jul-2025,41111111,INE018A01030,RELIANCE EQ,,DSP1234,,,Invoked,,,,,Auto-invoked due to LTV breach,50.0

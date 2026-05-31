@@ -2,10 +2,10 @@
 """
 setup.py — One command to set up or refresh the Volt PRDs knowledge agent.
 
-First time setup:
+First time setup (after placing Product Repository.zip in this folder):
     python3 setup.py
 
-Refresh after pulling new PRDs:
+Refresh after updating Product Repository.zip with new PRDs:
     python3 setup.py --refresh
 
 Refresh a specific topic only:
@@ -15,15 +15,18 @@ Refresh a specific topic only:
 import argparse
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
-ROOT       = Path(__file__).resolve().parent
-PYTHON     = sys.executable
-SERVER     = ROOT / "server.py"
-REQ        = ROOT / "requirements.txt"
-KNOWLEDGE  = ROOT / "knowledge"
-DB_PATH    = KNOWLEDGE / "index.db"
-SLASH_CMD  = Path.home() / ".claude" / "commands" / "volt.md"
+ROOT         = Path(__file__).resolve().parent
+PYTHON       = sys.executable
+SERVER       = ROOT / "server.py"
+REQ          = ROOT / "requirements.txt"
+KNOWLEDGE    = ROOT / "knowledge"
+DB_PATH      = KNOWLEDGE / "index.db"
+PRODUCT_REPO = ROOT / "Product Repository"
+REPO_ZIP     = ROOT / "Product Repository.zip"
+SLASH_CMD    = Path.home() / ".claude" / "commands" / "volt.md"
 
 SLASH_CMD_CONTENT = """\
 You are now in Volt PRDs mode. A `volt-prds` MCP server is available with the full Volt Money / DSP Finance product knowledge base.
@@ -69,6 +72,30 @@ def fail(msg: str):
 # ---------------------------------------------------------------------------
 # Setup steps
 # ---------------------------------------------------------------------------
+
+def extract_repo(force: bool = False):
+    """Extract Product Repository.zip if the folder is missing or force=True."""
+    if not REPO_ZIP.exists():
+        if PRODUCT_REPO.exists():
+            return  # folder already there, nothing to do
+        fail("Product Repository.zip not found.")
+        print(f"\n  Place 'Product Repository.zip' in:\n    {ROOT}\n  then re-run setup.py.\n")
+        sys.exit(1)
+
+    if PRODUCT_REPO.exists() and not force:
+        md_count = len(list(PRODUCT_REPO.rglob("*.md")))
+        ok(f"Product Repository already extracted ({md_count} markdown files)")
+        return
+
+    step("Extracting Product Repository.zip...")
+    import shutil
+    if PRODUCT_REPO.exists():
+        shutil.rmtree(PRODUCT_REPO)
+    with zipfile.ZipFile(REPO_ZIP, "r") as zf:
+        zf.extractall(ROOT)
+    md_count = len(list(PRODUCT_REPO.rglob("*.md")))
+    ok(f"Extracted ({md_count} markdown files)")
+
 
 def install_deps():
     step("Installing dependencies...")
@@ -160,12 +187,12 @@ def main():
         epilog="""
 Examples:
   python3 setup.py                          # first-time setup
-  python3 setup.py --refresh                # rebuild after pulling new PRDs
-  python3 setup.py --refresh --topic pledge # refresh one topic only
+  python3 setup.py --refresh                # re-extract zip + rebuild after new PRDs
+  python3 setup.py --refresh --topic pledge # refresh one topic summary only
         """
     )
     parser.add_argument("--refresh", action="store_true",
-                        help="Rebuild index and summaries after new PRDs added")
+                        help="Re-extract zip and rebuild index + summaries")
     parser.add_argument("--topic", type=str, default=None,
                         help="Refresh a specific topic summary only (use with --refresh)")
     parser.add_argument("--quiet", action="store_true",
@@ -177,11 +204,13 @@ Examples:
     print("\n🔧 Volt PRDs Knowledge Agent\n")
 
     if args.refresh:
+        extract_repo(force=True)
         build_index(verbose)
         build_summaries(topic=args.topic, verbose=verbose)
         print("\n✅ Refresh complete. Restart Claude Code to pick up changes.\n")
     else:
         install_deps()
+        extract_repo(force=False)
         build_index(verbose)
         build_summaries(verbose=verbose)
         register_mcp()

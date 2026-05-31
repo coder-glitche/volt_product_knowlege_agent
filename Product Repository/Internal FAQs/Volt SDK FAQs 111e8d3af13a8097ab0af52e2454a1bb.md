@@ -1,1 +1,0 @@
-# Volt SDK FAQs

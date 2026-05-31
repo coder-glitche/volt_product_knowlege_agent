@@ -1,1 +1,0 @@
-# Closed Loan

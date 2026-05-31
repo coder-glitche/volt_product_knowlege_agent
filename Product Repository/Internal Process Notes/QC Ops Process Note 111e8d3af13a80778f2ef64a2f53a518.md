@@ -1,1 +1,0 @@
-# QC/Ops Process Note
