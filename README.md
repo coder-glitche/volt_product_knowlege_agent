@@ -63,8 +63,11 @@ This will:
 - Register the MCP server with Claude Code
 - Install the `/volt` slash command
 
-> **Restart Claude Code** once setup completes, then type `/volt` to activate.
-```claude /volt
+### 3. Use the agent
+
+> In a new terminal Restart Claude Code** once setup completes, then type `/volt` to activate.
+```
+claude /volt
 ```
 
 ---
