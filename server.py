@@ -22,8 +22,11 @@ KNOWLEDGE = ROOT / "knowledge"
 DB_PATH = KNOWLEDGE / "index.db"
 SUMMARIES_PATH = KNOWLEDGE / "summaries"
 GRAPHIFY_PATH = ROOT / "graphify-out"
+GRAPH_JSON = GRAPHIFY_PATH / "graph.json"
+GRAPH_REPORT = GRAPHIFY_PATH / "GRAPH_REPORT.md"
 
 sys.path.insert(0, str(ROOT))
+
 
 # ---------------------------------------------------------------------------
 # Auto-build index if missing
@@ -51,7 +54,6 @@ def get_db() -> sqlite3.Connection:
 def fts_search(query: str, limit: int = 5) -> list[dict]:
     conn = get_db()
     try:
-        # BM25 ranked FTS search
         rows = conn.execute(
             """
             SELECT f.title, f.file_path, f.topic_areas, f.status, f.last_edited,
@@ -67,7 +69,6 @@ def fts_search(query: str, limit: int = 5) -> list[dict]:
         ).fetchall()
         return [dict(r) for r in rows]
     except Exception:
-        # Fallback to LIKE search if FTS fails
         rows = conn.execute(
             """
             SELECT title, file_path, topic_areas, status, last_edited,
@@ -86,12 +87,10 @@ def fts_search(query: str, limit: int = 5) -> list[dict]:
 def get_file_by_name(name: str) -> dict | None:
     conn = get_db()
     name_l = name.lower().strip()
-    # Exact title match
     row = conn.execute(
         "SELECT * FROM files WHERE lower(title) = ?", (name_l,)
     ).fetchone()
     if not row:
-        # Substring match, shortest title wins
         rows = conn.execute(
             "SELECT * FROM files WHERE lower(title) LIKE ? ORDER BY length(title)",
             (f"%{name_l}%",)
@@ -101,11 +100,10 @@ def get_file_by_name(name: str) -> dict | None:
     return dict(row) if row else None
 
 
-def get_related_from_index(title: str, limit: int = 8) -> list[dict]:
-    """Find files that mention this title or share most topic areas."""
+def get_mentions_from_index(title: str, limit: int = 8) -> list[dict]:
+    """Files that explicitly mention this PRD's title in their content."""
     conn = get_db()
     title_l = title.lower()
-    # Files that mention this PRD's title in their content
     rows = conn.execute(
         """
         SELECT title, file_path, topic_areas, status, last_edited
@@ -120,29 +118,109 @@ def get_related_from_index(title: str, limit: int = 8) -> list[dict]:
     return [dict(r) for r in rows]
 
 
-def get_graphify_related(label: str) -> list[dict] | None:
-    """Use graphify graph for related PRDs if available."""
-    graph_json = GRAPHIFY_PATH / "graph.json"
-    if not graph_json.exists():
+# ---------------------------------------------------------------------------
+# Graph Index — maps graphify labels to SQLite titles
+# ---------------------------------------------------------------------------
+
+class GraphIndex:
+    """Pre-built mapping from graphify node labels to SQLite file IDs."""
+
+    def __init__(self):
+        self._label_to_db_id: dict[str, int] = {}     # graphify label -> SQLite file id
+        self._node_id_to_label: dict[str, str] = {}   # graphify node id -> label
+        self._links: list[dict] = []
+        self._loaded = False
+
+    def load(self):
+        if not GRAPH_JSON.exists() or not DB_PATH.exists():
+            return
+        try:
+            data = json.loads(GRAPH_JSON.read_text())
+            self._node_id_to_label = {n["id"]: n["label"] for n in data["nodes"]}
+            self._links = data["links"]
+
+            conn = sqlite3.connect(DB_PATH)
+            rows = conn.execute("SELECT id, title FROM files").fetchall()
+            conn.close()
+
+            title_to_id = {r[1].lower().strip(): r[0] for r in rows}
+
+            matched = 0
+            for label in self._node_id_to_label.values():
+                label_l = label.lower().strip()
+                if label_l in title_to_id:
+                    self._label_to_db_id[label] = title_to_id[label_l]
+                    matched += 1
+
+            self._loaded = True
+            print(f"[volt-prds] GraphIndex loaded: {matched}/{len(self._node_id_to_label)} labels matched", file=sys.stderr)
+        except Exception as e:
+            print(f"[volt-prds] GraphIndex load failed: {e}", file=sys.stderr)
+
+    def _find_label(self, title: str) -> str | None:
+        """Find the best-matching graphify label for a given title."""
+        title_l = title.lower().strip()
+        # Exact
+        for label in self._label_to_db_id:
+            if label.lower().strip() == title_l:
+                return label
+        # Substring (shortest label wins to avoid overly broad matches)
+        candidates = [l for l in self._label_to_db_id if title_l in l.lower() or l.lower() in title_l]
+        if candidates:
+            return min(candidates, key=len)
         return None
-    try:
-        data = json.loads(graph_json.read_text())
-        nodes = {n["id"]: n for n in data["nodes"]}
-        label_to_id = {n["label"].lower(): n["id"] for n in data["nodes"]}
-        node_id = label_to_id.get(label.lower())
+
+    def _label_to_node_id(self, label: str) -> str | None:
+        for nid, lbl in self._node_id_to_label.items():
+            if lbl == label:
+                return nid
+        return None
+
+    def get_related(self, title: str, limit: int = 12) -> list[dict]:
+        if not self._loaded:
+            return []
+
+        label = self._find_label(title)
+        if not label:
+            return []
+
+        node_id = self._label_to_node_id(label)
         if not node_id:
-            return None
+            return []
+
+        seen = set()
         related = []
-        for link in data["links"]:
+        for link in self._links:
+            other_id = None
+            relation = link["relation"]
+
             if link["source"] == node_id:
-                target = nodes.get(link["target"], {})
-                related.append({"label": target.get("label", ""), "relation": link["relation"]})
+                other_id = link["target"]
             elif link["target"] == node_id:
-                source = nodes.get(link["source"], {})
-                related.append({"label": source.get("label", ""), "relation": link["relation"]})
-        return related[:10]
-    except Exception:
-        return None
+                other_id = link["source"]
+
+            if other_id and other_id not in seen:
+                seen.add(other_id)
+                other_label = self._node_id_to_label.get(other_id, "")
+                if other_label and other_label != label:
+                    related.append({
+                        "label": other_label,
+                        "relation": relation,
+                        "confidence": link.get("confidence_score", 0.0),
+                        "in_index": other_label in self._label_to_db_id,
+                    })
+
+        # Sort: indexed PRDs first, then by confidence descending
+        related.sort(key=lambda r: (not r["in_index"], -r["confidence"]))
+        return related[:limit]
+
+    @property
+    def loaded(self) -> bool:
+        return self._loaded
+
+
+# Singleton loaded at server startup
+_graph = GraphIndex()
 
 
 # ---------------------------------------------------------------------------
@@ -169,10 +247,8 @@ def format_prd(row: dict) -> str:
     file_path = ROOT / row["file_path"]
     if file_path.exists():
         content = file_path.read_text(errors="ignore")
-        # Strip base64 images
         content = re.sub(r'!\[.*?\]\(data:image/[^)]+\)', '[image removed]', content)
         return content
-    # Fallback to indexed content
     return row.get("content", "Content not available.")
 
 
@@ -236,9 +312,9 @@ async def list_tools() -> list[Tool]:
         Tool(
             name="find_related",
             description=(
-                "Find all PRDs connected to a given PRD — other specs that reference it, "
-                "enhancements built on top of it, or related flows. "
-                "Use this to understand the full scope of a feature area."
+                "Find all PRDs semantically connected to a given PRD — using both the knowledge graph "
+                "(conceptual relationships, part-of hierarchies) and explicit content mentions. "
+                "Use this to understand the full scope of a feature area or find enhancements built on top of a flow."
             ),
             inputSchema={
                 "type": "object",
@@ -251,6 +327,15 @@ async def list_tools() -> list[Tool]:
         Tool(
             name="list_topics",
             description="List all available topic summaries with PRD counts. Use this to understand what topic areas exist.",
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        Tool(
+            name="get_graph_summary",
+            description=(
+                "Get a high-level summary of the entire knowledge graph — most connected PRDs (god nodes), "
+                "community clusters, and key abstractions. Use this to understand the overall structure of the "
+                "product knowledge base, or to find the most central/influential PRDs."
+            ),
             inputSchema={"type": "object", "properties": {}},
         ),
     ]
@@ -270,7 +355,6 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         summary_file = SUMMARIES_PATH / f"{topic}.md"
         if summary_file.exists():
             return [TextContent(type="text", text=summary_file.read_text())]
-        # Fuzzy: find closest topic
         available = [f.stem for f in SUMMARIES_PATH.glob("*.md")] if SUMMARIES_PATH.exists() else []
         matches = [t for t in available if topic in t or t in topic]
         if matches:
@@ -282,7 +366,6 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         name_q = arguments["name"]
         row = get_file_by_name(name_q)
         if not row:
-            # Try search as fallback
             results = fts_search(name_q, limit=3)
             if results:
                 suggestions = "\n".join(f"- {r['title']}" for r in results)
@@ -302,28 +385,41 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         title = row["title"]
         lines = [f"## Related PRDs for: {title}\n"]
 
-        # Try graphify graph first
-        graph_related = get_graphify_related(title)
+        # --- Knowledge graph relationships (graphify) ---
+        graph_related = _graph.get_related(title)
         if graph_related:
             by_relation: dict[str, list[str]] = {}
+            no_index: list[str] = []
             for r in graph_related:
-                by_relation.setdefault(r["relation"], []).append(r["label"])
-            lines.append("### From knowledge graph:")
+                if r["in_index"]:
+                    by_relation.setdefault(r["relation"], []).append(r["label"])
+                else:
+                    no_index.append(r["label"])
+
+            lines.append("### Knowledge graph (semantic relationships):")
             for rel, labels in by_relation.items():
-                lines.append(f"\n**{rel}:**")
+                rel_display = rel.replace("_", " ").title()
+                lines.append(f"\n**{rel_display}:**")
                 for label in labels:
                     lines.append(f"  - {label}")
 
-        # Index-based: files that mention this PRD
-        index_related = get_related_from_index(title)
-        if index_related:
+            if no_index:
+                lines.append(f"\n*Also connected (not in local index): {', '.join(no_index[:5])}*")
+        elif _graph.loaded:
+            lines.append("*This PRD has no connections in the knowledge graph.*\n")
+        else:
+            lines.append("*Knowledge graph not available (graphify-out/graph.json missing).*\n")
+
+        # --- Index-based: files that explicitly mention this PRD ---
+        mentions = get_mentions_from_index(title)
+        if mentions:
             lines.append("\n\n### PRDs that reference this:")
-            for r in index_related:
+            for r in mentions:
                 lines.append(
                     f"- **{r['title']}** — {r.get('status') or '—'} | last edited: {r.get('last_edited') or '—'}"
                 )
 
-        if not graph_related and not index_related:
+        if not graph_related and not mentions:
             lines.append("No related PRDs found.")
 
         return [TextContent(type="text", text="\n".join(lines))]
@@ -339,6 +435,37 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         lines.append("\n*Use `get_topic` with any topic name above.*")
         return [TextContent(type="text", text="\n".join(lines))]
 
+    elif name == "get_graph_summary":
+        if GRAPH_REPORT.exists():
+            content = GRAPH_REPORT.read_text()
+            # Strip Obsidian wikilinks for readability in Claude
+            content = re.sub(r'\[\[([^\]|]+)\|?([^\]]*)\]\]', lambda m: m.group(2) or m.group(1), content)
+            return [TextContent(type="text", text=content)]
+        if not GRAPH_JSON.exists():
+            return [TextContent(type="text", text=
+                "Knowledge graph not available. The `graphify-out/` directory is not present in this repo clone."
+            )]
+        # Fallback: compute basic stats from graph.json
+        data = json.loads(GRAPH_JSON.read_text())
+        node_count = len(data["nodes"])
+        edge_count = len(data["links"])
+        communities = len(set(n.get("community", 0) for n in data["nodes"]))
+        # Find most connected nodes
+        degree: dict[str, int] = {}
+        for link in data["links"]:
+            degree[link["source"]] = degree.get(link["source"], 0) + 1
+            degree[link["target"]] = degree.get(link["target"], 0) + 1
+        node_map = {n["id"]: n["label"] for n in data["nodes"]}
+        top = sorted(degree.items(), key=lambda x: -x[1])[:10]
+        lines = [
+            f"## Knowledge Graph Summary\n",
+            f"- **{node_count} nodes** · **{edge_count} edges** · **{communities} communities**\n",
+            "### Most connected PRDs (god nodes):",
+        ]
+        for i, (nid, deg) in enumerate(top, 1):
+            lines.append(f"{i}. **{node_map.get(nid, nid)}** — {deg} connections")
+        return [TextContent(type="text", text="\n".join(lines))]
+
     return [TextContent(type="text", text=f"Unknown tool: {name}")]
 
 
@@ -348,6 +475,7 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
 
 async def main():
     ensure_index()
+    _graph.load()
     async with stdio_server() as (read_stream, write_stream):
         await server.run(read_stream, write_stream, server.create_initialization_options())
 

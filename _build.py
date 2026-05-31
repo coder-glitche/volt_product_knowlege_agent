@@ -30,9 +30,9 @@ TOPICS = {
     "loan-management": ["lms", "loan account", "loan management", "term loan", "co-lending"],
     "comms":           ["comms", "communication", "sms", "email", "whatsapp", "notification", "template", "dlt"],
     "ops-tools":       ["command centre", "command center", "ops tool", "appsmith", "ops tooling", "maker", "checker"],
-    "b2b":             ["b2b", "bajaj", "tata capital", "tcl", "dsp finance", "dsp", "cred", "phonepe", "zype", "jupiter"],
+    "b2b":             ["b2b", "bajaj", "tata capital", "tcl", "cred", "phonepe", "zype", "jupiter"],
     "mfd":             ["mfd", "mfc", "distributor", "arn", "mutual fund distributor", "mfd channel"],
-    "analytics":       ["analytics", "mis", "report", "tracking", "amplitude", "event tracking"],
+    "analytics":       ["analytics", "amplitude", "event tracking"],
     "compliance":      ["compliance", "regulatory", "rbi", "credit bureau", "cibil", "bureau reporting"],
     "credit-limit":    ["credit limit", "credit line", "unlock credit", "top-up", "topup", "top up"],
     "collections":     ["collection", "overdue", "npa", "delinquency", "recovery", "dpd"],
@@ -80,10 +80,11 @@ def extract_section(content: str, heading_pattern: str) -> str:
 
 
 def detect_topics(title: str, file_path: Path, content: str) -> list[str]:
-    text = (title + " " + str(file_path) + " " + content[:3000]).lower()
+    # Match on title + path only to avoid false positives from generic terms in content
+    header = (title + " " + str(file_path)).lower()
     matched = []
     for topic, keywords in TOPICS.items():
-        if any(kw in text for kw in keywords):
+        if any(kw in header for kw in keywords):
             matched.append(topic)
     # Also derive from folder name
     parts = file_path.parts

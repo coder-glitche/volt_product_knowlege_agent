@@ -1,162 +1,11 @@
 # Current State: Loan Management
 
-> Auto-generated from 216 PRD(s). Most recently edited shown first.
+> Auto-generated from 108 PRD(s). Most recently edited shown first.
 
 
 ---
 
-## 🟢 LATEST — Additional documents upload for Bajaj for AS ES DI
-**Status:** Ready for Tech | **Last edited:** September 20, 2024 3:06 PM
-
-**Problem:**
-are we solving?**
-
-We are solving for autofilling these documents for the user and integrating them in the journey to improve the loan booking experience of joint holders of mutual funds.
-
-Broadly, there are two ways to own a mutual fund:
-
-1. Individual ownership (single account holder)
-2. Joint ownership
-    1. Joint (Approval of both parties is required) (2 account holders)
-    2. Anyone or survivor (AS) (anyone can manage the account without seeking the other person’s approval) (up to 3 account holders)
-    3. Either or survivor (ES) (both can manage the account without seeking other’s appr
-
-**Solution:**
-?**
-
-We will be recreating digital versions of forms (Update)
-
-For the scope of first development we are only picking co-borrower and addendum form:
-
-[Bajaj ECS Mandate.pdf](Additional%20documents%20upload%20for%20Bajaj%20for%20AS%20ES%20DI/Bajaj_ECS_Mandate.pdf)
-
-[coborrower.pdf](Additional%20documents%20upload%20for%20Bajaj%20for%20AS%20ES%20DI/coborrower.pdf)
-
-[_ADDENDUM SAMPLE new new (1) (1).pdf](Additional%20documents%20upload%20for%20Bajaj%20for%20AS%20ES%20DI/_ADDENDUM_SAMPLE_new_new_(1)_(1).pdf)
-
-[__CO APPLICANT FORM SAMPLE.pdf](Additional%20documents%20upload%20for%20Bajaj%20for%20AS%20ES%20DI/__CO_APPLICANT_FORM_SAMPLE.pdf)
-
-Self attested PAN (photo of the document signed by the user)
-
-Self attested Aadhaar (photo of the document signed by the user)
-
-```html
-<!DOCTYPE html>
-
-<he
-
----
-
-## #2 — BAJAJ Dedupe API
-**Status:** Done | **Last edited:** September 12, 2024 5:02 PM
-
-**Problem:**
-are we solving?**
-
-Users who have their lender assigned as BAJAJ (either through BRE or Hardcode) when have an already existing loan account with BAJAJ then we come to know about this only after the user has completed the application process. 
-
----
-
-**Solution:**
-?**
-
-We will hit the BAJAJ dedupe APIs -  
-
-1. At the step of lender assigning through BRE 
-2. Whenever there is a lender change from TATA to BAJAJ through admin panel  
-
- Following are cases which we will consider - 
-
-1. When the user comes to the “SET LIMIT PAGE” & “USER CONFIRMED THE LIMIT”, lender is assigned to the application either through BRE or it is hardcoded for various MFDs. 
-    1. **In case of MFDs : (sending comms is de-prioritised as confirmed with Ranjan/Nishant, kindly ignore)**
-        1. if BAJAJ is hardcoded, and there is a dedupe, then we’ll change the lender to TATA, while also sending the comms to the MFD. 
-        2. The comms to the MFD will be, when we send the comms for application completed, we can also show : 
-        ***”The lender for this user has been chan
-
----
-
-## #3 — AI Chatbot
-**Status:** Not started | **Last edited:** September 1, 2025 10:48 AM
-
-**Problem:**
-are we solving?**
-
-Currently the FRT for the response is higher (9+ minutes)
-Average resolution time of the chat is 60+ minutes)
-No 24 hour service limited hour servicing
-
----
-
-**Solution:**
-?**
-
-The **AI Chatbot Proof of Concept (POC)**, this document outlines the **Phase 1 scope**, focused on backend integration, benchmarking, and foundational design to prepare for future customer-facing deployment via **WATI**.
-
----
-
-## #4 — Interest calculator - landing page
-**Status:** In progress | **Last edited:** October 9, 2024 8:22 PM
-
-**Problem:**
-are we solving?**
-
-1. Before applying for Volt LAMF or withdrawals users want an estimate of what is the interest that they will pay.
-2. Since alot of user consider Volt LAMF as term loan, they want to get an understanding of how to close the loan in X duration with equal monthly payments. MFDs are asked this query alot as well. 
-
----
-
-**Solution:**
-?**
-
----
-
-## #5 — User getting stuck at KYC verification step in cas
-**Status:** On Hold | **Last edited:** October 7, 2024 5:01 PM
-
-**Problem:**
-are we solving?**
-
-In the applications in which we are not able to fetch PAN details, the user’s KYC is not getting verified via BAJAJ KYC_POD. 
-
----
-
-**Solution:**
-?**
-
-- User completes the KYC screen :
-    - We get “POV=null” in the getkycdetails response.
-    - Then we will not keep the user stuck at this step, and allow them to move to the next “bank account” step.
-    - Then we will enable the user to add supporting documents in the documents section
-- When the issue is of mis-match, we will enable the 1st applicant to the add additional documents screen, where we will make the user attach the :
-    - PAN signed document
-- Once the user has uploaded the document, these documents will be sent in BAJAJ account creation mail, **(with remarks)**
-    - **Remarks : “PAN for the customer was not fetched from Digilocker, hence attaching the self attested PAN of the user”**
-    - Add Pratik, Sheetal & Parul in cc
-        - Pratik :  [pratik.bagul@bajajfin
-
----
-
-## #6 — LSQ Revamp Solution Doc
-**Status:** Not started | **Last edited:** October 6, 2025 12:50 PM
-
-**Problem:**
-are we solving?**
-
-Currently, both the **MFD activation journey** and the **customer LAMF journey** run through a **single combined flow**, which is leading to multiple challenges:
-
-- Difficult to manage MFDs handling multiple applications/customers
-- Limited ability to manage multiple products at the customer level
-- Workflow and opportunity overlaps and causing confusion
-- Lack of clarity on which opportunity belongs to which journey
-- Inadequate visibility into MFD vs. customer progress tracking
-- **Phone number as the primary identifier creates a constraint** — if an MFD and a customer sha
-
-**Solution:**
-?**
-
----
-
-## #7 — Multi Drawdown Term Loan LMS Requirements
+## 🟢 LATEST — Multi Drawdown Term Loan LMS Requirements
 **Status:** In progress | **Last edited:** October 30, 2025 2:56 PM
 
 **Problem:**
@@ -193,121 +42,7 @@ A **line-backed, multi-drawdown term loan**, where:
 
 ---
 
-## #8 — Master collections PRD (NBFC)
-**Status:** In progress | **Last edited:** October 3, 2024 1:50 PM
-
-**Problem:**
-are we solving?**
-
-There are multiple instruments through which NBFC will acquire funds against outstanding of user’s loan account. Following are the one’s we are moving ahead with V1:
-
-- Repayments (PG/Bank account transfer)
-- Withdrawals (Collection of charges against withdrawal - Capitalisation)
-- Mandate presentation
-- Sell-off of collateral to recover funds (Shortfall/Overdue)
-
-**Collections can be of two types:**
-
-- User initiated (Withdrawal / Repayment / Sell-off)
-- NBFC initiated (Mandate presentation (Interest and charges) / Sell-off)
-
-This document unites all of the instruments into
-
-**Solution:**
-?**
-
-- Withdrawal (Charges collection against withdrawal)
-    
-    When a user withdraws from their credit line against their pledged assets, we will identify if there are any associated charges due in the loan account. 
-    
-    If overdue charges are found, charges will be knocked off and the effective amount will be disbursed to the user
-    
-- Repayment
-    
-    When a user makes a repayment, their repayment will be accounted against different ledgers of the loan account as per the configured apportionment strategy
-    
-    Overdue interest -> Overdue charges -> Shortfall principal -> Due interest -> Due charges -> Principal -> Excess
-    
-- Mandate presentation (Interest collection)
-    
-    At the end of the billing cycle, outstanding interest (accumulated over the cycle) and due cha
-
----
-
-## #9 — [IronGrid] Adding un-pledge validations in BE
-**Status:** Not started | **Last edited:** October 25, 2024 1:20 PM
-
-# [IronGrid] Adding un-pledge validations in BE ### Validations present in FE **FE Checks** - Manage limit - Remove pledge - Pledge more - Pledge history - At this page we have a starting check of buffer - User taps on Remove pledge and lands on the screen with list of funds - Buffer check applied again to calculate the number of units which can be selected by the user for un-pledging **Checks to be added** - Jay to share the tech solutioning doc of the customer - Folio level checks need to be added - Need to create validation in init API using this API : app/borrower/lms/credit/lender/manageLimitConfig
-
----
-
-## #10 — [Lending stack] Welcome mail
-**Status:** Not started | **Last edited:** October 21, 2024 6:19 PM
-
-**Problem:**
-are we solving?**
-
-Have to send a welcome email to customer who take loan from DSP Fin Pvt Ltd. The email will contain the loan kit that contains documents like MITC, GTC, KFS and other documents. 
-
-The email should serve the following purposes:
-
-**Functional objectives:**
-
-- **Loan Approval Confirmation**: Clearly inform the customer that their loan application has been successfully approved.
-- **Share loan kit**: Provide essential loan details through the MITC, GTC, KFS, and the sanction letter.
-- **Next Steps:** Guide the customer on the next steps, such as how can he place disbursement fro
-
-**Solution:**
-?**
-
----
-
-## #11 — DSP communication email template
-**Status:** Done | **Last edited:** October 21, 2024 4:31 PM
-
-**Problem:**
-are we solving?**
-
-NBFC will be sharing important communications to the user triggered by certain events that occur in the user’s loan account. The communication should follow a template (for ease of perusal and identification of content by the user)
-
-List of comms:
-
-https://docs.google.com/spreadsheets/d/1BrvoUyz4SbO_Odc4sTLvFumESJkDQwNS4ZahPu3n36o/edit?gid=0#gid=0
-
----
-
-**Solution:**
-?**
-
-| Element | Consideration | Requirement description |
-| --- | --- | --- |
-| Header | Required | All email template should have a common header with the DSP finance logo. Date of communication and a description of the communication |
-| Call-to-Action (CTA): | Required | Capabilities to place primary and secondary CTAs in the body of the text, the design should be able to support multiple CTAs for the user to click |
-| Action-oriented text (e.g., "Apply Now", "View Statement") | Required | Design should support call to action statements, while there would be CTAs, specific text with weights would be required to draw user attention (outside of CTAs) |
-| Contact information: | Required | Specific section which contains contact details of the NBFC (if the user wants to reach back the team)
-
----
-
-## #12 — Withdrawal Optimisations
-**Status:** In progress | **Last edited:** October 17, 2024 4:45 PM
-
-**Problem:**
-are we solving?**
-
-In a 15-day period, 2.84% of the 5130 disbursal requests were rejected, with 1.98% attributed to tech gaps within Volt app. The key problems to address are : 
-
-- Customers see a higher limit on the app and request a bigger amount resulting in failures
-- We use a higher limit in our DB which results in withdrawals getting rejected at lender’s end
-- Customer raise support tickets and give poor reviews impacting our CSAT and retention
-- We face challenges in acquiring new customers due to poor ratings on app
-- We are checking the customer’s holding statement which creates issue
-
-**Solution:**
-?**
-
----
-
-## #13 — LOS and LMS admin actions (LSP with DSP as lender)
+## #2 — LOS and LMS admin actions (LSP with DSP as lender)
 **Status:** In progress | **Last edited:** October 16, 2024 2:25 PM
 
 **Problem:**
@@ -324,357 +59,7 @@ This requirement covers utilising the admin actions (where needed) to cover use 
 
 ---
 
-## #14 — [TL] Shortfall handling
-**Status:** Pending Review | **Last edited:** October 1, 2025 1:26 PM
-
-**Problem:**
-are we solving?**
-
----
-
-- We want to implement a robust mechanism to handle shortfall scenarios in term loans. Unlike OD products, term loans involve an outstanding principal amount, which increases the likelihood of shortfalls. This makes it essential to build an efficient and well-defined shortfall handling process specifically for term loans
-
-**Solution:**
-?**
-
----
-
-## #15 — Excess amount handling
-**Status:** On Hold | **Last edited:** November 8, 2024 1:55 PM
-
-**Problem:**
-are we solving?**
-
-1. Users are not able to withdraw or utilise their complete limit in case their line goes in excess. 
-2. Handling of storing of the excess amount data in our DB is not proper. 
-
----
-
-**Solution:**
-?**
-
-- **Current handling :**
-    - When user has excess amount in their line -
-        - We show the available cash as excess amount itself
-        - The DP gets reduced to excess amount amount itself. We also have a limitation of 1000 as minimum amount of withdrawal. In most cases excess is less than 1000 and hence the user is not able to make withdrawal & gets blocked.
-
-![Untitled](Excess%20amount%20handling/Untitled.png)
-
-- **Optimised handling :**
-    - **1st approach**
-        - We can show an alert to the user that shows the excess amount on the home screen itself.
-        - Alert will say: “You have excess amount present in your loan account, click here to withdraw the excess amount”.
-        - We will process the excess amounts which are greater than Rs 1 and less than Rs 1000
-   
-
----
-
-## #16 — Lien removal SLA tracking report
-**Status:** Ready for Tech | **Last edited:** November 7, 2024 8:13 AM
-
-**Problem:**
-are we solving?**
-
-Users raise lien removal requests via Volt app and web app which are raised directly with the lenders. 
-
-Lien removal requests have broadly three steps:
-
-1. Lien removal request validation
-2. Unlodgement of funds
-3. Unpledging of funds
-
-The process for the first two steps is done digitally via API however unpledging is done operationally via letters send to the RTAs (CAMS and Kfintech).
-
-Volt and lenders have an operational workflow set between the teams of the two organisations and they need a report to manage SLAs.
-
-**Problem statements:**
-
-1. Volt ops agents should be abl
-
-**Solution:**
-?**
-
-Two reports (Revocation request level and ISIN level will be created which will be sent to the lender
-
-**Report 1:**
-
-Created_on
-
-Loan account number - Lender loan account number (Credits)
-Loan contract number - Lender credit ID (Credits)
-Customer name - Borrower name (Borroweraccounts)
-VOLT request ID - Revocation request ID (revocation requests)
-Customer PAN - AccountholderPAN (Borroweraccounts)
-Total outstanding amount - Netpayable (Credits) - 
-
-Update (07-17) - At the time of making request (Needs to be stored while making the request)
-DP before un-pledging - Assetlimitbeforepledging (Revocationrequests)
-
-Update (07-17) - At the time of making request (Needs to be stored while making the request)
-DP after un-pledging - Assetlimitbeforepledging (Update (07-17) - At the time of maki
-
----
-
-## #17 — Lodgement maker
-**Status:** Pending Review | **Last edited:** November 29, 2024 4:43 PM
-
-**Problem:**
-are we solving?**
-
-Users pledge securities before their loan account is created with the bank, users also pledge additional securities post origination. 
-
-Scenarios can arise where the user has pledged securities, however the same have not been added to their loan account, ops team will need a capability through which they can manually lodge these securities into the user’s loan account via the command centre
-
----
-
-**Solution:**
-?**
-
-We will create a maker task, where the ops agent will be able to select an RTA and basis RTA add a lien reference number (unique to one pledging request). 
-
-Against which we will hit the lien status API and get all the securities pledged in that particular session as well as their current status. Once we have the status, we will give the ops agent to select the desired securities which they want to map to the loan account, and give the user the respective drawing power.
-
-CAMS → Lien reference number
-
-KFIN → KFIN session number
-
-For the sake of convenience, we can call them as a common identifier for easy communication between operations team.
-
-<aside>
-⚠️
-
-Note: This process will have to be done at a RTA level, that is if a user has pledged securities with the two RTAs, we will be crea
-
----
-
-## #18 — TATA Dedupe API with updated BRE
-**Status:** Pending Review | **Last edited:** November 21, 2024 12:42 PM
-
-**Problem:**
-are we solving?**
-
-- For users whose lender is assigned as TATA, either via BRE logic or hardcoding, an existing loan account with TATA is only detected after the user has completed the application process.
-- This leads to a poor user experience, as the user is required to un-pledge their funds and restart the application process from scratch with a different lender.
-
----
-
-**Solution:**
-?**
-
-We will hit the TATA dedupe APIs that will return if a customer holds an active LAS/LAMF relationship with TATA. 
-
-1. The customer is checked for the partner from whom the application is being received
-2. We check the DB if there are any specific lender assigned to the partner (eg. Jupiter and some MFDs)
-3. If the customer has only TATA assigned as the lender OR any lender, the rest of the process follows.
-4. At the step of lender assigning through BRE - dedupe check will be done using PAN number of the user for both TATA and BFL
-5. Whenever there is a lender change from BAJAJ to TATA through admin panel  
-6. Posidex check to be done if the customer is dedupe negative (customer has no relationship with TATA)
-7. Dedupe will be the first check in the BRE and basis the outcome, the rest 
-
----
-
-## #19 — Foreclosure handling for DSP
-**Status:** Done | **Last edited:** November 18, 2024 12:09 PM
-
-**Problem:**
-are we solving?**
-
-Users at this point in time can raise multiple requests at a time, these transactions can often cause the other to fail. 
-For example, if a user, raises a withdrawal which is pending with the NBFC to process, and immediately raises a foreclosure, they will be able to, which may cause dangling transactions to be left at our end.
-
-If a user raises a foreclosure request, when a mandate presentation transaction is still processing for them, and we close the loan account, we will have no way to post the proceeds from the presentation into their loan account. 
-
-To solve for such s
-
-**Solution:**
-?**
-
-Types of requests (Money/Collateral/Service):
-
-| Type of request | Foreclosure blocked |
-| --- | --- |
-| Withdrawal | Yes |
-| Repayment | Yes |
-| Collateral removal | Yes |
-| Collateral addition | Yes |
-| Excess refund | Yes |
-| Mobile update | No |
-| Email update | No |
-| Foreclosure | Yes |
-| Withdrawal reversal | Yes |
-| Repayment reversal | Yes |
-| Charge reversal | Yes |
-| Interest refund | Yes |
-| Mandate presentation | Yes |
-
-For any request which is pending, as per the above sheet, foreclosure request will not be processed instead we will pass an error message to the LSP.
-
-Foreclosure cannot be processed as there is an existing pending request (Request ID: [Request ID]). Please resolve or complete the pending request to proceed with foreclosure.
-
-In case there are multiple pen
-
----
-
-## #20 — External reporting requirements
-**Status:** Done | **Last edited:** November 15, 2024 3:03 PM
-
-**Solution:**
-?**
-
-**CKYC update and upload**
-
-We will be integrating with CKYC provider which will help us automate the [process of SFTP upload](CKYC%20Upload%20for%20DSP%201433e0160911411981171e2d7d788b91.md)  for the NBFC. 
-
-**CIC**
-
-We will get Finflux to create a pre-built report for us, which can be converted into TUDF format and directly uploaded to different SFTPs and ST clients of CICs for batch processing
-
-**NeSL:**
-
-We will get Finflux to create a custom report for us, which can be uploaded to NeSL’s website on a weekly and a monthly frequency
-
-(Note: We will create automated emails to Ops, with the reports so that they a respective ticket is created for them to complete the task for V1
-
-We will automate the complete uploading of files to the external agencies in v2 (Post we have confidence i
-
----
-
-## #21 — KYC Risk Status (NBFC Platform)
-**Status:** Done | **Last edited:** November 12, 2024 6:05 PM
-
-**Problem:**
-are we solving?**
-
-KYC risk status needs to be maintained against each client in the NBFC to maintain appropriate risk classification of customers in the LMS as well as in NBFC.
-
-RBI requires us to maintain risk status for each customer under CDD and EDD measures, for all non face to face account based relationship openings, customer should be classified as high risk. 
-
-For customers classified as high risk, their KYC should be evaluated every 2 years, (Re-KYC) unless a face to face KYC or VCIP is formed for the customer. 
-
-To comply with the same, we need a method to store and display the KYC
-
-**Solution:**
-?**
-
-Maintain KYC status and KYC expiry date (2 years post account opening) in LMS as well as internal storage at a client level. 
-
-We will be storing the details at a client level in Finflux (datatables - clientkycdetails) and internally in Finflux against client ID.
-
-The same will be visible for the operations and risk teams on the command centre on the client details and KYC details page
-
----
-
----
-
-## #22 — Repayment flow for DSP
-**Status:** Pending Review | **Last edited:** November 11, 2024 8:01 PM
-
-**Problem:**
-are we solving?**
-
-We offer three payment methods for a user to be able to make a repayment towards their loan via Razorpay:
-
-- UPI
-- Debits cards (Rupay)
-- Net banking
-
-For net banking, Razorpay assists us with partnering with different banks so that they can offer net banking as a service with our sponsor bank (Yes bank). Currently we are only utilising Razorpay integration as an LSP (via Volt) and do not have a repayment flow on the DSP website. 
-
-To enable large banks like SBI, HDFC, ICICI, IDFC bank, we need to have a repayment flow on the DSP website to meet compliance requirements.
-
----
-
-**Solution:**
-?**
-
-We will build an intermediate repayment flow for users to be able to make a repayment on their loan account on the DSP landing page (to showcase to Banking partners)
-
----
-
-## #23 — Phase 1 LTV Tenure Update_LOS
-**Status:** Not started | **Last edited:** May 29, 2026 8:52 AM
-
-**Problem:**
-are we solving?**
-
-DSP's LAMF product offers 45% LTV on equity and hybrid funds, compared to 70% LTV offered by banks — making it structurally uncompetitive. This gap limits DSP on three fronts:
-
-- **Existing customers** are under-drawing against already-pledged assets, leaving loan book growth on the table
-- **New customers** in lower-ticket segments have sufficient collateral at 70% LTV but fall below viable thresholds at 45%
-- **Product parity** with banks cannot be achieved without closing this 25pp LTV gap
-
----
-
-**Solution:**
-?**
-
-**In scope:**
-Product
-
-- Support for both LTV45 & 70 product offers
-- Support for  6-year tenure migration
-- Partner-specific product config (LTV 45/70) for recommended offer
-- Providing offer visibility to Sales/CS
-
-Customer Scope
-
-- New customers
-- In journey users
-
-Platform Scope
-
-- DSP (Fenix)
-- LSP integrations
-- Volt & its partners
-
-Product scope
-
-- Term Loan
-- LAMF
-
----
-
-## #24 — [Platform] Callbacks for LSP APIs for core servici
-**Status:** In progress | **Last edited:** May 29, 2026 6:19 PM
-
-**Problem:**
-are we solving?**
-
-There are core transaction and request lifecycles that need to be managed by the LSP. 
-
-Volt as an LSP has built a lot of pollers and CRON jobs at specific days over existing lender APIs to solve for this. However this approach has a lot of challenges.
-
-- Introduces a lot of computational load both at the LSP as well as the lender
-- Not very accurate, as logic is based on top of hitting jobs on specific dates and times
-- Requires a lot of maintenance at an engineering level across systems
-
-Most of these APIs get data from core systems like the CTMS or the LMS, and this often
-
-**Solution:**
-?**
-
-Building callbacks for core servicing flows:
-
-- Due collection (lifecycle)
-    - When interest becomes due
-    - When mandate is presented
-    - When mandate collection is successful
-    - When mandate collection fails
-    - When interest is settled
-- Repayment
-    - When a repayment is posted into the user’s loan account
-- Shortfall
-    - When shortfall is identified (daily job) in a user’s loan account
-    - When shortfall updates for a loan account (change in amount/ageing)
-    - When shortfall is settled for a user’s loan account
-    - When shortfall crosses grace period (due date) and sell-off is initiated for the user
-    - When sell off is completed
-- Foreclosure
-    - When a foreclosure request is approved for the user
-
----
-
-## #25 — PRD — Term Loan Repayment STP Threshold Update
+## #3 — PRD — Term Loan Repayment STP Threshold Update
 **Status:** Not started | **Last edited:** May 29, 2026 5:51 PM
 
 **Problem:**
@@ -686,133 +71,7 @@ are we solving?
 
 ---
 
-## #26 — Sell-off Repayment Reconciliation — Maker Automati
-**Status:** Not started | **Last edited:** May 29, 2026 3:39 PM
-
-**Problem:**
-are we solving?
-
-- Today, the maker step for sell-off repayment reconciliation is entirely manual: the ops team downloads the bank statement and RTA/MFC payout reports, manually cross-references UTRs and amounts, and then maps each payout row transaction to a CDID before uploading the `bulk_unlodgement_post_sell_off` file into the Command Centre.
-- This process is error-prone, time-consuming, and creates a daily dependency on ops/analytics bandwidth before the repayment posting flow can even begin.
-
-**Solution:**
-?
-
-**In scope:**
-- Daily automated UTR matching between payout reports (KFin, CAMS, MFC) and bank statement.
-- Amount validation (BS settled amount vs. report expected deposit amount) at row level.
-- Intra-report UTR deduplification before matching.
-- PAN → FXLAN → SCRID → CDID key-based resolution per pledge source and repo type.
-- CDID uniqueness enforcement with disambiguation logic for repeated sales.
-- Row-le
-
----
-
-## #27 — PRD - B2C Referral [Phase-1 1]
-**Status:** In progress | **Last edited:** May 27, 2026 4:29 PM
-
-**Problem:**
-are we solving?**
-
-Volt Money's Loan Against Mutual Funds (LAMF OD) product has strong unit economics and high borrower quality.
-
-Currently, Volt has no mechanism to leverage its existing user base (borrowers who have experienced the value of Volt Money's LAMF product or users who know about the platform), for new user acquisition through word-of-mouth in an organized and trackable manner.
-
-We need a **trust-first, low-CAC acquisition method** built on the credibility of existing borrowers by activating them to refer new users to Volt LAMF OD product. This would also build trust amongst new us
-
-**Solution:**
-?**
-
----
-
-## #28 — STP validation for Sell-off Repayment Reconciliati
-**Status:** Not started | **Last edited:** May 27, 2026 3:11 PM
-
-**Problem:**
-are we solving?
-
-- Today, all sell-off repayment reconciliation(approval) requests initiated via "Bulk Unlodgement Post Sell Off" in the Ops Command Centre go through the NSTP path — every record creates a checker task requiring manual review and approval.
-- With an average of 173 requests per day (as of Jan–March 2026), manual processing introduces delay in repayment reconciliation execution.
-- Manual processing increases operational bandwidth consumption of OPS team and introduces human-prone errors.
-- With the implementation of this feature we will be able to provide task description for ch
-
-**Solution:**
-?
-
-**In scope:**
-- For all UTRs in input file, UTR existence check against the bank statement.
-- Settled Amount retrieval from the bank statement for the matched UTR.
-- RTA report matching using the appropriate logic per RTA type — Folio + ISIN + Units + Session ID for KFintech, and Folio + ISIN + Lien Marking Number for CAMS.
-- Bank-vs-RTA amount comparison, with auto-posting of matched records into the loan acco
-
----
-
-## #29 — Higher LTV Product – Customer Communication Framew
-**Status:** Pending Review | **Last edited:** May 23, 2026 9:07 PM
-
-# Higher LTV Product – Customer Communication Framework # Background As part of the Higher LTV Product initiative, the NBFC will enable eligible customers to increase their sanctioned credit limit basis revised LTV eligibility on pledged mutual fund holdings. Since the LTV enhancement flow involves execution of revised loan documentation and customer consent, it introduces the following communication requirements: 1. Customers must receive the revised KFS and Agreement/Amendment documents executed as part of the LTV update flow. 2. Customers must be notified once their revised credit limit is successfully updated. 3. From the LSP perspective, the feature needs to be promoted proactively while also ensuring customers receive timely status notifications throughout the journey. --- # Proposed Solution ## 1. NBFC (DSP) Communications From the NBFC side, a post-facto communication shall be sent once the customer’s limit enhancement request is successfully processed through the LTV update flow. The communication will serve the following purposes: - Inform customers regarding successful limit enhancement - Share revised loan documentation for customer reference - Ensure regulatory and audit compliance for executed agreements ### Communication Channels - Email - SMS --- ### DSP Email Communication | Field | Details | | --- | --- | | Communication Trigger | Successful completion of LTV update flow | | Purpose | Notify customer regarding revised credit limit and share updated KFS/Agreement | | Template ID | d-dbcef3df48ca4908a47b8e1c98e5c5c9 | | Variables | clientId, date, lan, updated_credit_limit, additional_credit_limit, previous_credit_limit | | Attachments | Loan kit (KFS + Amendment) | --- ### DSP SMS Communication | Field | Details | | --- | --- | | Communication Trigger | Successful completion of LTV update flow | | Purpose | Notify customer regarding successful credit limit enhancement | | Template ID | 1107177910598106787 | | Tempalte Name | LTV_Update_Limit_enhancement_V2 | | Copy | Congratulations {{customerName}}, your credit limit for the loan account {{lan}} has been successfully increased to Rs {{updated_credit_limit}}. Find the ROI & charge details in the KFS document available on DSP Finance app : {{dsp_app_url}} | | VilPower Copy | Congratulations {#alphanumeric#}, your credit limit for the loan account {#alphanumeric#} has been successfully increased to Rs {#alphanumeric#}. Please find the ROI & charge details in the KFS document available on DSP Finance app : {#url#} | --- # 2. LSP (Volt) Communications From the LSP side, communications will focus on: - Promoting the Higher LTV offering to eligible customers -
-
----
-
-## #30 — Dropping PAN Verification flow
-**Status:** Not started | **Last edited:** May 21, 2026 7:53 AM
-
-**Problem:**
-are we solving?**
-
-In the LAMF digital loan journey, customers are required to set up an eNACH mandate as part of the Loan Origination System (LOS) process. The **mandate value is fixed at ₹10 lakhs**, irrespective of the customer’s actual credit limit, which may range from **₹10,000 to ₹2 crore**.
-
-This “one-size-fits-all” approach creates friction for customers with lower credit limits. For example, a customer with a sanctioned limit of ₹50,000 may be reluctant to authorize a ₹10 lakh mandate, leading to abandonment of the journey at this step and/or increase in the number of support queries
-
-**Solution:**
-?**
-
----
-
-## #31 — Enhancement Of STP NSTP validations for Bulk sell
-**Status:** In progress | **Last edited:** May 20, 2026 11:40 AM
-
-**Problem:**
-are we solving?**
-
-[STP validation for Bulk Sell off](STP%20validation%20for%20Bulk%20Sell%20off%20336e8d3af13a802c8283d86e576f3220.md)
-
-[E2E Sell-off Productisation V1 ](../LMS%20PRDs/E2E%20Sell-off%20Productisation%20V1%20352e8d3af13a80f9a75bed081dd798f0.md)
-
-Initial STP/NSTP validation for bulk sell off approvals missed key sell-off logic, causing both false NSTP routing and incorrect STP approvals. 
-
-- **Min redemption round-up missed:** Sell-off units are rounded up to meet minimum redemption requirements, increasing sell-off amount vs obligation — ~800/4,000 cases were wrongly pushed to 
-
-**Solution:**
-?
-
-**In scope:**
-- Per-CDID min_redemption_flag check and delta-tolerance  applied after standard STP formula.
-- Replacement of partial overdue with full total_overdue (principal + interest + charges) from get_overdue_detail API in all DPD and Shortfall validation formulas.
-- Reading dpd_trigger from fenix_sell_off_collaterals_request and selecting dpd_amount_75_trigger or dpd_amount_21_trigger from get_overdue_de
-
----
-
-## #32 — Dues Comms Updation
-**Status:** Not started | **Last edited:** May 15, 2026 4:30 PM
-
-**Problem:**
-are we solving?
-
-- Current SMS templates for due reminders, auto-debit alerts, overdue notices lack transparency, as they omit specific charges like collateral sell-off charges and fail to disclose the exact amounts for penal and dishonour charges.
-- RBI guidelines require explicit disclosure of all applicable charges and reasons in all such communications.
-- This gap creates a risk of non-compliance with RBI transparency and disclosure norms
-
-**Solution:**
-?
-
-**In scope:**
-- Migrating the existing communication events to the newly drafted SMS templates.
-- Dynamo DB logging at a per-record level for all outcomes (success, failure) to maintain a compliance audit trail.
-
----
-
-## #33 — Term Loan LOS requirements
+## #4 — Term Loan LOS requirements
 **Status:** In progress | **Last edited:** May 14, 2026 10:50 AM
 
 **Problem:**
@@ -846,7 +105,7 @@ A **line-backed, multi-drawdown term loan**, where:
 
 ---
 
-## #34 — Term loan CC enhancements
+## #5 — Term loan CC enhancements
 **Status:** Not started | **Last edited:** May 11, 2026 11:26 AM
 
 **In scope:**
@@ -864,129 +123,7 @@ A **line-backed, multi-drawdown term loan**, where:
 
 ---
 
-## #35 — DSP PhonePe PG Integration for PhonePe
-**Status:** In progress | **Last edited:** March 8, 2025 1:25 PM
-
-**Problem:**
-are we solving?**
-
-- Recording PG repayments from PhonePe offline will take considerable time and effort for our operations team
-- Reconciling PG repayments from PhonePe will take time and will impact the SLAs from a customer experience perspective
-- Delay in posting transactions will impact our accounting and result in backdated transactions, opening up a backdoor for a lot of issues
-
----
-
-**Solution:**
-?**
-
-DSP will expose an API to accept payments through PG on PhonePe UI.
-
----
-
----
-
-## #36 — [Platform] Unpledging of unlinked funds bulk appro
-**Status:** Pending Review | **Last edited:** March 5, 2025 10:35 AM
-
-**Problem:**
-are we solving?**
-
-There can arise scenarios where the user pledges securities with the NBFC and changes their mind and does not end up taking a loan with the NBFC. 
-
-As per an RBI regulation, the REs are supposed to release all the original movable / immovable property documents and remove charges registered with any registry within a period of 30 days after full repayment/ settlement of the loan account. ([Link](https://www.rbi.org.in/Scripts/BS_CircularIndexDisplay.aspx?Id=12535&utm_source=chatgpt.com))
-
-While the regulation does not explicitly mention the scenario where the loan is not tak
-
-**Solution:**
-?**
-
-We will be making a bulk operations maker, which will allow the NBFC operations agent to upload a file (at a security / ISIN / Lien reference number level). 
-
-Bulk (file based) checker task for validation of the bulk unpledging file by the operations team (Manual verification of the initially lodged file)
-
-NBFC currently supports unpledging requests only at a loan account level, a loan account is created only when the origination process (loan application) is completed by the user. We will be creating an opportunity level unpledging workflow (using step functions) to support the complete unpledging process.
-
-Each bulk maker job (like bulk lodgement) will create independent unpledging requests at an opportunity level, these independent requests will be present in the applications secti
-
----
-
-## #37 — [IronGrid] Email trigger for ops in case of disbur
-**Status:** Not started | **Last edited:** March 31, 2026 8:24 AM
-
-**Solution:**
-?
-
-- We raise a send grid email to the ops team as soon as a disbursal is rejected due bank mis-mismatch, so that Ops is notified and they can quickly un-block the customer by contacting lender’s operation team and getting bank account updated at their end.
-
----
-
-## #38 — [Platform] Foreclosure handling and enhancement
-**Status:** Done | **Last edited:** March 3, 2025 2:13 PM
-
-**Problem:**
-are we solving?**
-
-The Reserve bank of India asks us to round off [due](https://www.rbi.org.in/commonman/English/Scripts/CustomerServiceGuidelines.aspx#:~:text=00%2F2006%2D07dated%20July%201,the%20next%20higher%20rupee%20and) amount for the user to the nearest integer. However our LMS tracks all transactions up to 2 decimals. 
-
-Link to guideline by RBI: [https://www.rbi.org.in/commonman/English/Scripts/CustomerServiceGuidelines.aspx#:~:text=00%2F2006-07dated July 1,the next higher rupee and](https://www.rbi.org.in/commonman/English/Scripts/CustomerServiceGuidelines.aspx#:~:text=00%2F2006%2D07d
-
-**Solution:**
-?**
-
-We will be rounding up or down the foreclosure amount based on the half even rounding strategy where:
-
-- If due amount at the time of foreclosure is more than or equal to N.5 it will be rounded up to N+1
-- If due amount is less than N.5 it will be rounded down to N
-
-The same will be passed on to the LSP as foreclosure amount. When the user makes the corresponding payment, we will collect it and accept the foreclosure request.
-
-There can be two corresponding cases post the transaction is posted into the loan account:
-
-- Account is in excess of an amount less than 1 Rs
-- Account has an outstanding of an amount less than 1 Rs
-
-**Scenario 1:**
-
-Post collection of the foreclosure amount, we will be doing an excess refund with a transaction type: Round up adjustment
-
-**Note:** No payout wil
-
----
-
-## #39 — New Product Spec (PRD)
-**Status:** Not started | **Last edited:** March 24, 2026 11:57 AM
-
-**Problem:**
-are we solving?**
-
--
-
----
-
-**Solution:**
-?**
-
----
-
-## #40 — Credit Bureau Reporting Comms
-**Status:** Pending Review | **Last edited:** March 19, 2026 11:57 AM
-
-**Problem:**
-are we solving?
-
-- DSP Finance is required by RBI regulations to report borrowers with outstanding interest dues to credit bureaus.
-- Currently, **no communication is sent to borrowers at the time of reporting** — creating a regulatory compliance gap and leaving borrowers unaware of adverse credit events being filed against them.
-
-- As reporting frequency increases from **2x/month (15th, EOM) to 4x/month (9th, 16th, 23rd, EOM) from July 1, 2026**, the gap scales without an automated solution in place.
-
----
-
-**Solution:**
-?
-
----
-
-## #41 — credit_bureau_reporting_comms_product_note
+## #6 — credit_bureau_reporting_comms_product_note
 **Status:** Not started | **Last edited:** March 16, 2026 3:38 PM
 
 **In scope:**
@@ -999,7 +136,7 @@ are we solving?
 
 ---
 
-## #42 — Product note Co-lending foreclosure - Deprecated -
+## #7 — Product note Co-lending foreclosure - Deprecated -
 **Status:** In progress | **Last edited:** March 15, 2026 8:49 PM
 
 **In scope:**
@@ -1014,268 +151,7 @@ are we solving?
 
 ---
 
-## #43 — Margin pledge charges
-**Status:** Pending Review | **Last edited:** June 5, 2025 7:19 PM
-
-**Problem:**
-are we solving?**
-
-- Currently, DSP Finance offers a maximum sanction limit of ₹2,00,00,000, allowing users to pledge collaterals post-account opening up to this limit (calculated as NAV × LTV × Units) to access credit.
-- However, this leads to cost implications such as lien marking charges, ongoing tech maintenance, and operational overheads, which are not being recovered from users today. To address this and improve monetisation, we plan to introduce pledge invocation charges, applicable when users pledge additional securities to increase their credit limit.
-- As of April 30, DSP Finance has
-
-**Solution:**
-?**
-
-We will be applying margin pledge charges (Additional pledge charges) on the user’s loan account. Margin pledge charges will be applied. The same will be added in the product construct.
-
----
-
-## #44 — Virtual Accounts for LSPs
-**Status:** Pending Review | **Last edited:** June 20, 2025 11:32 AM
-
-**Problem:**
-are we solving?**
-
----
-
-- Currently partner LSPs are looking for an alternate payments methods than the payment like because -
-    - They have an existing UI flow ready to support VA accounts (SmallCase)
-    - They want to provide a back-up repayment option in case payment link is down
-
-**Solution:**
-?**
-
-- DSP will expose APIs that enable each partner LSP to retrieve a virtual account (VA) number uniquely mapped to a customer’s loan account. Instead of embedding the VA generation logic within each LSP’s system, this design centralizes the logic at DSP’s end. As a result, if DSP ever modifies the way VAs are generated—due to regulatory, operational, or technical changes—no updates are required on the LSP side.
-- This decouples the VA logic from partner implementations and ensures long-term scalability, consistency, and ease of maintenance across all integrations.
-- LSPs will get the status of VA repayment through the repayment order status update web hook
-
----
-
-## #45 — DSP UPI Autopay Integration for PhonePe
-**Status:** Done | **Last edited:** June 2, 2025 5:38 PM
-
-**Problem:**
-are we solving?**
-
-- NBFCs using NACH mandates face delays in mandate registration and activation due to dependency on bank processing times (T+2 to T+7 days).
-- Physical NACH mandates have high failure rates due to signature mismatches, and bank rejections, leading to delayed interest collection.
-- Borrowers often drop off during NACH mandate registration because it requires physical forms, wet signatures, or authentication(Aadhaar, Netbanking, or debit card), leading to lower activation rates.
-
----
-
-**Solution:**
-?**
-
-UPI Autopay is the ideal solution for NBFCs looking to improve digital lending collections and interest payments. It offers a faster, easy to set up, cost-effective, and automated way to handle recurring payments compared to traditional NACH mandates.
-
----
-
-## #46 — Margin pledge charges
-**Status:** Pending Review | **Last edited:** June 19, 2025 4:24 PM
-
-**Problem:**
-are we solving?**
-
-Currently, DSP Finance offers a maximum sanction limit of ₹2,00,00,000, allowing users to pledge collaterals post-account opening up to this limit (calculated as NAV × LTV × Units) to access credit.
-
-However, this leads to cost implications such as lien marking charges, ongoing tech maintenance, and operational overheads, which are not being recovered from users today. To address this and improve monetisation, we plan to introduce pledge invocation charges, applicable when users pledge additional securities to increase their credit limit.
-
----
-
-- Increased IRR (Internal rate
-
-**Solution:**
-?**
-
-We will be applying margin pledge charges (Additional pledge charges) on the user’s loan account. Margin pledge charges will be applied. The same will be added in the product construct.
-
----
-
-## #47 — [DSP] NSDL PAN Verification alignment
-**Status:** Not started | **Last edited:** June 13, 2025 11:59 AM
-
-**Problem:**
-are we solving?**
-
-As per RBI’s KYC guidelines, if as an RE we are obtaining PAN of the customer the same should be verified from the issuing authority (as per point 10(j) of Chapter III in the RBI KYC [Masterdirections](https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11566)). This means that PAN should be verified via the NSDL PAN verification API. 
-
-![image.png](%5BDSP%5D%20NSDL%20PAN%20Verification%20alignment/image.png)
-
-Currently we are not integrated with the NSDL PAN verification API, which makes us non-compliant. We need to plan and align on how to integrate NSDL PAN verifi
-
-**Solution:**
-?**
-
-Understanding of the regulation - 
-
-Where PAN is obtained, the same shall be verified from the verification facility of the issuing authority. 
-
-“Verification facility of the issuing authority” makes it very clear that the PAN obtained should be verified by NDSL. 
-
-We currently obtain PAN of the customer either from Digilocker or get it verified via PAN verification API provided by Signzy
-
-- PAN document obtained from Digilocker is an e-document that NSDL (or UTIITSL) has already cryptographically signed and published. Does obtaining this document suffices the “verification facility of the issuing authority”? This is not clear.
-    - Digio mentions that this suffices the compliance requirement.
-    - Protean mentions that this does NOT suffice the compliance requirement.
-    - Hyperve
-
----
-
-## #48 — End use capture of transactions
-**Status:** Pending Review | **Last edited:** June 10, 2025 4:04 PM
-
-**Problem:**
-are we solving?**
-
-- As per RBI guidelines, lenders are required to record the end use of loan disbursements to prevent misuse or diversion of funds and to enable traceability of customer transactions if necessary. Currently, our system does not ask users to specify the purpose of withdrawals, which is a compliance gap.
-- Additionally, capturing end use helps improve internal reporting and risk management.
-
----
-
-**Solution:**
-?**
-
----
-
-## #49 — [Platform +Volt ] MFC Pledge wrapper APIs + Volt J
-**Status:** In progress | **Last edited:** July 30, 2025 3:55 PM
-
-**Problem:**
-are we solving?**
-
-Currently LSPs pledge funds through RTA wrapper APIs. This means that for end customer to pledge mutual funds, customer requires to provide 2 separate OTPs one for each RTA. 
-
-This can be solved by providing LSPs an option to pledge mutual funds via MFC with single OTP.
-
-Pledging through two RTA also has a cost implication, pledging via MFC will reduce the pledging cost to half of the current cost. 
-
----
-
-**Solution:**
-?**
-
----
-
-## #50 — [DSP] Mandate enhancements Handling of charge coll
-**Status:** Pending Review | **Last edited:** July 25, 2025 3:49 PM
-
-**Problem:**
-are we solving?**
-
----
-
-Finflux currently does not support configuring a future-dated due date while posting charges. This limitation results in a suboptimal customer experience in the following scenarios:
-
-1. **Charges Posted Between 1st–7th of the Month**
-    
-    These charges, although intended to be due on the 7th of the *following* month, are treated as due within the *same* month. As a result, collection attempts are initiated prematurely, leading to confusion or dissatisfaction for users expecting the deduction only in the next billing cycle.
-    
-2. **Charges Posted Between 7th–19th o
-
-**Solution:**
-?**
-
----
-
-## #51 — Repayment Lifecycle Tracking
-**Status:** Not started | **Last edited:** July 22, 2024 10:29 AM
-
-**Problem:**
-are we solving?
-
-- Users currently are not able to see the status of their transactions once a repayment is done till it is settled by the lender in their statement of accounts.
-    - Users are not able to see the updated credit limit and the transaction and want to know the status of the transaction.
-        - Payment takes 1-2 days to get updated in the loan account (Then it gets visible to the user)
-    - This makes them follow up with our Ops/Support teams via support channels to confirm if their payment was received by us.
-    - This consumes a lot of time for the support team and is crea
-
-**Solution:**
-?
-
-We are solving this problem for the user by the following ways:
-
-- Add a pending transaction in transactions section with status in progress till the time it is settled by the lender (transactions section - ledger)
-    - [**Transaction status management**](Repayment%20Lifecycle%20Tracking%2078fa41d1303d42618155771cd05196bf.md)
-- On payment success screen in the flexi pay screen, communicate to the user the steps and timeline for the settlement with the lender.
-    - [UI and cases that need to be handled](Repayment%20Lifecycle%20Tracking%2078fa41d1303d42618155771cd05196bf.md)
-    - [Accounting and Settlement](Repayment%20Lifecycle%20Tracking%2078fa41d1303d42618155771cd05196bf.md)
-- Actively sharing the status of the transaction made by the user (Transaction Success/ Transaction settled) 
-
----
-
-## #52 — [DSP] Borrower agreement execution flow change
-**Status:** Ready for Tech | **Last edited:** July 21, 2025 2:52 PM
-
-**Problem:**
-are we solving?**
-
-Making sure the agreement execution happens in the newly aligned order
-
----
-
-**Solution:**
-?**
-
----
-
-## #53 — Implementing UTR dedupe for repayment postings
-**Status:** Pending Review | **Last edited:** July 14, 2025 3:52 PM
-
-**Problem:**
-are we solving?**
-
----
-
-- We currently do not perform a deduplication (dedupe) check on incoming repayment requests from Lending Service Providers (LSPs), which poses a risk of **duplicate repayment postings**. This issue becomes critical as we scale with more LSPs like PayTM and PhonePe initiating repayments through their own Payment Gateways (PGs).
-- Additional complexity arises because **UTR (Unique Transaction Reference) numbers are only unique at the bank level**, not globally. Hence, simply using UTR for deduplication is not sufficient and can lead to false positives or missed duplicates
-
-**Solution:**
-?**
-
----
-
-## #54 — [Platform] BRE configurations for approval tasks
-**Status:** Done | **Last edited:** January 9, 2025 10:54 PM
-
-**Problem:**
-are we solving?**
-
-Requests raised by the users in relation to their loan account and application journey go through STP and non STP flow. Non STP transactions go through an approval mechanism on the command centre.
-
-As we continue to launch the DSP platform across channels, we will require platform and request level checks and rule engines to control approval mechanisms and handle teething phases for launch across channels.
-
----
-
-**Solution:**
-?**
-
-Partner and channel level BRE configurations:
-We will be building partner and channel level BRE capabilities to define STP and non STP rule engine which will govern the approval of a task.
-
-<aside>
-💡
-
-For example: We may approve STP lodgements for Volt while keeping it an approval flow for a new partner like Groww or IndMoney
-
-</aside>
-
-Request level BRE configurations:
-
-We will be building request level rules which will govern if the said request will be going through an STP flow or a non STP flow (checker approval).
-
-Each rule can have a threshold value which can be different at a request/channel level.
-
-<aside>
-💡
-
-For example: We have a rule to auto approve lodgement requests with a limit under 10 lakh for Volt and 2 lakhs for Groww
-
-While the parameter here is credit limit, it can
-
----
-
-## #55 — Product note LMS integration with Tally
+## #8 — Product note LMS integration with Tally
 **Status:** Ready for Tech | **Last edited:** January 8, 2026 9:27 AM
 
 **In scope:**
@@ -1294,574 +170,14 @@ While the parameter here is credit limit, it can
 
 ---
 
-## #56 — B2B Partners - New Volt Webhooks
-**Status:** Done | **Last edited:** January 6, 2025 6:45 PM
-
-**Problem:**
-are we solving?**
-
-1. **Lack of Loan Account Status Updates:** B2B partners like Zype are not notified if a loan account has been successfully created for a user. This leads to delays in servicing their customers effectively.
-2. **Absence of Critical Callbacks:** Partners do not receive essential webhooks such as margin shortfall notifications and their aging details, leading to confusion and data disparities across systems.
-3. **Missed Updates on Key Events:** Important lifecycle events like foreclosure, lien removal, and repayments are not communicated to B2B partners, hindering their abilit
-
-**Solution:**
-?**
-
----
-
-## #57 — Axis bank e-collect API integration for virtual ac
-**Status:** Done | **Last edited:** January 5, 2025 1:42 PM
-
-**Problem:**
-are we solving?**
-
-Currently, we are accepting repayments from customers through payment gateway for adhoc repayments and NACH for interest repayments. While this will cater to customers who are on app/website, there are multiple scenarios where a customer might want to repayment directly to DSP’s account.
-
-Problems are divided between two key stakeholders:
-
-- NBFC (operations/business/product)
-- Customers
-
-NBFC 
-
-- We don’t want to expose our underlying account to customers to minimize operational overheads as well as risk of account getting impacted (Reconciliation also becomes very tough as
-
-**Solution:**
-?**
-
-DSP will be integrating with Axis bank ([refer this for benchmarking exercise](NBFC%20Virtual%20Accounts%20for%20Repayments%20(Alignment)%2034ec85249bc046dba5145ac1ea16858d.md)) e-collect APIs to create, validate and accept VA payments from customer.
-
-Steps for accepting a VA payment:
-
-- NBFC gets a e-collect code
-- NBFC appends a unique reference number (for each loan) and shares the virtual account with the customer (total length has to be less than or equal to 28 characters where first 6 characters would be the e-collect code).
-    - To make the bank account more readable, we can optimise the account number 
-    
-    Benchmarking: (Two possible ways alphanumeric and numeric)
-        - Account number: VCKYCDSPFINA8072 (CKYC)
-        IFSC code: IBKL0000011
-        - Account number: 2
-
----
-
-## #58 — [Platform] Mandate collection BRE optimisation
-**Status:** Done | **Last edited:** January 30, 2025 5:01 PM
-
-**Problem:**
-are we solving?**
-
-There are multiple ways through which an NBFC can collect dues from customers:
-
-- Accepting direct user initiated payments (VA/PG)
-- Collecting payments via debiting user’s bank accounts (mandate)
-- Invoking securities to clear dues (Sell off)
-
-All repayment methods have different use cases and scenarios in which they are triggered. Mandate collection repayments are done for the following use case:
-
-- User convenience and financial health: Amount is automatically deducted from the user’s bank account and ensures that their loan account does not become overdue
-- NBFC portfoli
-
-**Solution:**
-?**
-
-- We will be integrating with the Finflux (LMS) overdue API which gives us due level information:
-    - Due type (Interest / Charge / Penal charge / Interest overdue)
-    - Due amount
-    - Due from
-    - Due date
-- Based on this information we will run a BRE to select which dues are eligible for collection via mandate from the user:
-    - Any due where due date is below the last day of the billing cycle is of the type (interest + charges + penal charges) is eligible for collection.
-- We will rename the bounce charges to make them dishounour charges to make it explicit for the user that since their account is in an overdue state, they are being charged an overdue fee.
-
-Charge short name: DC (Deployed in UAT)
-- Users will only be charged an dishounour charges if there was an interest o
-
----
-
-## #59 — [LSP] Total outstanding amount correction and over
-**Status:** Not started | **Last edited:** January 21, 2025 7:32 AM
-
-**Problem:**
-are we solving?**
-
-For a loan account there are certain particulars that are maintained to understand what is the total due that the user has against their loan account. They are described as follows:
-
-- Principal outstanding: This is sum of the amount that the user has withdrawn minus the repaid (as partial principal repayments) to the NBFC
-- Interest due - This is the amount that is due for the user from the previous billing cycle, calculated as accruals based on their principal outstanding at a daily level (currently we follow a daily accrual model)
-- Charges due - This is the sum of all ou
-
-**Solution:**
-?**
-
-- We will start passing the overdue amount details to the LSP as well as on the command centre so that it can be shown to the user in an intuitive manner
-- We will be updating our revocation request validation to avoid any collateral risk to the NBFC (move from TOS to TOS + Overdue amount)
-- We will add additional parameters in the foreclosure API so that the same can be passed to the user at the time of foreclosing the account
-
----
-
-## #60 — Yes bank e-collect API integration for virtual acc
-**Status:** Done | **Last edited:** January 20, 2026 3:53 PM
-
-**Problem:**
-are we solving?**
-
-Currently, we are accepting repayments from customers through payment gateway for adhoc repayments and NACH for interest repayments. While this will cater to customers who are on app/website, there are multiple scenarios where a customer might want to repayment directly to DSP’s account.
-
-Problems are divided between two key stakeholders:
-
-- NBFC (operations/business/product)
-- Customers
-
-NBFC 
-
-- We don’t want to expose our underlying account to customers to minimize operational overheads as well as risk of account getting impacted (Reconciliation also becomes very tough as
-
-**Solution:**
-?**
-
-DSP will be integrating with Yes bank ([refer this for benchmarking exercise](NBFC%20Virtual%20Accounts%20for%20Repayments%20(Alignment)%2034ec85249bc046dba5145ac1ea16858d.md)) e-collect APIs to create, validate and accept VA payments from customer.
-
-Steps for accepting a VA payment:
-
-- NBFC gets a e-collect code
-- NBFC appends a unique reference number (for each loan) and shares the virtual account with the customer (total length has to be less than or equal to 28 characters where first 6 characters would be the e-collect code).
-    - To make the bank account more readable, we can optimise the account number 
-    
-    Benchmarking: (Two possible ways alphanumeric and numeric)
-        - Account number: VCKYCDSPFINA8072 (CKYC)
-        IFSC code: IBKL0000011
-        - Account number: 22
-
----
-
-## #61 — [Fenix] Lodgement maker bulk approval
-**Status:** Done | **Last edited:** January 16, 2026 7:47 PM
-
-**Problem:**
-are we solving?**
-
-We operate with two RTAs, CAMS and KFIN, while CAMS currently offers synchronous lien marking of funds (will soon move to asynchronous pledging), KFIN’s lien marking process is asynchronous.
-
-That is upon submitting a lien marking request, we get a request successfully accepted status, post which we poll for a confirmation of lien marking with KFIN using lien status API to get a confirmation. 
-
-Following requirements and discussions will be specific (as per current implementation) to KFIN pledging but would be designed in a way to support both CAMS and KFIN asynchronous pled
-
-**Solution:**
-?**
-
-We will be building a bulk lodgement maker which will enable DSP operations team to manually lodge securities into a loan account of users which were previously rejected / or were failed to be raised for lodgement by the NBFC.
-
-(Customers can directly reach DSP Finance support team for lodgements if their requests are not supported by the LSP)
-
-While we give this functionality to the operations team, it is of utmost important to build validations both via operations (maker/checker) and system (validations) to ensure there are no invalid lodgements into the loan account of the user.
-
-If a lodgement is incorrectly lodged into the loan account of the user, it will expose the NBFC to open financial risk, where the user can withdraw more than they could have causing LTV breaches and even s
-
----
-
-## #62 — [Final] End use capture of transactions
-**Status:** Pending Review | **Last edited:** January 15, 2026 5:13 PM
-
-**Problem:**
-are we solving?**
-
-- As per RBI guidelines, lenders are required to record the end use of loan disbursements to prevent misuse or diversion of funds and to enable traceability of customer transactions if necessary. Currently, our system does not ask users to specify the purpose of withdrawals, which is a compliance gap.
-- Additionally, capturing end use helps improve internal reporting and risk management.
-
----
-
-**Solution:**
-?**
-
-- **Capture end use during each withdrawal**
-    - **Pros**: Enables granular tracking of the specific purpose behind each withdrawal, offering clear visibility into usage patterns.
-    - **Cons**:
-        - Complicates the mapping between repayments and disbursements, especially when multiple withdrawals have different declared purposes.
-        - Involves higher development effort, as UI changes (e.g., dropdowns on withdrawal screens) would be required.
-- **Incorporate tweaks in the end use declaration within the loan agreement [Prioritised]**
-    - **Pros**: Minimal engineering effort, as no changes to withdrawal screens are needed.
-    - **Cons**: Limits visibility into actual usage at a transaction level, which may reduce data fidelity for downstream analysis or compliance.
-
----
-
-## #63 — PRD - B2C Referral [Phase-2]
-**Status:** In progress | **Last edited:** January 14, 2026 5:28 PM
-
-**Problem:**
-are we solving?**
-
-Volt Money's Loan Against Mutual Funds (LAMF OD) product has strong unit economics and high borrower quality.
-
-Currently, Volt has no mechanism to leverage its existing user base (borrowers who have experienced the value of Volt Money's LAMF product or users who know about the platform), for new user acquisition through word-of-mouth in an organized and trackable manner.
-
-We need a **trust-first, low-CAC acquisition method** built on the credibility of existing borrowers by activating them to refer new users to Volt LAMF OD product. This would also build trust amongst new us
-
-**Solution:**
-?**
-
----
-
-## #64 — [CC] Lodgement Enhancement
-**Status:** Not started | **Last edited:** February 7, 2025 6:19 PM
-
-**Problem:**
-are we solving?**
-
-The operations team needs to verify loan collateral before lodgement for the following conditions:
-
-1. Loan Value over 10L: To ensure we are not in credit risk in cases with large amounts
-2. Date mismatch (more than a day): To ensure the funds which are up for lodgements are still pledged and no un-pledging request for those funds have been raised.
-
-These ensure that we minimise credit risk (assign accurate credit limit to right loan accounts).
-
-- **Current steps to approve a lodgement considering there are two folios, one for CAMS and another for Kfintech**
-    1. Login to 
-
-**Solution:**
-?
-
-Following are the solutions we will be implementing to increase the efficiency of the Ops team and reduce the time taken to approve lodgements:
-
----
-
-## #65 — TCL EOD Status Check Integration
-**Status:** In progress | **Last edited:** February 4, 2025 2:21 PM
-
-# TCL EOD Status Check Integration ## 1. Overview Integration of TCL's EOD status check API to prevent transaction processing during EOD window and avoid backdated transactions posting. Sample Adhoc charge posting API and request: ```json https://miles-prod-apicast.apps.prdservices.tatacapital.com/rest/v1.0/miles/adhocCharges with body [ { "Amount": "200", "ChargesSID": "5", "Date": "2025-01-28", "LoanAccountName": "Avinash Goutam", "LoanContractNo": "41211", "Narration": "Stamping Charges", "Type": "charges", "UniqueRecordID": "1881575495221406782", "UserName": "adminiaf" } , { "Amount": "799", "ChargesSID": "3", "Date": "2025-01-28", "LoanAccountName": "Avinash Goutam", "LoanContractNo": "41211", "Narration": "Processing Fee", "Type": "charges", "UniqueRecordID": "2630159110274265629", "UserName": "adminiaf" } ] ``` ## 2. API Details [https://docs.google.com/spreadsheets/d/18RGjvVKQBvT9UHgKA_Vagjy_1b14LA9f8b3dBwAK5Uk/edit?usp=sharing](https://docs.google.com/spreadsheets/d/18RGjvVKQBvT9UHgKA_Vagjy_1b14LA9f8b3dBwAK5Uk/edit?usp=sharing) ### 2.1 Base Information - **API Purpose**: Check EOD process status in TCL LMS - **Endpoint**: `/miles/EodStatus` - **Base URL**: `https://miles-uat-apicast.apps.tclprdservices.tatacapital.com:443/rest/v1.0` - **Method**: POST ### 2.2 Request Parameters ```json { "SOURCE_NAME": "Miles" // Mandatory, String(10) } ``` ### 2.3 Response States 1. EOD Not Started ```json { "retStatus": "SUCCESS", "response": [], "sysErrorMessage": "", "errorMessage": "", "sysErrorCode": "" } ``` 1. EOD In Progress ```json { "retStatus": "SUCCESS", "response": [{ "EODDate": "2024-10-19 00:00:00", "Remarks": "EOD is in Progress" }] } ``` ## 3. Business Rules ### 3.1 API Execution Rules - Start checking EOD status after 7:00 PM daily - Implement polling mechanism with intervals: - Every 15 min till 11:00 PM ### 3.2 Status-based Actions | Status | System Behavior | Next Action | Impact | | --- | --- | --- | --- | | Null/Not Started | Continue normal operations | Use current system date | No impact | | In Progress | Pause charge posting API calls and queue the request | Poll status at defined intervals | Credit opening TAT | | Completed | Resume all operations | Use current date + 1 when posting adhoc charge | No impact | | 400/500 or any other error | Pause charge posting API calls and queue the request | Queue the request and process when we get completed status and if we do not get completed status till 11 PM, then process queued request after 12 AM with current date | Credit opening TAT | ### 3.3 State Machine ```mermaid stateDiagram-v2 [*] --> CheckEOD: After 7 PM CheckEOD --> NotStarted: Status Null CheckEOD --> InProgress: Status In Progress CheckEOD --> Completed: Status Completed NotStarted --> NormalOps: Continue Current Date InProgress --> PauseOps: Queue charge posting APIs PauseOps --> PollingState: Wait 15 min PollingState --> CheckEOD Completed --> NextDayOps: Use Current Date + 1 ``` ##
-
----
-
-## #66 — [LSP] Document upload support for maker
-**Status:** Done | **Last edited:** February 3, 2025 8:55 AM
-
-**Problem:**
-are we solving?**
-
-We have made developed maker tasks which enable the operations team to perform certain actions on to the loan accounts of the user and support them with their needs or solving for operational use cases.
-
-For example:
-
-- Reversing a charge
-- Posting a charge
-- Reversing a repayment
-- Posting a repayment
-- Suspending a loan account
-- Un suspending a loan account
-- Bank account update
-
-However, all operations performed by the operations team, impact the user experience and accordingly should be done carefully, most of these requests have to be either linked to a user request, o
-
-**Solution:**
-?**
-
----
-
-## #67 — [Platform] Handling of below 1 Rs transactions for
-**Status:** Done | **Last edited:** February 3, 2025 8:48 AM
-
-**Problem:**
-are we solving?**
-
-When a user makes repayment to their loan account for either part payment or foreclosing their account, or initiates a sell off there can arise scenarios where the user’s account goes into excess.
-This excess if the account is not under foreclosure, is automatically refunded via a daily CRON job that identifies loan accounts in excess, and initiates a payout of an amount equal to excess to regularise the account.
-
-However there can arise scenarios, where this amount is less than Rs 1, if such an amount is found in excess, the corresponding payout for the account fails, as Ca
-
-**Solution:**
-?**
-
-We will be making enhancements in our excess job and foreclosure job to solve this problem:
-
-- Excess job will only have accounts where excess amount will be greater than 1
-- If an account has an active foreclosure request, or a pending disbursement, it will not be eligible for an excess refund and will be ignored in the excess refund job
-- We will be creating transaction type “excess_adjustment” for excess refund transactions, the same will be passed as a type when doing a excess transaction
-- We will be setting up transaction type accounting events for excess refund for two scenarios:
-    - Excess refund below 1 Rs (liability transfer)
-        - Excess COA (liability): Debit
-        Excess refund liability: Credit
-    - Excess refund above and equal to 1 Rs
-        - Excess COA (lia
-
----
-
-## #68 — Customer Lifecycle Tracking - Lien Unmarking → Rep
-**Status:** In progress | **Last edited:** February 24, 2024 2:31 PM
-
-**Problem:**
-are we solving?**
-
-- 
-
----
-
-**Solution:**
-?**
-
-- Actively communicating the stages of the respective request to the user on the app.
-    - Using lender APIs to automatically capture status of the user’s request and breaking down the process into steps to reduce operational load as well as aligning the user on the development of their request.
-- Making the request in progress banner less apparent in the user journey to avoid creating artificial urgency in the mid of the user. (Lien removal)
-- End state for foreclosure requests when loan is closed (application closed → user should be able to initiate a new journey)
-
----
-
-## #69 — Shortfall communication enhancement Ignoring accou
-**Status:** Pending Review | **Last edited:** February 23, 2025 8:17 PM
-
-**Problem:**
-are we solving?**
-
-A sell off is the process of invocation of a lien on a user’s security. That is when the lender or the pledgee, invokes their right to redeem the units of a security pledged by the user with the lender.
-
-There are two types of sell off:
-
-- Lender initiated sell off
-    - Lender initiates sell off of securities to recover outstanding amount (30 DPD)
-    - Lender initiates sell of to regularise the user’s loan account (shortfall)
-- User requested sell off
-    - User requests a sell off due to inability to fulfil their commitments towards the credit line
-
-Lifecycle of a sell of
-
-**Solution:**
-?**
-
-We will be ignoring accounts under shortfall under the following condition:
-
-V1: If an account has a non terminal collateral sell off transaction (hit collateral transactions API)
-
-V2: If an account has an active sell off follow the following condition:
-
-If Sum of all sale value of all collaterals ((Units blocked for sell off)*NAV(for corresponding ISIN at the time of raising sell off)) < Regulatory shortfall then include in the shortfall communication else ignore
-
----
-
-## #70 — Pricing Grid change For B2B2C and Platforms (WIP)
-**Status:** In progress | **Last edited:** February 21, 2025 6:02 PM
-
-# Pricing Grid change For B2B2C and Platforms (WIP) Implementation Details: Eligibility: Feature flag-enabled for selected platforms Eligible Platforms: RedVision, Investwell, Prudent, Assetplus, Zfunds, FundsIndia, Advisorkhoj, Compound Express, MFD Direct(B2B2C) partners with Partner ID Not Eligible: Affiliate partners Rates based on Pledged Portfolio amount at Final Agreement stage: < ₹50L: 10.49% =₹50L - <1Cr: 10.35% ≥ ₹1Cr: 10.25% PF : 999 Enhancement : 499 Next Steps: Resolve mandate step issue Complete QA testing Get approvals from Business team Deploy to production **Rates excluding Gst** | **SL Grid** | **ROI** | **PF(Rs.)** | **Enhancement fee(Rs.)** | **AMC(Rs.)** | | --- | --- | --- | --- | --- | | Upto 50L | 10.49% | 999 | 499 | 499 | | 50L-1Cr | 10.35% | 999 | 499 | 499 | | >1cr | 10.25% | 999 | 499 | 499 | | | | | | | what the SL is the Limit Pledged by the customer ? What happens incase of Enhancement or lien removal ? Intrest calculator changes ? AMC? - FAQ How will we collect ? When will we post the AMC charges ? How can we vaive AMC charges ? how can we modify PF and enhancements? Is AMC charges are taken by LSP or DSP? Is AMC is part of SOA? is AMC scheduled in the 2nd year ? Identify the Design screens Identify the messaging sms, Website, WA, email KFS and agreement changes Questions ? When are AMC charges posted - Along with PF ( ~2000 PF) - 1 year after 1 PF * 3 - 1y after PF *2 for a 3 y loan Date of posting? ROI changes based on slabs - Identify the DP range - above the range rate change user registed and take a fetch they select the Funds and select a limit Next screen they see a offer offer contains - PF 999 - AMC 499 - Interest rate 10.49— % Refundablity of AMC if <7 days to foreclose? Annual Maintaince charges AMC Definition - Annual maintenance fee for servicing the loan account - Charged on loan anniversary date - Non-refundable after first 3 days of charging Closure Rules - No pro-rata refund on early closure - Full AMC charged even if closed within year - Next AMC cycle starts from Loan Anniversary date - AMC not applicable if loan is closed or Suspended # ## Billing
-
----
-
-## #71 — Foreclosure payment handling (EOD) repayment in fo
-**Status:** Done | **Last edited:** February 19, 2026 7:14 PM
-
-**Problem:**
-are we solving?**
-
-BAJAJ:
-
-- When user foreclose the loan on Volt UI after 6 PM, we do not consider interest of same days in Net dues payable.
-- This led the foreclosure rejection from the lender end.
-
-TATA:
-
-- We do not ask user to pay accrue penal charges and due to this foreclosure are getting rejected.
-
----
-
-**Solution:**
-?**
-
----
-
-## #72 — Interest, shortfall, renewal table on partner dash
-**Status:** In progress | **Last edited:** February 19, 2026 7:14 PM
-
-**Problem:**
-are we solving?**
-
-- MFDs lack visibility regarding their customers' interest details, shortfall occurrences, and loan status.
-    - MFDs inquire about the interest status, mandate status and interest calculation.
-    - MFDs do not inform their customers about the shortfall, resulting in escalation from the customer's end.
-- B2B2C customers depend on advisors to oversee their loan accounts, resulting in reduced attention to direct reminders sent by Volt.
-
----
-
-**Solution:**
-?**
-
----
-
-## #73 — AA integrations - Fetch journey
-**Status:** Not started | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-DSP needs a compliant, automated way to fetch users’ demat **stock holdings** via AA for LAS underwriting, without handling other asset classes.
-
----
-
-**Solution:**
-?**
-
-Introduce an **AA Consent & Data module** backed by Finarkein Nerv “dynamic multi‑consent” APIs.
-
-The module will orchestrate: journey creation, consent state management, data fetch, webhook processing, and normalized holdings storage for LAS underwriting.
-
----
-
-## #74 — Annual Maintenance Charges (AMC)
-**Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-**DSP offers a credit line facility to users for a tenure of 3 years.** Maintaining this credit line involves ongoing costs including customer servicing, technology infrastructure, portfolio monitoring, and operational overheads.
-
-To ensure the long-term sustainability of the offering and continue delivering high-quality service, **we propose introducing an Annual Maintenance Charge (AMC)**. This will serve as a recurring revenue stream to offset the costs associated with account maintenance and user support throughout the lifecycle of the credit line.
-
----
-
-**Solution:**
-?**
-
-We will be applying AMC on the user’s loan account. AMC will be applied at the end of every year(should be calculated based on account opening date). The same will be added in the product construct.
-
-AMC is Non-contingent charge: will be charged unconditionally whether there is 100%  utilization also.
-
----
-
-## #75 — Capture foreclosure reasons from customer
-**Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-We experiencing an increasing trend in loan foreclosures, which negatively impacts AUM and retention. 
-
-Here are the reason for foreclosure we have identified so far based on the user calling and collecting the feedback from the sales and support team:
-
-**PRODUCT POSITIONING e(Priority 0)**
-
-- We position ourselves as a **short term requirement**, so when the user's requirement is fulfilled the user looks to close the loan.
-
-**LIEN REMOVAL CONFUSION (Priority 0)**
-
-- Users don't understand how to release their collateral and hence assume that account closure is the only way 
-
-**Solution:**
-?**
-
-- **Product Education Through FAQs - Phase 2**
-    - Create categorized FAQs to address basic product queries and prevent foreclosures caused by product understanding gaps
-    - Resources:
-        - FAQ Management System: [[Link](FAQ%20Management%20System%20189e8d3af13a8003a2a5ff6abd88b33f.md)]
-        - FAQ Content Document: [[Link](https://docs.google.com/document/d/1ojvtyjkUJdytxImRudTC5hqS6BpokB3HF8LjXxxa1W0/edit?usp=sharing)]
-- **Targeted Intervention for Foreclosure Requests - Phase 1**
-    - Collect specific reasons for foreclosure request
-    - Present contextual benefits and alternatives based on selected reasons
-    - Guide users to better solutions than foreclosure
-- **Operations Team Review Process - Phase 1**
-    
-    A. Initial Review
-    
-    - Operations/Customer Succe
-
----
-
-## #76 — DSP - Charges Deduction Identification Wrapper API
-**Status:** Not started | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?
-
-Lending Service Providers (LSPs) receive charges data(in loan summary API) but cannot easily identify which charges will be deducted from the loan disbursal amount (net disbursal) and which will not. The existing API lacks explicit categorisation or clear indication, leading to confusion and incorrect communication to customers about the deduction of charges.
-
-**Solution:**
-?
-
-Create a **wrapper API** that:
-
-- Use FinFlux Charges API “Get Account Charge Api”.
-    - UAT URL: [https://uat-voltmoney.finfluxtrial.io/fineract-provider/api/v1/revolving-credit-lines/000000049/charges](https://uat-voltmoney.finfluxtrial.io/fineract-provider/api/v1/revolving-credit-lines/000000049/charges)
-- Uses a **configurable mapping** of `chargeIdentifier` and/or `chargeId` to determine if a charge is deducted from disbursal.
-- Returns two clean, separate lists:
-    - **deductedFromDisbursal**
-    - **notDeductedFromDisbursal**
-- Provides a clear, consistent API response optimized for LSP consumption.
-- Supports easy updates to the mapping without any changes at FinFlux end.
-
----
-
-## #77 — DSP Bank Account Update and Mandate Re-Registratio
-**Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
- 
-
-This document outlines the requirements for enabling both **LSPs** and **internal DSP operations teams** to initiate **bank account updates** and **mandate re-registration** for customers, through streamlined APIs and a user-friendly interface.
-
-**Solution:**
-?**
-
-We need to develop the following capabilities:
-
-1. **Wrapper APIs for LSPs**
-    - So they can integrate the ability to verify bank, update primary bank accounts and initiate mandate registration directly from their platforms for post loan customers.
-2. **Mandate Re-registration Workflow on Command Center**
-    - Enable internal DSP Ops teams to:
-        - Re-initiate mandates from the Command Center (without DIGIO dashboard dependency)
-        - Send mandate registration links via email/SMS to customers
-            - Perform both single-customer and bulk actions to generate mandate link
-3. **Report Generation and Bulk Communication**
-    - Identify customers whose mandates are not registered
-    - Export this list with customer details, bank details, sourcing channel and mandate stat
-
----
-
-## #78 — Foreclosure repayment - Handle PenalInterestAccrue
-**Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-- In foreclosure request we have not handled the “PenalInterestAccruedNotDue” field in the calculation of net payable amount which is leading to the rejection of foreclosure request.
-
----
-
-**Solution:**
-?**
-
-- Include the "PenalInterestAccruedNotDue" field in the calculation of the net payable.
-- Display the "PenalInterestAccruedNotDue" amount on the UI.
-    - The backend (BE) needs to send this field with its value to the frontend (FE), so the FE can display it on the UI and use it to calculate the amount shown to the user.
-    - Outstanding interest amount should include the value of “PenalInterestAccruedNotDue”
-
----
-
-## #79 — Handle excess amount in foreclosure request [TCL]
-**Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-- There are no handling of excess amount for TATA customer in foreclosure flow
-
----
-
-**Solution:**
-?**
-
-- When user loan account are in excess and user want to foreclose the loan then we should initiate the withdrawal for the amount equal to excess amount and once withdrawal is success then initiate the foreclosure request.
-- How to identify if user account are in excess:
-    - In the foreclosure details, If netPayable are in Negative then we can say that user loan account has a excess amount.
-    - If NetPayable are Positive then user has to repay the amount and if NetPayable amount is in Negative then we need to raise the withdrawal amount equal to the NetPayable amount.
-- Prerequisite: Need to handle “PenalInterestAccruedNotDue”
-    - PRD link: [https://www.notion.so/volt-money/Foreclosure-repayment-Handle-PenalInterestAccruedNotDue-10ae8d3af13a8023b658d2852b6477f4?pvs=4](https://www
-
----
-
-## #80 — LAS LMS approach notes
+## #9 — LAS LMS approach notes
 **Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
 
 # LAS LMS approach notes # Summary: We are planning to launch LAS (Loan Against Securities) for the B2B2C channel, targeting the first 1,000 customers(10 application per day) to measure adoption and define success metrics. For Phase 1, the objective is to enable this launch with minimal changes to the existing product experience. Key considerations: No changes for users who have only a LAMF (Loan Against Mutual Funds) account. No changes in the loan servicing experience for users with only an LAS account. For users holding both LAS and LAMF accounts, we will adopt an “elevate approach” (In elegant way) to effectively manage multiple loan accounts within the same interface. ## LMS service scenarios ### Customer with only LAMF account 1. No change in existing behaviour, flow and configurations ### Customer with only LAS account Expected changes in existing modules | **Modules** | Requirements | Edge cases scenarios | Action items | | --- | --- | --- | --- | | Lodgement + Account opening | 1. For LAS, this is expected that pledge confirmation may take 3-4 days. and hence we shouldn’t allow to place disbursal request immediately after loan application is completed 2. We need to show Account setup status along with helper text with expected TAT on dashboard to customer | 1. Handling of LAS specific account opening status on UI 2. Non STP flow 3. Partial pledge confirmation 4. Partial lodgement | 1.Account status life cycle 2. Account status scenarios | | Disbursal | 1. No change in existing user experience(UI/UX) 2. LAS specific Validations will be applicable 3. TAT BRE for LAS will same as LAMF | - In what cases disbursal can be rejected? | 1. Validations: - Based on Account status - Min amount allowed 2. TAT BRE for LAS 3. Lifecycle management on UI + comms | | Principal Repayment | No change | | | | Transactions | No change | | | | Lien removal | 1. Lien removal entry point: No change 2. Pledged collateral list: LAS specific Data points 3. Un-pledge request validation: No change 4. Un-pledge request lifecycle handling: No change in UI/UX (Data points will be LAS specific) | - Data points to show collateral details - Allowable qty criteria - Rejections cases | | | Line enhancement | Line enhancement is not a part of Phase 1 Launch | NA | | | Collateral
 
 ---
 
-## #81 — Project Elevate - LMS
+## #10 — Project Elevate - LMS
 **Status:** Not started | **Last edited:** February 19, 2026 7:12 PM
 
 **Problem:**
@@ -1880,7 +196,7 @@ Same solution should work to migrate TCL customer
 
 ---
 
-## #82 — Supporting shares as a collateral - LMS (Volt)
+## #11 — Supporting shares as a collateral - LMS (Volt)
 **Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
 
 **Problem:**
@@ -1899,139 +215,7 @@ Scope:
 
 ---
 
-## #83 — Volt Apps & Web Multiple Loan Handling - Launching
-**Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-DSP Finance is launching **LAS (Loan Against Shares) for B2B2C customers**. 
-
-To enable customers to seamlessly manage their LAS loan accounts, we need to build a **scalable, modular, and user-friendly loan servicing experience** within the Volt platform.
-
-The servicing module must support:
-
-1. **LAS loan management** — for customers availing loan against shares
-2. **LAMF loan management** — for existing customers availing loan against mutual funds
-3. **Unified product** — for users holding **both LAS and LAMF**, offering an intuitive, consistent experience across products 
-
-
-**Solution:**
-?**
-
-Volt will provide a **modular loan account management system** that supports:
-
-1. **LAS-only servicing**
-2. **LAMF-only servicing**
-3. **Hybrid servicing (both LAS + LAMF[Multi-lender])**
-    1. Support of multiple loan type(OD, TL) under the umbrella of different product type (LAMF, LAS)
-4. **Cohesive communication and notification design for both products**
-    1. **Messages are clearly distinguished yet work seamlessly together, preventing confusion for users managing multiple loan products⁠**
-
----
-
-## #84 — Volt Mandate re-registration Post loan
-**Status:** In progress | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-In the current LOS journey, users are required to add their bank account and complete mandate registration as part of the loan application process. However, after the loan account is created, users may face situations where they need to re-register the mandate or update their bank account. These situations typically arise due to:
-
-1. Initial mandate registration failure
-2. Revocation of mandate by the user
-3. User’s intention to change the previously added bank account (e.g., convenience, account freeze, operational issues) — applicable across all lending partners
-
-At presen
-
-**Solution:**
-?**
-
-- **Mandate and bank account details visibility:** On the account details page, show bank account information and mandate registration status (registered / not registered / pending).
-- **Conditional Actions & Validations based on mandate status:**
-    - If mandate is **registered**:
-        - User can attempt to **add a new bank account (max 5 bank account is allowed to add from UI)** and **set up mandate** on the new account.
-            - For both the lenders(DSP & TCL), Bank account for the disbursal and mandate should be always same.
-            - Every time user try to setup mandate (switch mandate) on the bank account either new or old, bank verification using penny drop needs to be done for both DSP and TCL.
-        - **Validation:** If the user **fails to add or verify the new
-
----
-
-## #85 — [DSP] SMA & NPA Tagging at Customer Level
-**Status:** Done | **Last edited:** February 19, 2026 7:12 PM
-
-**Problem:**
-are we solving?**
-
-This document outlines the requirements for implementing Special Mention Account (SMA) and Non-Performing Asset (NPA) classification system. The system (Finflux) will automatically classify customer accounts based on Days Past Due (DPD) and manage the lifecycle of these classifications.
-
-**Solution:**
-?**
-
----
-
-## #86 — [Platform] Mandate presentation request optimisati
-**Status:** Done | **Last edited:** December 31, 2024 11:49 AM
-
-**Problem:**
-are we solving?**
-
-We are solving three problems via this enhancement:
-
-- Mandate presentation UTR entries for the destination bank (User) are very general. Since the amount is deducted automatically from the user’s bank account, it often gets difficult to track why the amount was deducted (across services and products) while analysing bank account statements.
-- Currently reconciliation for mandate presentations is built on top of item ids (shared by Digio) to us in response and also passed as a parameter in the report.
-
----
-
-**Solution:**
-?**
-
-P1:
-
-- We will be passing custom narrations in the user’s bank account statement
-DSP Finance NACH debit for LAN: FXLAN534324
-
-and UTR in the user’s loan account statement:
-Loan repayment received against sale of security: IN9876543210 for account number: FXLAN6789012 with Ref ID:
-
-P2:
-We will be passing enrichment values in the presentation request for Digio to assist reconciliation with operations team
-
----
-
-## #87 — Skip Email verification
-**Status:** Not started | **Last edited:** December 29, 2025 11:59 AM
-
-**Problem:**
-are we solving?**
-
-Email verification is currently mandatory for loan application creation. However, we’re seeing around 15% **user drop-off** at this step. To reduce friction, we propose letting users **choose their preferred primary communication channel — SMS or Email** — and **skip email verification** for those who select SMS. This allows users who rely on SMS to continue without being blocked by email OTP verification.
-
----
-
-**Solution:**
-?**
-
----
-
-## #88 — PRD - B2C Referral [Phase-1]
-**Status:** In progress | **Last edited:** December 10, 2025 8:08 AM
-
-**Problem:**
-are we solving?**
-
-Volt Money's Loan Against Mutual Funds (LAMF OD) product has strong unit economics and high borrower quality.
-
-Currently, Volt does not have any mechanism to leverage its existing loan users base who has experienced the value of Volt Money LAMF product for new user acquisitions.
-
-We need a **trust-first, low-CAC acquisition method** built on the credibility of existing borrowers by activating them to refer new users to Volt LAMF OD product. This would also build trust amongst new users to borrow LAMF from Volt as a trusted brand and limited period reward offers will assist i
-
-**Solution:**
-?**
-
----
-
-## #89 — Single drawdown Term Loan LMS Requirements
+## #12 — Single drawdown Term Loan LMS Requirements
 **Status:** In progress | **Last edited:** August 9, 2025 11:23 AM
 
 **Problem:**
@@ -2065,214 +249,14 @@ A **line-backed, single-drawdown term loan**, where:
 
 ---
 
-## #90 — [Platform] RTA portfolio API integration
-**Status:** Done | **Last edited:** August 25, 2025 8:02 PM
-
-**Problem:**
-are we solving?**
-
-As an NBFC that offers loans against mutual fund, we have the capability to let the user fetch their securities, select eligible funds and then allowing them to pledge the corresponding securities in the name of the NBFC. 
-
-This allows the NBFC to give the corresponding limit to the user in return, which they can then use for a myriad of use cases.
-
-Since mutual funds (now) are a digital security, and only the pledge (contract between NBFC and the investor) there are potential collateral/potential risks that can arise between the user pledging/invoking/revoking the securitie
-
-**Solution:**
-?**
-
-We will be integrating with portfolio APIs of the RTAs for three core collateral transactions in our system to validate the requests synchronously.
-
-- Lodgement
-- Revocation
-- Invocation
-
-The APIs give response at a combination of an ISIN + Folio + Lien marking number
-
-KFIN Request body:
-
-```json
-{
-"PortfolioLienRequest": {
-"InvPan": "AECPC9871K",
-"RequestID": "5000061609",
-"AgentCode": "ANJ4718979"
-}
-}
-```
-
-KFIN API (Sample response):
-
-```json
-{
-    "Dtinformation": [
-        {
-            "Return_Code": 0,
-            "Return_Msg": "Success"
-        }
-    ],
-    "DtData": [
-        {
-            "RequestID": "200003152175",
-            "AgentCode": "ATE4719997",
-            "mode": "Pledged",
-            "InvestorPAN": "CLFPA9890J",
-            "InvestorName": "Vaibhav Arora",
-     
-
----
-
-## #91 — [DSP] Dues collection comms
-**Status:** Done | **Last edited:** August 22, 2025 3:28 PM
-
-**Problem:**
-are we solving?**
-
-- Currently DSP is not sending collection related communications to the user -
-    - ***Poor customer experience :*** This leads to user being unaware of the due dates, leading to them missing the payments, incurring bounce/penal charges
-    - ***Business risk :*** This puts DSP finance (as an NBFC) at an compliance risk, as it is mandatory for NBFCs to send collections related communications to the user as per RBI regulations
-
----
-
-**Solution:**
-?**
-
----
-
-## #92 — Productisation of admin tool Change email address
-**Status:** Not started | **Last edited:** August 21, 2024 12:14 PM
-
-**Problem:**
-are we solving?**
-
-- When customers need to change their email or mobile number, they need to send the details to the RMs to be updated via registered email. This may cause manual errors at the customer and RMs end due to absence of validation of email and phone number.
-- The admin tool for these changes cannot be used in isolation and requires communication with all third parties involved after the Loan account is created.
-
----
-
-**Solution:**
-?**
-
----
-
-## #93 — Amplitude Audit and Additions
-**Status:** Not started | **Last edited:** August 20, 2025 12:02 PM
-
-**Problem:**
-are we solving?**
-
-Auditing the existing amplitude implementation and listing out all the events to add.
-
----
-
-**Solution:**
-?**
-
----
-
-## #94 — VKYC for DSP and Co-Lending
+## #13 — VKYC for DSP and Co-Lending
 **Status:** In progress | **Last edited:** August 19, 2025 7:01 PM
 
 # VKYC for DSP and Co-Lending [LSP Focused VKYC Journey Alignment](VKYC%20for%20DSP%20and%20Co-Lending/LSP%20Focused%20VKYC%20Journey%20Alignment%20238e8d3af13a80cd80c6f64c76ab3aed.md) [Volt Focused VKYC Journey Alignment](VKYC%20for%20DSP%20and%20Co-Lending/Volt%20Focused%20VKYC%20Journey%20Alignment%20216e8d3af13a801bbba2eb686074c82b.csv) [VKYC: Vendor Evaluation](VKYC%20for%20DSP%20and%20Co-Lending/VKYC%20Vendor%20Evaluation%20217e8d3af13a80dfb53bed7d04c1e7f3.md) [VKYC: Regulatory Understanding](VKYC%20for%20DSP%20and%20Co-Lending/VKYC%20Regulatory%20Understanding%20217e8d3af13a809f88e9f173d73f3d5a.md) [Discussion with Rohan (Groww)](VKYC%20for%20DSP%20and%20Co-Lending/Discussion%20with%20Rohan%20(Groww)%20254e8d3af13a8085a070ce018cec0f02.md)
 
 ---
 
-## #95 — NBFC NACH Mandate Limit Change
-**Status:** Ready for Tech | **Last edited:** August 13, 2025 6:31 PM
-
-**Problem:**
-are we solving?**
-
-In the LAMF digital loan journey, customers are required to set up an eNACH mandate as part of the Loan Origination System (LOS) process. The **mandate value is fixed at ₹10 lakhs**, irrespective of the customer’s actual credit line, which may range from **₹10,000 to ₹2 crore**.
-
-This “one-size-fits-all” approach creates friction for customers with lower credit limits. For example, a customer with a sanctioned limit of ₹50,000 may be reluctant to authorize a ₹10 lakh mandate, leading to abandonment of the journey at this step and/or increase in the number of support queries.
-
-**Solution:**
-?**
-
----
-
-## #96 — Command Centre design requirements
-**Status:** In progress | **Last edited:** August 13, 2024 7:21 PM
-
-# Command Centre design requirements Problem statement: User should be able to navigate between different interfaces/utilities on the platform **Possible interfaces:** - Side navigation panel (Left) [Example: Material.io](https://m3.material.io/) - Top navigation bar [Example: Apple](https://www.apple.com/) - Drop down menu Example: Trello - Floating action buttons: [https://m3.material.io/components/floating-action-button/accessibility](https://m3.material.io/components/floating-action-button/accessibility) - Card based notifications https://trello.com/u/vaibhavarora56/boards **Utilities between which the user will be able to navigate:** Tasks - All tasks tracking and assignment Search (Client/Application/Credit) - Application level search Notifications NBFC dashboard: SLA tracking Internal user management and access control Analytics dashboard Following are details of each section: - Search requirements - Search - Ops agent should be able to search clients basis the following parameters: - Search customer - Name (Partial match) - Email address (Exact match): Inputs will be validated basis regex validations (Need capability of showing error messaging to the user) - Client ID (Exact match) - Mobile number (Exact match): Inputs will be validated basis regex validations (Need capability of showing error messaging to the user) - Search line - Line ID (Loan account number) - Client ID (Exact match) - Bank account number (To identify lines to which disbursements were made) - Transaction ID - Search loan application - Application ID (Exact match) - Mobile Number (Exact match) - Search will be partial and absolute basis the match of the metric entered in the search box, if multiple matches are received, Ops agent will see a list of possible matches in the result section. If one match is received directly the client details section will be opened for the ops agent to review (Can this be confusing for the ops agent? Need Design input) - The result screen should include the following parameters in order: - Client - Client ID (Alphanumeric, can be trimmed with the last 4 digits visible and the ops agent should be able to copy it directly via a small CTA (sample: Service desk) - Client Name (Name of the client) - Client Mobile (Mobile number of the client) - Client Email address (Hyperlinked for one click communication capabilities) - Last 4 digits of Aadhaar for the client - Client creation date (DD-MM-YYYY) - Client status (Active, Pending - in tab format) - Line - Line ID (Alphanumeric, can be trimmed with the last 4 digits visible and the ops agent should be able to copy it directly via a small CTA (sample: Service desk) - Product
-
----
-
-## #97 — PRD Disbursement Method Selection Logic (BRE Optim
-**Status:** Not started | **Last edited:** April 7, 2026 11:53 AM
-
-# PRD: Disbursement Method Selection Logic (BRE Optimization) --- # **1. Problem Statement** Currently, payout method selection (IMPS / NEFT / RTGS) is not dynamically optimized based on: - Disbursement sequence (1st vs subsequent) - Loan type (co-lending vs non co-lending) - Ticket size - Sourcing channel (e.g., CRED) This leads to: - Suboptimal payout routing - Higher costs and delays - Lack of configurability at product / contract / channel level --- ## **2. Objective** Enable a rule-based engine (BRE) to dynamically select payout method based on: - Disbursement sequence - Loan type - Amount slab - Sourcing channel --- ## **3. Scope** ### **Dimensions for Rule Evaluation** 1. **Contract type** - Co-lending - Non co-lending 2. **Sourcing Channel** - Volt - CRED (override rules) 3. **Nth Disbursement** - 1st - Subsequent 4. **Amount Slabs** - < 2 lakhs - 2–5 lakhs - 5 lakhs --- ## **4. Business Rules** ### **4.1 Co-lending Loans** | Disbursement | < 2L | 2L–5L | > 5L | | --- | --- | --- | --- | | **1st** | NEFT | NEFT | RTGS | | **Subsequent** | NEFT | RTGS | RTGS | --- ### **4.2 Non Co-lending Loans** | Disbursement | < 2L | 2L–5L | > 5L | | --- | --- | --- | --- | | **1st** | IMPS | IMPS | RTGS | | **Subsequent** | NEFT | RTGS | RTGS | --- ### **4.3 Sourcing Channel: CRED** | Disbursement | < 2L | 2L–5L | > 5L | | --- | --- | --- | --- | | **1st** | IMPS | IMPS | RTGS | | **Subsequent** | IMPS | RTGS | RTGS | **Note:** - These rules override both co-lending and non co-lending logic when sourcing channel = CRED --- ## **5. Rule Priority Logic** Order of evaluation: 1. **Sourcing Channel Override (Highest Priority)** 2. **Contract Type (Co-lending / Non co-lending)** 3. **Nth Disbursement** 4. **Amount Slab** --- ## **6. Configurability Requirements** - Rules should be configurable at: - Product level (for future requirements) - Contract level - Sourcing channel level - Ability to: - Add/edit slabs - Change payout method mapping - Introduce new channels without code changes --- ## **8. Success Metrics** - Reduction in payout failures - Reduction in payout cost per transaction - Improvement in disbursement TAT - % of transactions routed via optimal rail ---
-
----
-
-## #98 — [Platform] Validation to Stop Un-pledging, closure
-**Status:** Done | **Last edited:** April 4, 2025 2:21 PM
-
-**Problem:**
-are we solving?**
-
-Account freezing or suspension is a temporary restriction that prevents an account holder from accessing specific or all account features. This occurs for several reasons:
-
-- Suspicious activity detection
-- Policy violations
-- Payment issues
-- Security concerns
-
-We have the operations team, and risk team who can place an account under suspension or frozen state. 
-
-The frozen state **ALSO** occurs when an active account undergoes foreclosure procedure so as to prevent the user from initiating any debit transactions while the account closure is in process.
-
-Freezing an account
-
-**Solution:**
-?**
-
-We will be adding some validations to stop foreclosure and un-pledging of the manually frozen accounts.
-
-The foreclosure check will include:
-
-1. If the account is active/expired, freeze it and continue the foreclosure process
-2. In case if an account is frozen before the initiation of the foreclosure by the user, it has to be rejected.
-
-The un-pledging check will include:
-
-1. If the account had been frozen, don’t go forward with the un-pledging
-2. If is active, then continue with the pledging
-
----
-
-## #99 — MNRL Compliance Validation Integration
-**Status:** Not started | **Last edited:** April 29, 2026 5:11 PM
-
-**Problem:**
-are we solving?**
-
----
-
-- Currently, our system does not have a standardized mechanism to validate mobile numbers against authoritative revocation and risk datasets.
-- This creates a gap where deactivated or reassigned numbers can still be used within onboarding and auth flows, leading to potential exposure of sensitive information (like OTPs) to unintended users.
-- Additionally, numbers flagged by Department of Telecommunications (DoT) and Law Enforcement Agencies (LEAs) for fraud or non-compliance may remain undetected, increasing the platform’s exposure to fraud risk and regulatory non-comp
-
-**Solution:**
-?**
-
----
-
-- We propose implementing MNRL validation at two critical touchpoints in the user journey to ensure early risk detection and strict compliance at the point of loan creation.
-- Currently, mobile numbers appear in the MNRL dataset for multiple reasons. As part of the implementation, users will be blocked from loan account creation only for specific high-risk categories, based on compliance requirements.
-
-| disconnectionreason_id | disconnection_reason | Action |
-| --- | --- | --- |
-| 1 | Subscriber Verification Non-compliant Cases | Don’t Block |
-| 2 | Disconnection due to Zero Usage or Non-payment | Don’t Block |
-| 3 | LEAs Reported Cybercrime | Block |
-| 4 | DoT Reported Fake or Forged Cases | Block |
-| 5 | TSP Internal Analysis | Block |
-| 6 | Others  | Don’t Block |
-
----
-
-## #100 — Co-Lending (Internal CUG)
+## #14 — Co-Lending (Internal CUG)
 **Status:** Not started | **Last edited:** April 26, 2026 4:37 PM
 
 **Problem:**
@@ -2287,24 +271,7 @@ are we solving?**
 
 ---
 
-## #101 — Product Note – DRPS (Final Version – Unified Forma
-**Status:** Ready for Tech | **Last edited:** April 22, 2026 7:17 PM
-
-**In scope:**
-- Credit Line products only
-- Monthly frequency
-- Single unified schedule table
-- JSON + PDF output
-
-Term Loans are out of scope.
-
----
-
-# Product Note – DRPS (Final Version – Unified Format) # 1. Background & Context ## Who is facing the problem - End customers using LAMF (Credit Line / LAS) - Customer support & operations teams - NBFC (regulatory requirement to provide updated repayment schedule) --- ## What is the challenge today - Static schedules become outdated after: - Disbursement - Part repayment - ROI change - Charge application - Users depend on SOA to understand updated dues. - No single structured month-wise forward view aligned with current POS. --- ## Why this is important LAMF is a **dynamic demand loan**, not a fixed EMI loan. A Dynamic Repayment Schedule must: - Reflect actual utilisation - Reflect historical interest accrual - Provide predictive view till closure - Be aligned with system ledger - Be audit-reconcilable --- # 2. Problem Definition DRPS must: 1. Reflect actual historical data till generation timestamp. 2. Reflect projected dues till closure date. 3. Be aligned to: - Current POS - Current ROI - Closure date (currentTermEndDate) 4. Include non-contingent charges prospectively. 5. Use a **single continuous table format**. --- # 3. Solution Scope ## In Scope - Credit Line products only - Monthly frequency - Single unified schedule table - JSON + PDF output Term Loans are out of scope. --- # 4. DRPS Structure There will be **one unified repayment schedule table**. Older rows = system-derived actuals. Future rows = system-computed projections. The format remains identical for all rows. --- # 5. Repayment Schedule Columns (Final – As Per New Requirement) | Column | Description | | --- | --- | | Repayment Date | Month-end date (7th of next month for due logic; last row = closure date if mid-month) | | Outstanding principal (Opening) | Principal outstanding at start of period | | Principal payable/Prepayment | Principal component (only non-zero in closure row unless repayment exists historically) | | Outstanding principal (Closing) | Opening − Principal (interest does not reduce principal) | | Instalment | Interest + Charges (Last instalment principal will be included in instalment) | | Interest payable/Paid | Interest for that period (actual for past, computed for future) Middle of the month accrued interest for interest until now + calculate future interest based on current ROI | | Charges payable/Paid | Retro charges for past; Non-contingent charges for future (AMC charge) | No instalment type column. --- # 6.
-
----
-
-## #102 — VA Repayment Handling [Volt LMS]
+## #15 — VA Repayment Handling [Volt LMS]
 **Status:** Not started | **Last edited:** April 10, 2025 10:50 AM
 
 **Problem:**
@@ -2321,91 +288,14 @@ We will implement a webhook integration system that receives repayment notificat
 
 ---
 
-## #103 — Appsmith design
-**Status:** Ready for kickoff | **Last edited:** Unknown
-
-# Appsmith design Charter: LMS Pod Priority: P0 # Context [Admin tool migration to Appsmith](../PRDs/PRDs/Admin%20tool%20migration%20to%20Appsmith%20196e8d3af13a80c6897bee9558cf7197.md) # Process - [x] Start with User details - [ ] Work on bulk actions # Figma
-
----
-
-## #104 — Changes in OTP component
-**Status:** Developed | **Last edited:** Unknown
-
-# Changes in OTP component Charter: LMS Pod # Context Need component for OTP when sent to both email id and phone number # Process # Figma [https://embed.figma.com/design/cE4geUqJoahVIl3AB2ChwI/Exploration-Ad-Hoc-tasks?node-id=148-936&t=ljlEPXofuXB3Tuu6-11&embed-host=notion&footer=false&theme=system](https://embed.figma.com/design/cE4geUqJoahVIl3AB2ChwI/Exploration-Ad-Hoc-tasks?node-id=148-936&t=ljlEPXofuXB3Tuu6-11&embed-host=notion&footer=false&theme=system)
-
----
-
-## #105 — FE screen revamp
-**Status:** Ready for kickoff | **Last edited:** Unknown
-
-# FE screen revamp Charter: Design Initiatives Priority: P0 ## Tracker LMS https://docs.google.com/spreadsheets/d/1WjZgF-ThWm5-GuLZMDGNnvw5aCT7hQ6e5yxC_EDnoCo/edit?gid=0#gid=0 LOS https://docs.google.com/spreadsheets/d/1NWUmp6-7xX579K1hsehy1tmnkeXTIH_k99rS6Rzy27o/edit?gid=0#gid=0 28/01 - Transaction screen - Account + Profile - LMS home screen states: All notification components, interest due 10/01 Design link: [https://www.figma.com/design/DH8rc6N6qcZ9miF0fv3ILt/Design-system?node-id=2707-36&p=f&t=gPYwv9I0fBY9CrGl-11](https://www.figma.com/design/DH8rc6N6qcZ9miF0fv3ILt/Design-system?node-id=2707-36&p=f&t=gPYwv9I0fBY9CrGl-11) - Start working token implementation for LOS + LMS screens - Update older components - Let frontend pod execute 19/12 Pending: - Documentation and usage of tokens - Improve token naming - PRD to start Update - Token architecture finalised and implemented on Figma and sheet @Vinit Pramod Sarode How do we want to go about the re-vamp LOS revamp
-
----
-
-## #106 — Figma file arrangement
-**Status:** Developed | **Last edited:** Unknown
-
-# Figma file arrangement Charter: Design Initiatives Priority: P0 # Context | Reduction of gap between Figma and prod with better file arrangement and management | | | --- | --- | # Process - [ ] Create Figma file framework - [ ] Add all LMS figma files in the same framework - [ ] Work with Ranjan/Tanmay to understand and mapp all LMS flows - [ ] Arrange all LMS flows in figma new DLS - [ ] Repeat for LOS # Figma
-
----
-
-## #107 — Line enhancement nudge
-**Status:** Ready for kickoff | **Last edited:** Unknown
-
-# Line enhancement nudge Charter: LMS Pod Priority: P0 # Context [Increase Top-up TOFU & conversion [TCL & DSP]](../PRDs/PRDs/Increase%20Top-up%20TOFU%20&%20conversion%20%5BTCL%20&%20DSP%5D%20203e8d3af13a80ba82aeef50d440f823.md) # Process - [x] Understand scope [Enhance limit Research](Line%20enhancement%20nudge/Enhance%20limit%20Research%2020ae8d3af13a8010a645c3a79ab76e8e.md) - [ ] Benchmarking - [ ] Messaging - [ ] Illustration - [ ] Concept - [ ] Touchpoints - [ ] Messaging - [ ] Design # Figma
-
----
-
-## #108 — Product Note Post limit fetch optimisation
-**Status:** Unknown | **Last edited:** Unknown
-
-# Product Note : Post limit fetch optimisation # Objective - This is **post-credit limit fetch, pre-KYC**. - User already knows eligibility → now reviewing loan terms. - Goal: Maximise conversion from this page to KYC initiation. # Current journey ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image.png) # Funnel metrics ## Overall Funnel [Only Eligible Users] ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%201.png) ## First time success rate ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%202.png) ## Median time to convert of overall funnel ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%203.png) ## P75t and P90th conversion time ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%204.png) ## MF Fetch Anchor Page Analysis ## Median time to convert from step 1 to 2 ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%205.png) ### No. of users who clicked on ‘Mutual Funds Fetched Card’ In LOS i.e new users ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%206.png) In LOS + LMS combined ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%207.png) ### No. of users to clicked on back button after being eligible ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%208.png) - ### No. of users to clicked on back from ‘fetched mutual funds page’ ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%209.png) ### No. of users who clicked on refresh portfolio from ‘fetched mutual funds page’ ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2010.png) ### No. of users who refreshed portfolio from ‘fetched mutual funds page’ and moved ahead to set credit limit and loan offer ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2011.png) ### Refresh portfolio on MFC Anchor page ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2012.png) ## Set Credit Limit Page Analysis ## Median time to convert from step 2 to 3 ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2013.png) ## No of users who clicked on edit limit pencil icon ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2014.png) ## Loan Offer Page Analysis ## Median time to convert from step 3 to 4 ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2015.png) ### Loan offer page CTA clicked ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2016.png) ### No. of users who clicked prepayment expanded ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2017.png) ### No. of users who clicked withdrawal and repayment expanded ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2018.png) ### No. of users who clicked charges expanded ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2019.png) ### No. of users who clicked info icon on loan tenure ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2020.png) ### No. of users who clicked info icon on interest rate ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2021.png) ### No. of users who clicked info icon on credit limit ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2022.png) ## WATI Chats queries [https://embed.figma.com/board/det66jRkfaE4H0La4DLail/WATI-Chats-on-Loan-Offer-Drop-Offs?node-id=2-261&t=Q9fiB4fNTa7iy0Ql-11&embed-host=notion&footer=false&theme=system](https://embed.figma.com/board/det66jRkfaE4H0La4DLail/WATI-Chats-on-Loan-Offer-Drop-Offs?node-id=2-261&t=Q9fiB4fNTa7iy0Ql-11&embed-host=notion&footer=false&theme=system) --- # Insights **Step 1 → Step 2 (Eligibility → Credit Limit) is the biggest drop off point**. - Users get eligibility but hesitate at credit limit setup - Around 28% of the users who land on the anchor page go and click ‘fetched mutual funds’ button to view their mutual funds. - Image ![image.png](Product%20Note%20Post%20limit%20fetch%20optimisation/image%2023.png) - Rest refresh portfolio(~6-7%) and some hit back button. - While median conversion time of the entire funnel is ~1min, p75th and p90th conversion time is anywhere from 1hr to 14hrs **Possible reasons of the drop-offs**
-
----
-
-## #109 — Loan account creation error handling
+## #16 — Loan account creation error handling
 **Status:** Ready for kickoff | **Last edited:** Unknown
 
 # Loan account creation error handling Charter: LOS Pod # Context MOM 1. Active loan + Cibil score reason 2. Redirect users to try with another PAN [tentative] 3. Handle in pop up if possible 4. Feedback after the pop up in the flow # Figma [https://embed.figma.com/design/u5fpymb6jC6ubzT9YUXFgb/%5BOLD%5D-Loan-application-flow?node-id=11844-61349&t=r1DgLWQIr5SO6puF-11&embed-host=notion&footer=false&theme=system](https://embed.figma.com/design/u5fpymb6jC6ubzT9YUXFgb/%5BOLD%5D-Loan-application-flow?node-id=11844-61349&t=r1DgLWQIr5SO6puF-11&embed-host=notion&footer=false&theme=system) Loan profile did not meet out criteria for a loan account. Last checked eligibility on 12/02/24
 
 ---
 
-## #110 — Loan foreclosure reasons
-**Status:** Developed | **Last edited:** Unknown
-
-# Loan foreclosure reasons Assign: Karuna Sankolli Charter: LMS Pod # Context - [x] Get list of reasons from Ranjan - [x] Make a table with what we will sell for every reason selected. - [x] Redesign FAQs page - [ ] Work with Ranjan for the FAQs page - [ ] Foreclosure landing page 3 options - [ ] Reasons for foreclosure 3 options - [ ] Reconsider page 3 options - [ ] Status of payment page 3 component 3 options - [ ] Last tracking foreclosure page options - [ ] Ability to cancel foreclosure --- [Capture foreclosure reasons from customer](../PRDs/PRDs/Capture%20foreclosure%20reasons%20from%20customer%20170e8d3af13a80ec8d7bff6a6e988d1f.md) ‣ # Figma [https://embed.figma.com/design/x1rDpxstHSGXbMjQTtGvtR/Loan-foreclosure?node-id=76-782&t=QT6CT98ArDhDQ4Fy-11&embed-host=notion&footer=false&theme=system](https://embed.figma.com/design/x1rDpxstHSGXbMjQTtGvtR/Loan-foreclosure?node-id=76-782&t=QT6CT98ArDhDQ4Fy-11&embed-host=notion&footer=false&theme=system)
-
----
-
-## #111 — Lodgement Enhancement
-**Status:** Deprioritised | **Last edited:** Unknown
-
-# Lodgement Enhancement Assign: Karuna Sankolli Charter: NBFC Pod Task type: Sprint # Context [[Platform] RTA portfolio API integration](../PRDs/PRDs/%5BPlatform%5D%20RTA%20portfolio%20API%20integration%20166e8d3af13a80a7a325c550ed9f8c04.md) # Design - [ ] Partial approval component - [ ] Button sizes Ops https://www.figma.com/design/HpVXJgl9FRLeWiFFdlWGpS/LMS%3A-Command-center?node-id=2431-157171&t=wnkdjY7E7DaaJvbj-11
-
----
-
-## #112 — Lodgement addition and removal maker
-**Status:** Ready for kickoff | **Last edited:** Unknown
-
-# Lodgement addition and removal maker Assign: Karuna Sankolli Charter: NBFC Pod Task type: Sprint # Context [https://volt-ea96402.slack.com/archives/D07UQN9REE7/p1736322208430469](https://volt-ea96402.slack.com/archives/D07UQN9REE7/p1736322208430469) **MOM** 1. Discovery you can maker for lodgement 2. Upload 3. Review 1. Dedupe check -> Already lodegd or not 2. Pledge check -> Pledged with the LSP 4. Data points 1. Folio 2. Loan acct number -Future 3. PAN number 4. Investor name 5. Units 6. Scheme name 7. Lien ref number CAMs 8. IHNO Kfintech 9. ISIN 10. Status 11. Remarks 5. Do I want to ops to work on the file, RTA level 6. Grouping based on PAN & Loan acct number # Figma [https://embed.figma.com/design/HpVXJgl9FRLeWiFFdlWGpS/LMS%3A-Command-center?node-id=2496-121040&t=kmmbGgrjuKoI4i0e-11&embed-host=notion&footer=false&theme=system](https://embed.figma.com/design/HpVXJgl9FRLeWiFFdlWGpS/LMS%3A-Command-center?node-id=2496-121040&t=kmmbGgrjuKoI4i0e-11&embed-host=notion&footer=false&theme=system)
-
----
-
-## #113 — Project Elevate
-**Status:** Ready for kickoff | **Last edited:** Unknown
-
-# Project Elevate Charter: LMS Pod # Context [https://www.notion.so/volt-money/Project-Elevate-LMS-1aee8d3af13a80e1812ad59cdd7fe432?pvs=4](https://www.notion.so/volt-money/Project-Elevate-LMS-1aee8d3af13a80e1812ad59cdd7fe432?pvs=4) # Process - [x] MVP version - [ ] Coming up with a better switch account feature # Figma [https://www.figma.com/design/rSibJt7yGBXWJvLrcieIdt/Project-elevate?node-id=47-3239&t=T5k3mZCvHS9ee8PN-11](https://www.figma.com/design/rSibJt7yGBXWJvLrcieIdt/Project-elevate?node-id=47-3239&t=T5k3mZCvHS9ee8PN-11)
-
----
-
-## #114 — Repayment summary screen
-**Status:** Developed | **Last edited:** Unknown
-
-# Repayment summary screen Assign: Karuna Sankolli Charter: LMS Pod - [x] Call with Ranjan & Amey - [x] Brainstorm component design - [x] Alignment on flow - [x] Alignment on wires - [ ] Call with Lalit [https://embed.figma.com/design/axnRcEvkbu75kd0uaWsF9B/Repayment-flow?node-id=789-4149&node-type=section&t=cCjoDqDjyalAcG3w-11&embed-host=notion&footer=false&theme=system](https://embed.figma.com/design/axnRcEvkbu75kd0uaWsF9B/Repayment-flow?node-id=789-4149&node-type=section&t=cCjoDqDjyalAcG3w-11&embed-host=notion&footer=false&theme=system)
-
----
-
-## #115 — E2E Sell-off Productisation V1
+## #17 — E2E Sell-off Productisation V1
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -2426,7 +316,7 @@ are we solving?
 
 ---
 
-## #116 — API flow for KFS and Agreement
+## #18 — API flow for KFS and Agreement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2456,7 +346,7 @@ Additional changes:
 
 ---
 
-## #117 — Additional details enhancement
+## #19 — Additional details enhancement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2492,14 +382,14 @@ While this information is essential, requiring users to fill seven separate fiel
 
 ---
 
-## #118 — Analytics requirement for amortisation of PF
+## #20 — Analytics requirement for amortisation of PF
 **Status:** Pending review | **Last edited:** Unknown
 
 # Analytics requirement for amortisation of PF Last Edited: April 24, 2026 8:59 AM PRD ETA: April 24, 2026 PRD Owner: Vaibhav Arora # **1. Objective** Generate month-level amortised accounting entries for Processing Fee (PF) income against loan accounts across LAMF, LAS, and Term Loan product lines. The report will be consumed by the Finance team and downloaded on-demand from the Finflux analytics module. The design must be extensible to accommodate other fee/cost types in future iterations without structural rework. # **2. Scope & Exclusions** ## **2.1 In Scope** - Product lines: LAMF, LAS, Term Loan (TL) - Charge type: Processing Fee (PF) - Accounting entries: Income recognition at monthly amortisation level - Amortisation method: Straight Line Method (SLM) - Report period: M-N (N>0) (previous calendar months only) - Waiver handling: Partial and complete waivers with corresponding reverse entries - Loan closure handling: Remaining balance acceleration on closure date ## **2.2 Explicitly Out of Scope** - GST component of processing fee excluded from amortisation entries - Current month entries - report is strictly retrospective - Real-time or intra-month amortisation schedules # **3. Source Data & Key Fields** All data will be sourced from the accounting report. The following fields are required at a schedule/charge level: | **Field** | **Source / Table** | **Notes** | | --- | --- | --- | | FXLAN / Term Loan Account No. | LMS – Loan Master | External loan identifier | | Client External ID | LMS – Loan Master | FXCID reference | | Product Type | LMS – Loan Master | LAMF / LAS / TL | | Charge Application Date | LMS – Fee Schedule | Date PF was applied | | PF Income Amount | LMS – Fee Schedule | Excludes GST; 'Income from Fees' leg only | | Transaction ID (Fees) | LMS – Transaction Log | Original fee transaction reference | | Loan Status | LMS – Loan Master | Active / Closed | | Closure Date | LMS – Loan Master | Populated only if loan is closed | | Loan Tenure (Original) | LMS – Loan Master | In days, for SLM denominator | | Waiver Amount | LMS – Waiver Log | Partial or full waiver on fee | | Waiver Date | LMS – Waiver Log | Date waiver was applied | | Waiver Type | LMS – Waiver Log | Partial /
 
 ---
 
-## #119 — Approved Scrips productisation
+## #21 — Approved Scrips productisation
 **Status:** Pending review | **Last edited:** Unknown
 
 **In scope:**
@@ -2514,14 +404,14 @@ We are solving for:
 
 ---
 
-## #120 — BRD Enhancements to Schedule & Derived Details Pro
+## #22 — BRD Enhancements to Schedule & Derived Details Pro
 **Status:** Completed | **Last edited:** Unknown
 
 # BRD: Enhancements to Schedule & Derived Details Processing for OD (Loan Against Mutual Funds) Last Edited: December 11, 2025 2:41 PM PRD Owner: Vaibhav Arora ## **1. Problem Statement** Our OD product relies heavily on Finflux’s **schedule** and **schedule-derived details** for: - Accurate repayment allocation - DPD computation - Interest/charge tracking - Reconciliation, reporting (internal and external) Currently, certain system behaviours in the LMS lead to **incomplete or incorrect schedule updates**, which introduces reconciliation gaps and incorrect ageing/DPD calculations. We need Finflux to enhance how the LMS **creates, updates, and settles obligations** and **populates derived details** whenever specific transactions occur. --- ## **2. Context: How It Should Work (High Level)** - Any due created on a line (interest, charge, fee, penalty) should create an **obligation** in the schedule. - Currently we do not get the source transaction that created that obligation, we require source transaction to be mapped with the schedule ID so that we can directly map the transactions that created the corresponding schedule - When a transaction settles that obligation, the schedule and derived details should reflect: - obligation met - amount accounted - linkage to the transaction identifier - timestamps for audit - For OD products, interest accrues daily and becomes due only under certain events (billing, foreclosure (clear dues) etc.). Finflux already follows this pattern for regular repayments. The gaps occur only for specific transaction types listed below. --- ## **3. Issues & Required Enhancements** --- ## **3.1 Issue 1: *Clear Dues (used for Foreclosure) does not update schedule or derived details*** ### **Current Behaviour** - During foreclosure, Fenix performs a **“clear dues”** transaction to make the accrued interest due for the line: - Accrued-but-not-yet-due interest is first made due. - Finflux then settles this newly created due using excess funds when the clear dues API is hit - However: - The **schedule table is not updated** to reflect the new temporary obligation. - The **obligation is not marked as met**. - **Derived details** are not populated with the settlement transaction. ### **Impact** - Reporting discrepancies (interest recognised vs. interest settled). - Incorrect DPD because obligations appear “unmet”. ### **Required Behaviour** Finflux should: 1. **Create an obligation** in the schedule whenever clear-dues makes an amount due (accrued interest or any charge). 2. **Immediately settle the obligation** and mark: - obligation_met = true - obligation_met_on = timestamp 3. **Populate derived details** with: - linkage to the
 
 ---
 
-## #121 — BRD Interest Refund via Credit Note - OD - V2
+## #23 — BRD Interest Refund via Credit Note - OD - V2
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -2535,7 +425,7 @@ We are solving for:
 
 ---
 
-## #122 — BRD Interest Refund via Credit Note - OD
+## #24 — BRD Interest Refund via Credit Note - OD
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -2550,7 +440,7 @@ We are solving for:
 
 ---
 
-## #123 — Banking partner finalization
+## #25 — Banking partner finalization
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -2563,7 +453,7 @@ are we solving?**
 
 ---
 
-## #124 — Charge details on Command centre
+## #26 — Charge details on Command centre
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2585,7 +475,7 @@ Our operations team, d
 
 ---
 
-## #125 — Charge reversal enhancement
+## #27 — Charge reversal enhancement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2616,7 +506,7 @@ We will be creating a new payment type called “CREDIT_NOTE” this repayment w
 
 ---
 
-## #126 — Charge reversal enhancement V2
+## #28 — Charge reversal enhancement V2
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2656,7 +546,7 @@ The first set of supported use cases now live:
 
 ---
 
-## #127 — Colending Disbursement and Charge knock off
+## #29 — Colending Disbursement and Charge knock off
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -2677,7 +567,7 @@ The first set of supported use cases now live:
 
 ---
 
-## #128 — Collateral release enhancement
+## #30 — Collateral release enhancement
 **Status:** In progress | **Last edited:** Unknown
 
 **Problem:**
@@ -2690,14 +580,14 @@ are we solving?**
 
 ---
 
-## #129 — Corporate action - Data feed
+## #31 — Corporate action - Data feed
 **Status:** Completed | **Last edited:** Unknown
 
 # Corporate action - Data feed Last Edited: March 19, 2026 9:44 PM PRD Owner: Vaibhav Arora # Corporate Actions Data Feed ## Overview To support monitoring of securities pledged as collateral, we have reviewed a **Corporate Actions data feed sourced from BSE end-of-day bulletins**. This feed provides information on **events and disclosures that may impact the value, structure, or tradability of securities**. The data is consumed daily and can be used by the Risk team to monitor portfolio changes and identify events that may require action. The data covers the following broad categories: - Corporate action events - Company structural changes - Market disclosures - Large market transactions - Insider activity - Liquidity indicators --- # 1. Corporate Action Events This dataset contains information about **corporate actions declared by listed companies** that may affect the number of shares, price, or entitlement of shareholders. Typical corporate actions include: - Dividends - Stock splits - Bonus issues - Rights issues - Buybacks - Capital restructuring events For each event, the feed provides key reference dates such as: - **Record Date** – Date used to determine shareholder eligibility - **Ex-Date** – Date after which the security trades without the entitlement - **Cum Date** – Date before which investors must hold shares to be eligible - **Effective Dates** – Time period during which the action is applicable In addition, where applicable, the feed also provides: - Dividend amount or payout value - Share conversion ratios (e.g., split or bonus ratios) - Share quantity adjustments - Offer price or premium for rights issues These events are critical for adjusting **collateral valuation and share quantities** in pledged portfolios. --- # 2. Corporate Action Classification A separate master dataset provides the **mapping of corporate action identifiers to the specific event type** (e.g., dividend, split, bonus). This allows systems to interpret the corporate action feed and determine the **nature of the event impacting a security.** ---
 
 ---
 
-## #130 — Credit note PRD
+## #32 — Credit note PRD
 **Status:** Pending review | **Last edited:** Unknown
 
 **Problem:**
@@ -2720,7 +610,7 @@ The first use case that we will be covering will be the refunds of adhoc charges
 
 ---
 
-## #131 — DSP Consent Architecture (Oct25)
+## #33 — DSP Consent Architecture (Oct25)
 **Status:** In progress | **Last edited:** Unknown
 
 **Problem:**
@@ -2737,7 +627,7 @@ As per DPDP act, REs need to capture consent for data that’s absolutely requir
 
 ---
 
-## #132 — Disbursement simulation - LMS
+## #34 — Disbursement simulation - LMS
 **Status:** Pending review | **Last edited:** Unknown
 
 **In scope:**
@@ -2749,7 +639,7 @@ As per DPDP act, REs need to capture consent for data that’s absolutely requir
 
 ---
 
-## #133 — Dishonour charge enhancement
+## #35 — Dishonour charge enhancement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2781,7 +671,7 @@ In case mandate is revoked or does not exist, if the collection amount is less t
 
 ---
 
-## #134 — Enhancing Collections Efficiency Through Mid-Month
+## #36 — Enhancing Collections Efficiency Through Mid-Month
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -2794,21 +684,21 @@ are we solving?**
 
 ---
 
-## #135 — FD Fixerra
+## #37 — FD Fixerra
 **Status:** Unknown | **Last edited:** Unknown
 
 # FD: Fixerra Last Edited: December 1, 2025 2:13 PM ### Product Alignment Note – Fixerra FD Offering via Partner Dashboard *(DSP Finance × Volt Platform)* --- ### **Problem statement** Volt x DSP have a strong distribution via IFAs, we want to experiment distribution of different products via this channel, because of DSP Finance (NBFC) is looking to expand its retail investment footprint beyond LAMF (Loan Against Mutual Funds) by introducing a Fixed Deposit (FD) product. On the Volt platform today, distributors (primarily MFDs) only have LAMF as the monetizable product. While LAMF has strong unit economics, it is not a top-of-funnel product for retail customers. Fixerra provides the underlying FD product and infrastructure. The hypothesis is: - We already have arms-reach access to a large base of customers with mutual fund holdings. - These customers have a natural affinity for low-risk investment instruments. - FDs can act as a trust-building, widely accepted entry product, opening the funnel for both direct revenue (FD) and future LAMF conversions. This note outlines the scope for v1 of FD origination and servicing through the Volt Partner Dashboard, and is intended to align stakeholders across DSP Finance, Volt, and Fixerra. --- ### 2. Problem statement ### 2.1 Current state - MFDs on Volt can only offer LAMF. - Monetization is limited to one product with a relatively narrow target audience. - No simple “safe” product exists to attract or engage a wider customer base. - Distributors lack tools to deepen customer relationships beyond MF transactions. ### 2.2 Opportunity Introducing FDs: - Expands the product portfolio for MFDs. - Helps create a trust-led entry point (“mouth of the funnel”), improving conversions into higher-ticket products like LAMF. - Offers DSP Finance a scalable retail deposit base. - Allows Fixerra to distribute its FD product through MFD networks. --- ### 3. Product hypothesis **FDs can become a high-trust, low-friction product that increases distributor engagement and revenue, while simultaneously opening the pipeline for LAMF upsell.** Supporting hypotheses: 1. Customers with MF holdings are more likely to evaluate FD products with high confidence. 2. MFDs will be able to deepen their relationship and improve overall earnings by offering a broader product suite. 3. The NBFC can explore differentiated FD structuring based on distribution performance (for example, special rates, bulk programs). --- ### 4. High-level GTM - **Channel:** Volt Partner Dashboard - **Actors:** Mutual Fund Distributors on Volt - **v1
 
 ---
 
-## #136 — Finflux Product Setup for Co-Lending
+## #38 — Finflux Product Setup for Co-Lending
 **Status:** Completed | **Last edited:** Unknown
 
 # Finflux Product Setup for Co-Lending Last Edited: March 19, 2026 9:44 PM PRD ETA: January 27, 2026 PRD Owner: Vaibhav Arora ## 1. Background & Context As part of the co-lending setup, loans are economically split between: - **10% exposure (CLA portion)** - **90% exposure (TCL)** - **100% loan representation** required for operational and accounting purposes Current state: - Finflux is running on a **single instance** supporting **OD and TL products** - All reporting, accounting, SMA/NPA tagging, and operational workflows are currently **instance-scoped** - Finflux manages collateral and exposure deduplication The setup needs to support: - Fast go-live - Clean accounting - Correct delinquency signaling to TCL - Minimal disruption to existing production flows --- ## 2. Problem Statement The co-lending structure introduces multiple complexities: - **Collateral deduplication risk** if multiple loans referencing the same securities exist in the same instance - **Client-level SMA/NPA contagion**, where delinquency in a small CLA exposure may impact unrelated production loans - **Accounting segregation** required across different exposure types - **Operational overhead** introduced by multiple Finflux instances - **Reporting and reconciliation complexity** across LMS, Finflux, and TCL --- ## 3. Design Options Considered ### Option A: Single Finflux Instance with Multiple Products - All co-lending loans (10% and 100%) reside in the same instance - Separation handled purely via product-level configurations **Challenges** - High risk of collateral dedupe conflicts - Client-level NPA impact across all loans - Heavy reliance on product-level filters across reporting and accounting - Higher regression risk for existing OD and TL products --- ### Option B: Multiple Finflux Instances for All Co-Lending Loans - Separate instances for 10% and 100% loans **Challenges** - Higher setup and maintenance effort - Configuration and version-sync risks - Increased reporting and reconciliation overhead - Multiple operational points of failure at launch --- ## 4. Final Recommendation (Chosen Approach) **Recommended Setup** - **10% co-lending loan (CLA exposure)** → Booked in the **existing Finflux instance** - **100% loan** → Booked in a **separate Finflux instance** - **90% exposure** → Booked in **TCL** This approach optimizes for **lower effort, faster go-live, and controlled risk**, while keeping core production flows isolated. --- ## 5. Rationale for the Recommendation ### 5.1 Faster Go-Live with Minimal Change Surface - Existing Finflux instance already supports: - Live products - Accounting - Reporting - Monitoring - Adding a **single CLA product (10%)** is significantly lower effort than: - Standing up and
 
 ---
 
-## #137 — IFSC addition Account opening enhancement
+## #39 — IFSC addition Account opening enhancement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2827,7 +717,7 @@ We will be integrating with the Finflux add IFSC insert API, whenever a client c
 
 ---
 
-## #138 — LAS CMS Confiscation and sale of securities
+## #40 — LAS CMS Confiscation and sale of securities
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2851,7 +741,7 @@ The following reasons are why there is a need for this capability:
 
 ---
 
-## #139 — LAS CMS Lodgement
+## #41 — LAS CMS Lodgement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2874,7 +764,7 @@ To address this, DSP Finance will rely on ingestion of the PMR (Pledge Master Re
 
 ---
 
-## #140 — LAS CMS Unlodgement
+## #42 — LAS CMS Unlodgement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -2897,7 +787,7 @@ Additionally, unlike RTAs, digital removal of securities via APIs
 
 ---
 
-## #141 — External integrations LOS and LMS
+## #43 — External integrations LOS and LMS
 **Status:** Done | **Last edited:** Unknown
 
 **Problem:**
@@ -2914,7 +804,7 @@ Build a standalone CMS with tight integrations to both LOS and LMS. CMS will be 
 
 ---
 
-## #142 — PMR consumption SHCIL
+## #44 — PMR consumption SHCIL
 **Status:** Done | **Last edited:** Unknown
 
 **Problem:**
@@ -2944,42 +834,42 @@ The PMR, received periodically from the depository, will be ingested into CMS an
 
 ---
 
-## #143 — Sample PMR transactions
+## #45 — Sample PMR transactions
 **Status:** Done | **Last edited:** Unknown
 
 # Sample PMR transactions ## CDSL (Lien marking): Pledge marking | Date | BO ID | ISIN | ISIN Description | Pledged Quantity | Pledgee Name | Status | Pledge Type | Remarks | | --- | --- | --- | --- | --- | --- | --- | --- | --- | | 01-Jul-2025 | 1201916305123456 | INE018A01030 | RELIANCE EQ | 100 | DSP Finance Pvt Ltd | Confirmed | Margin | Pledge created successfully | ## CDSL (Lien revocation): Pledge closure | Date | BO ID | ISIN | ISIN Description | Closed Quantity | Pledgee Name | Status | Closure Date | Remarks | | --- | --- | --- | --- | --- | --- | --- | --- | --- | | 05-Jul-2025 | 1201916305123456 | INE018A01030 | RELIANCE EQ | 100 | DSP Finance Pvt Ltd | Released | 05-Jul-2025 | Pledge closed successfully | ### CDSL: (Lien invocation) | Date | BO ID | ISIN | ISIN Description | Invoked Quantity | Pledgee Name | Status | Invocation Date | Remarks | | --- | --- | --- | --- | --- | --- | --- | --- | --- | | 07-Jul-2025 | 1201916305123456 | INE018A01030 | RELIANCE EQ | 50 | DSP Finance Pvt Ltd | Invoked | 07-Jul-2025 | Partial invocation triggered | ### NSDL (Lien marking): Pledge marking | Execution Date | Client ID | ISIN | ISIN Description | Pledged Quantity | Pledgee | Pledge Type | Margin Pledge | Status | Agreement No. | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | 01-Jul-2025 | 41111111 | INE018A01030 | RELIANCE EQ | 100 | DSP1234 | Margin | Yes | Confirmed | AGMT-56789 | ### NSDL (Lien revocation) Pledge closure | Closure Date | Client ID | ISIN | ISIN Description | Closed Quantity | Pledgee | Status | Lock-In Reason | Remarks | | --- | --- | --- | --- | --- | --- | --- | --- | --- | | 05-Jul-2025 | 41111111 | INE018A01030 | RELIANCE EQ | 100 | DSP1234 | Released | NA | Closure on user request | ### NSDL (Lien invocation) | Execution Date | Client ID | ISIN | ISIN Description | Invoked Quantity | Pledgee | Status | Remarks | | ---
 
 ---
 
-## #144 — Untitled
+## #46 — Untitled
 **Status:** Not started | **Last edited:** Unknown
 
 # Untitled Decription: Corporate actions: Swap pledged assets in scenarios of collateral management- Bonus (Add additional units basis pledge instruction number)- Stock split (Management of split ratio and corresponding unit management, in scenarios of ISIN change, update ISIN, and removal of old ISIN and blocking of ISINs across loans - Drawing power management)- Mergers - Demergers Status: Not started
 
 ---
 
-## #145 — LAS Collateral management system
+## #47 — LAS Collateral management system
 **Status:** Completed | **Last edited:** Unknown
 
 # LAS: Collateral management system Last Edited: July 28, 2025 8:43 PM PRD ETA: June 27, 2025 PRD Owner: Vaibhav Arora # **What is CMS?** The Collateral Management System (CMS) will act as the central infrastructure for managing pledged shares for a Loan Against Shares (LAS) product. It will interface with the Loan Origination System (LOS), Loan Management System (LMS), and Depository Participant (DP) — SHCIL — to manage the full lifecycle of collateral from validation to lien marking, valuation, revocation, and reconciliation. It will also include risk management via real-time LTV monitoring, handling of corporate actions, and tools for operations teams. [CMS system architecture](https://claude.ai/public/artifacts/b5a68c3c-4705-4c9d-b34b-52a1d6bb8ec4) --- # Why do we need a CMS? A **Collateral Management System (CMS)** is essential for a **Loan Against Shares (LAS)** product because collateral (in the form of pledged shares) is **the core security** backing the loan. Without an automated, secure, and integrated system to manage this collateral, the business is exposed to **operational risk, financial risk, and regulatory gaps**. 1. Centralised tracking and management of collaterals: Currently all collaterals are managed by the LMS which makes it very risk prone: A CMS ensures each step is trackable, audit-logged, and consistent with external systems (DP/SHCIL) and internal ones (LMS/LOS). 2. CMS constantly monitors Loan-to-Value (LTV) ratios. If share prices fall, LTV breaches can be automatically flagged (exposure tracking), triggering margin calls or partial lien revocation. 3. Logic separation from LMS: CMS has a lot of collateral management intelligence which should be LMS agnostic, this will make our LMS very modular and easily replaceable since majority of the complexity of collateral management will be handled via CMS. --- # **How are others solving this problem?** The approach to collateral management for Loan Against Shares (LAS) varies widely across the lending ecosystem, largely depending on a company’s scale, tech maturity, and risk appetite. Broadly, solutions fall into two categories: ### 1. **Tightly Coupled CMS-LMS Systems (Usually Vendor-Provided)** Some lenders use **end-to-end lending platforms** where the CMS is embedded within the LMS — often provided by a third-party vendor. These platforms offer: - Pre-integrated lien workflows - Basic LTV tracking - Unified borrower and collateral view ### 2. **No CMS — Operations-Led Collateral Tracking** Most early-stage or mid-sized lenders operate without a dedicated CMS. Instead, they rely on: - Manual **ops processes** to initiate and track lien/revocation files - **Excel sheets or shared dashboards** to monitor pledged ISINs
 
 ---
 
-## #146 — LAS LMS Product Note
+## #48 — LAS LMS Product Note
 **Status:** Completed | **Last edited:** Unknown
 
 # LAS LMS Product Note Last Edited: March 16, 2026 4:03 PM PRD Owner: Vaibhav Arora ## **Concept Journey Note: Blended Loan Against Shares & Mutual Funds** --- ### **Overview** This document outlines the transaction and servicing lifecycle for the **blended LAS-LAMF product**. While loan origination and management remain unified, **collateral management bifurcates at the asset level** (Shares vs Mutual Funds). Key principles: - A **combined DP account** is maintained per customer, but **collateral operations are asset-specific**. - **RMS (Risk Management System)** provides real-time valuation (15-min intervals), while **LMS (Loan Management System)** runs off daily NAVs or EOD market prices. - All DP negative impact money and collateral transactions are **double-validated by LMS + RMS** to ensure real-time coverage, DP sufficiency. --- ## **1. MONEY TRANSACTIONS** --- ### **1.1 Disbursement (Forward + Reverse)** - **Forward Disbursement:** - Triggered post approval and sufficient DP validation (LMS) - RMS validates real-time prices (every 15 minutes). - LMS validates EOD price consistency - Both systems must independently confirm DP sufficiency. - On success: disbursement request is sent to TSP; loan status updated. (Cashfree) - **Reverse Disbursement:** - Used in cases of failed payout - Transaction reversed, collateral DP recalculated. --- ### **1.2 Repayment (Forward + Reverse)** - **Forward Repayment:** - Triggered via user mandate or manual repayment (UPI/netbanking/DC/VA) - LMS receives repayment; validates against due and excess amounts. - **Reverse Repayment:** - Applicable when repayment fails due to banking errors or incorrect credit. - LMS adjusts ledger and reverses credit. --- ### **1.3 Excess Refund** - LMS calculates overpayment (e.g., duplicate repayment, excess interest). - Refund is initiated after checking **updated DP position** via (RMS + LMS) - Final payout initiated via TSP only when RMS confirms buffer post-refund. --- ### **1.4 Charge Application (Forward + Waiver + Refund)** - **Forward:** - Charges (processing, penal charge, Dishonour fees) posted via LMS on configured triggers. - **Waiver:** - Ops-triggered waiver requests. - **Refund:** - Charge reversed, and refund processed. (Credit note) --- ## **2. SERVICING** --- ### **2.1 Closure** - Triggered after full repayment and complete collateral release. - LMS validates: - Zero principal (LMS) - No pending charges (LMS) - No open collateral pledges (CMS) - Closure confirmation sent to DP, TSP, and customer. --- ### **2.2 Renewal** - Applicable for LAMF/LAS products with fixed-term limits. - At maturity, a renewal window opens. --- ### **2.3 Mobile / Email / Bank Account Update
 
 ---
 
-## #147 — LMS Multiple sell off requests
+## #49 — LMS Multiple sell off requests
 **Status:** Completed | **Last edited:** Unknown
 
 # LMS: Multiple sell off requests Last Edited: March 19, 2026 9:44 PM PRD ETA: January 16, 2026 PRD Owner: Vaibhav Arora ## 1. Background & Context In the current LAS / LAMF sell-off flow, the system allows **only one non-terminal sell-off request per loan** at any point in time. Operationally, this breaks in real-world scenarios where: - Sell-off is raised across **multiple funds** and one or more invocations **fail partially** at the RTA / AMC level - Failed invocations do not cover the **entire overdue or shortfall** - Ops is forced to raise **another sell-off request** while the earlier one is still in progress or stuck (Which is currently blocked by a validation that only one non terminal request is allowed). This leads to: - Manual workarounds by the engineering team to support the use case - Delays in curing shortfall / overdue - Risk of exposure breach if sell-off cannot be retriggered in time - Risk of incorrect updates by the engineering team --- ## 2. Problem Statement **Ops raises a sell-off request for multiple securities.** - Some invocations succeed - One or more invocations fail or get stuck (e.g. CAMS / KFIN issues) - Proceeds received are **insufficient to cover the shortfall** - System blocks Ops from raising another sell-off request due to an existing non-terminal request This creates a deadlock where: - Exposure remains unresolved - Ops cannot act despite legitimate need - Manual intervention becomes necessary --- ## 3. Current Sell-Off Flow (As-Is) 1. **Sell-off Initiation** - Ops raises sell-off via **Bulk Maker** at **collateral level** - Requests are consolidated at **loan level** - A single sell-off request is created per loan 2. **Blocking Logic** - Selected units are blocked in LMS - Blocked units stop contributing to **Drawing Power (DP)** 3. **Threshold Calculation** ``` AvailableThreshold= DP - POS - COS - IOS - Accrued Interest ``` - Blocking ensures: - No excess collateral release - No further disbursement beyond safe exposure 4. **Invocation Flow** - RTA APIs (CAMS / KFIN) invoked - RTAs pass requests to AMCs - AMC sells securities 5. **Settlement & Reconciliation** - Proceeds credited to NBFC bank account - Settlement TAT: 2–3 working days - Ops reconciles proceeds via bulk operation - Proceeds mapped to collateral sell-off requests - Amount posted to respective loan accounts in LMS --- ## 4. Key Issue in Current Design - System enforces **single non-terminal
 
 ---
 
-## #148 — LSP Presentation enhancement for externally regist
+## #50 — LSP Presentation enhancement for externally regist
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -3002,21 +892,21 @@ During future mandate presentations, if the mandate is tagged as external, DSP w
 
 ---
 
-## #149 — Loan cancellation - No cost EMI TL (Cred)
+## #51 — Loan cancellation - No cost EMI TL (Cred)
 **Status:** Pending review | **Last edited:** Unknown
 
 # Loan cancellation - No cost EMI / TL (Cred) Last Edited: May 26, 2026 9:08 PM PRD ETA: May 26, 2026 PRD Owner: Vaibhav Arora --- ## Background and context ### Who is facing the problem - Borrowers who have taken a No Cost EMI loan against a merchant purchase and subsequently return the product or drop off mid-journey. - Borrowers who have an Insurance Premium Financing (IPF) loan where the insurance policy is cancelled either by the insurer or by the borrower. - CRED TL customers who have taken a loan and want to cancel within the loan cancellation period. - Ops and collections teams who currently have no automated lifecycle event for cancellation, distinct from foreclosure. - Risk teams who need cancelled loans excluded from bureau reporting which requires a distinct CANCELLED status, not CLOSED. ### What is broken today - There is no cancellation event in the current loan lifecycle. Cancellation and foreclosure are conflated, which creates incorrect P&L treatment, incorrect bureau reporting, and incorrect charge recovery. - When a merchant initiates a product return, there is no clean mechanism to unwind the loan, waive obligations, and return collected funds to the borrower. - Excess parking at line level does not work for cancelled tranches because excess needs to be tagged to the specific cancelled tranche for the refund to be correctly attributed. ### Why it matters - **Bureau reporting:** loans cancelled due to product return or policy cancellation must not be reported to credit bureaus. This requires a distinct CANCELLED status that bureau reporting logic can filter on. - **P&L accuracy:** interest waiver on cancellation must be treated as an income reversal, not a write-off. Without a proper cancellation flow, P&L entries are incorrect. - **Customer experience:** borrowers who return products or cancel policies are entitled to a refund of collected amounts. Without this flow, refunds are manual and error-prone. --- ## 1. Problem scope | In scope | Out of scope | | --- | --- | | No Cost EMI (NCEMI) term loan tranche cancellation | Foreclosure (separate flow — live) | | Insurance Premium Financing (IPF) loan cancellation | Partial cancellation | | All four obligation state scenarios (see Section 3) | Borrower-unilateral cancellation (enforced at Fenix layer) | | Configurable cancellation window (beyond 14 days) | Merchant settlement and MMS integration (Fenix layer) | | Obligation-level configurability for waiver and refund
 
 ---
 
-## #150 — NBFC PG Evaluation
+## #52 — NBFC PG Evaluation
 **Status:** Unknown | **Last edited:** Unknown
 
 # NBFC PG Evaluation Last Edited: April 8, 2025 1:06 PM PRD Owner: Surya Ganesh # Evaluation Criteria ## Business Criteria | Parameter | Razorpay | PhonePe | PayU + HDFC | YBL (Easebuzz) | | --- | --- | --- | --- | --- | | Same day Settlements | No | No | No | No | | UPI Commercials | | | | | | Netbanking Commercials | | | | | | VISA Commercials | | | | | | Mastercard Commercials | | | | | | | | | | | ## Product Criteria | Parameter | Priority | RazorPay | PhonePe | PayU + HDFC | Easebuzz | | --- | --- | --- | --- | --- | --- | | No user login (OTP) | High | No | Available (Standard checkout flow doesn't require user login) | | | | Transaction level control on payment methods | High | | Available (Can specify payment instruments in the payment initiation request) | | | | Transaction level control on card networks | High | | Available (Can filter specific card networks in payment instruments) | | | | Customer name at transaction level | High | | | | | | Backend callback post transaction level | High | | Available (Via callbackUrl parameter in payment request) | | | | Ability to whitelist multiple URLs | High | | Available (Can configure multiple callback and redirect URLs) | | | | White-labelling of checkout | High | | Limited (PhonePe branded checkout but some customization options) | | | | Error codes and reasons at transaction level | High | | Available (Detailed error codes in status responses) | | | | Settlement webhook | Medium | | Available (Supports settlement notifications) | | | | TPV check for UPI transactions | High | | Available (Transaction status API provides verification) | | | | TPV check for DC transactions | High | | Available (Transaction status API provides verification) | | | | TPV check for Netbanking transactions | High | | Available (Transaction status API provides verification) | | | ## Operations Criteria | Parameter | Priority | Razorpay | PhonePe | PayU + HDFC | YBL (Easebuzz) | | --- | --- | --- | --- | --- | --- | | Settlement timeline | High |
 
 ---
 
-## #151 — NESL report
+## #53 — NESL report
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3029,7 +919,7 @@ are we solving?**
 
 ---
 
-## #152 — PMR consumption
+## #54 — PMR consumption
 **Status:** Pending review | **Last edited:** Unknown
 
 **Problem:**
@@ -3046,7 +936,7 @@ In a Loan Against Securities (LAS) setup, collateral positions are dynamic se
 
 ---
 
-## #153 — PPSL UPI mandate presentation
+## #55 — PPSL UPI mandate presentation
 **Status:** Pending review | **Last edited:** Unknown
 
 **In scope:**
@@ -3064,14 +954,14 @@ The scope of this enhancement includes:
 
 ---
 
-## #154 — Part payments - No cost EMI TL (Cred)
+## #56 — Part payments - No cost EMI TL (Cred)
 **Status:** Pending review | **Last edited:** Unknown
 
 # Part payments - No cost EMI / TL (Cred) Last Edited: May 22, 2026 11:34 AM PRD ETA: May 22, 2026 PRD Owner: Vaibhav Arora ## Background and context ### Who is facing the problem - Borrowers with active TL tranches under a credit line who wish to reduce their repayment burden, improve collateral coverage, or avoid forced liquidation of pledged securities. - Collections teams who need a structured tool to help distressed borrowers reduce delinquency probability without full foreclosure. - Risk and ops teams who currently have no automated principal-reduction pathway and handle these requests manually. ### What is broken today - Borrowers have no self-serve mechanism to make a partial principal repayment against a tranche. - The only options available are full EMI payment, excess parking at line level, or full foreclosure — none of which address the mid-path use case of reducing outstanding principal while keeping the tranche live. - Excess parking, while improving the shortfall formula on paper, does not reduce tranche-level obligations. Borrowers who park excess as a shortfall cure remain exposed to re-triggering if security values drop further. - Collections teams have no product-supported tool to recommend structured partial paydowns as part of a repayment sustainability plan. ### Why it matters - Forced liquidation of pledged securities is a high-friction, high-cost event for both borrower and lender. A structured part payment pathway can prevent this. - Borrowers with temporary liquidity (bonus, redemption, salary inflow) have no way to deploy it productively against their loan exposure. - Without this, borrowers approaching shortfall thresholds have only two outcomes: excess parking (fragile cure) or sell-off. Part payment creates a third, durable path. --- ## 1. Problem scope | In scope | Out of scope | | --- | --- | | Term loan (TL) tranches on active credit lines | Overdraft (OD) products | | Tranche-level principal reduction | Line-level part payments | | Payment-led part payment (with repayment order) | Accrued interest settlement | | Excess-led part payment (consuming existing excess) | Overdue / due settlement via part payment | | Reduce EMI amortisation mode | Generic repayment wallet behaviour | | Reduce tenure amortisation mode | Prepayment charges | | Shortfall reduction via principal paydown | Lender-triggered restructuring | | Tactical deleveraging | Foreclosure flows | | Collections-assisted restructuring | Unpledging workflows | | SOA remark on part payment receipt | Borrower communications (separate
 
 ---
 
-## #155 — Pincode addition Account opening enhancement
+## #57 — Pincode addition Account opening enhancement
 **Status:** Pending review | **Last edited:** Unknown
 
 **Problem:**
@@ -3091,7 +981,7 @@ We will be integrating with the Finflux add Pincode API, whenever a client creat
 
 ---
 
-## #156 — Product Note Interest Refund via Credit Note
+## #58 — Product Note Interest Refund via Credit Note
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3106,7 +996,7 @@ We will be integrating with the Finflux add Pincode API, whenever a client creat
 
 ---
 
-## #157 — Product Note LAS Customer Consent Capture
+## #59 — Product Note LAS Customer Consent Capture
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3125,7 +1015,7 @@ This includes:
 
 ---
 
-## #158 — Product Note Penalty migration to Fenix (Colending
+## #60 — Product Note Penalty migration to Fenix (Colending
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3137,7 +1027,7 @@ This enhancement addresses the following problems.
 
 ---
 
-## #159 — Product Note Post-Loan ROI Correction Workflow
+## #61 — Product Note Post-Loan ROI Correction Workflow
 **Status:** Pending review | **Last edited:** Unknown
 
 **In scope:**
@@ -3160,7 +1050,7 @@ This enhancement addresses the following problems.
 
 ---
 
-## #160 — Product note Credit note for TL
+## #62 — Product note Credit note for TL
 **Status:** Pending review | **Last edited:** Unknown
 
 **In scope:**
@@ -3172,7 +1062,7 @@ We are solving:
 
 ---
 
-## #161 — Product note Excess refund Colending
+## #63 — Product note Excess refund Colending
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3192,7 +1082,7 @@ We are solving:
 
 ---
 
-## #162 — Product note Foreclosure (Colending)
+## #64 — Product note Foreclosure (Colending)
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3202,7 +1092,7 @@ We are solving:
 
 ---
 
-## #163 — Product note Foreclosure V2 for Colending
+## #65 — Product note Foreclosure V2 for Colending
 **Status:** Pending review | **Last edited:** Unknown
 
 **In scope:**
@@ -3212,14 +1102,14 @@ We are solving:
 
 ---
 
-## #164 — Product note Interest rate change handling
+## #66 — Product note Interest rate change handling
 **Status:** Pending review | **Last edited:** Unknown
 
 # Product note: Interest rate change handling Last Edited: March 19, 2026 9:51 PM PRD ETA: March 19, 2026 PRD Owner: Vaibhav Arora ## **Background and Context** In the current co-lending construct between DSP (NBFC) and TCL (co-lender), loans are originated and managed across multiple representations within the LMS: - **Loan 90 (TCL Book):** Represents TCL’s capital contribution and is controlled externally by TCL, including interest rate decisions. - **Loan 10 (DSP Book):** Represents DSP’s capital contribution and follows DSP’s internal benchmark and pricing logic. - **Loan 100 (Customer-facing Loan):** A composite loan created in the LMS, reflecting the borrower’s obligation and used for repayment schedules, accruals, and customer communication. The effective interest rate for the borrower is derived as a **weighted average of the underlying lender rates based on capital contribution**: - 90% → TCL (Loan 90) - 10% → DSP (Loan 10) However, from a system and implementation perspective: - The LMS treats **Loan 100 as an independent loan** with its own benchmark and ROI. - Interest rates are currently configured using **benchmark + spread constructs defined at an organizational level**. - There is **no native support for dynamic weighted rate computation** across multiple lender loans within the LMS. --- ### **Problem Statement** As part of ongoing co-lending operations: 1. **Independent Rate Changes by Lenders** - TCL may revise its interest rates (benchmark or spread) independently. - DSP may also revise its own benchmark rates. - These changes directly impact the **effective blended ROI** applicable to the borrower. 2. **Lack of Native Synchronization** - Since Loan 90, Loan 10, and Loan 100 are maintained separately: - Rate changes in Loan 90 (TCL) do not automatically reflect in Loan 100. - Loan 100 must be **manually or systematically updated** to maintain parity with the blended rate. 3. **Risk of Misalignment** - If Loan 90 and Loan 100 are not updated in sync: - Incorrect borrower interest may be charged. - Accruals and repayment splits between lenders may become inconsistent. - Downstream systems (accounting, reconciliation, reporting) may break. 4. **Operational Complexity** - Current benchmark configuration is **organization-wide**, not contract-specific. - With multiple co-lending partners, each having: - Different benchmarks - Different spreads - Different rate change cycles → A single benchmark approach does not scale. --- ### **Constraints** - Loan 100 **must exist as a physical loan in the LMS** and cannot be treated as a derived construct. - LMS
 
 ---
 
-## #165 — Product note Razorpay PG integration Colending
+## #67 — Product note Razorpay PG integration Colending
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3237,7 +1127,7 @@ We are solving:
 
 ---
 
-## #166 — Product note Virtual account handling for Colendin
+## #68 — Product note Virtual account handling for Colendin
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3255,14 +1145,14 @@ We are solving:
 
 ---
 
-## #167 — Product note template evaluation
+## #69 — Product note template evaluation
 **Status:** Completed | **Last edited:** Unknown
 
 # Product note template evaluation Last Edited: March 19, 2026 9:44 PM PRD Owner: Vaibhav Arora ### Lifecycle of a feature (Why product note): ```json ┌────────────────────┐ │ │ │ (initial problem, │ │ scope, context) │ └─────────┬──────────┘ │ ▼ ┌──────────────── Grooming / Kickoff ───────────────┐ │ │ │ • Align on scope │ │ • Identify edge cases │ │ • Refine requirements │ └─────────┬───────────────────────────┬─────────────┘ │ │ ▼ ▼ ┌───────────────────┐ ┌────────────────────────┐ │ Design Handoff │ │ Cross-Functional │ │ (UX, flows, │ │ Sign-offs │ │ mocks, journeys) │ │ • Finance │ └─────────┬─────────┘ │ • Compliance │ │ │ • Business Ops │ ▼ └─────────┬──────────────┘ ┌───────────────┐ │ │ │ │ │ Product Note │◄─────────────────┘ └─────────┬─────┘ ▼ ┌───────────────────┐ │ PRD │ │ (final detailed │ │ specifications) │ └─────────┬─────────┘ ▼ ┌──────────────┐ │ Engineering │ │ (breakdown, │ │ estimation, │ │ sprinting) │ └────────────── ┘ ``` ### What is a product note? A product note is a succinct, structured document that brings all stakeholders onto the same page before execution begins. Execution here is function specific: - PRDs for PMs - Low fidelity mockups and high fidelity for Design - System design documents for Engineering team - Development of core product It distils the problem, the scope, the target audience, the desired outcomes, and the key decisions into a single source of truth. Its goal is alignment ensuring everyone understands what we’re solving, why it matters, what success looks like, and what the first version will include. ### Use cases of a product note: **1. What is the problem?** - Clear articulation of the problem statement. (What are we not solving) **2. Who are we solving it for?** - Target audience definition and roll-out strategy. (GTM should be separate from defining the target audience) / Phasing can be a part of the product note however GTM may not be a product note **3. How will we know the problem is solved?** - Success criteria and measurable outcomes. **4. How are we planning to solve it?** - Scope of the solution and key components of the approach. - Entry points (User flow diagram) / Use cases **5. Why does this problem matter now?** - Prioritisation rationale and business/user impact. (Merge with what is the problem?) **6. When will we solve it and who owns what?** - Timeline, milestones, and ownership across teams. (Can be a part of solution scope) **7. How does
 
 ---
 
-## #168 — Razorpay SDK enhancement for Colending
+## #70 — Razorpay SDK enhancement for Colending
 **Status:** Pending review | **Last edited:** Unknown
 
 **In scope:**
@@ -3294,7 +1184,7 @@ We are solving:
 
 ---
 
-## #169 — Risk management system LAS
+## #71 — Risk management system LAS
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -3322,7 +1212,7 @@ The RMS module performs the following responsibilities:
 
 ---
 
-## #170 — Shortfall Enhancement
+## #72 — Shortfall Enhancement
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3337,7 +1227,7 @@ Decompose incremental shortfall into ΔDP and ΔExposure components. Apply ΔExp
 
 ---
 
-## #171 — Suspension framework
+## #73 — Suspension framework
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -3353,14 +1243,14 @@ Currently, suspensions or blacklisting actions (triggered by screening alerts, l
 
 ---
 
-## #172 — Tally ERP Integration
+## #74 — Tally ERP Integration
 **Status:** Completed | **Last edited:** Unknown
 
 # Tally ERP Integration Last Edited: March 19, 2026 9:44 PM PRD Owner: Vaibhav Arora # **Tally Journal Voucher API Contract (Sample Document)** This document outlines the proposed API contract for pushing journal voucher entries from the LMS/ERP system to Tally. Each journal voucher corresponds to a single **transaction event**, containing one or more **ledger-level debit/credit lines** with consolidated amounts. --- ## **1. API Overview** ### **Endpoint** (To be shared by the vendor) ### **Purpose** Push a complete journal voucher entry at a transaction type level to Tally for accounting purposes. --- ## **2. Request Structure (Batch Journal Posting)** The API will support **batch posting** of journal vouchers. Each request will contain an **array of transactions**, where each object represents one complete journal voucher. ### **2.1 Journal Voucher Batch Payload** ```json [ { "transaction_type": "string", "narration": "string", "voucher_date": "YYYY-MM-DD", "tally_txn_id": "1234564534432", "ledger_entries": [ { "ledger_name": "Sample1", "debit": "number", "credit": "number" }, { "ledger_name": "Sample2", "debit": "number", "credit": "number" } ] }, { "transaction_type": "string", "narration": "string", "tally_txn_id": "1234564534433", "voucher_date": "YYYY-MM-DD", "ledger_entries": [ { "ledger_name": "Sample1", "debit": "number", "credit": "number" }, { "ledger_name": "Sample2", "debit": "number", "credit": "number" }, { "ledger_name": "Sample3", "debit": "number", "credit": "number" } ] } ] ``` --- ### **Field Description** | Field | Type | Description | | --- | --- | --- | | transaction_type | string | Preconfigured transaction type (ex: PAYIN, PAYOUT) | | tally_txn_id | string | Unique transaction identifier used as **dedupe key** | | voucher_date | date | Voucher posting date | | narration | string | Narration mapped to transaction type | | ledger_entries | array | List of debit/credit ledger lines | --- ### **Ledger Entry Object** | Field | Type | Description | | --- | --- | --- | | ledger_name | string | Name of the ledger in Tally | | debit | number | Amount debited (zero if not applicable) | | credit | number | Amount credited (zero if not applicable) | --- ## **3. Transaction Type Samples** Below are examples for each transaction type based on provided data. --- ## **3.1 ADD_FEE** **Narration:** Being fee income recognition ```json { "tally_txn_id": "<unique-id>", "transaction_type": "ADD_FEE", "voucher_date": "2025-01-01", "narration": "Application of fee on loan account", "ledger_entries": [ {"ledger_name": "Fees receivable", "debit": 7109825, "credit": 0}, {"ledger_name": "Income from Fees", "debit": 0, "credit": 6025269}, {"ledger_name": "CGST Payable", "debit": 0, "credit": 90382}, {"ledger_name": "SGST Payable", "debit": 0, "credit":
 
 ---
 
-## #173 — Template (PRD)
+## #75 — Template (PRD)
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3373,7 +1263,7 @@ are we solving?**
 
 ---
 
-## #174 — Template (PRD)
+## #76 — Template (PRD)
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3386,7 +1276,7 @@ are we solving?**
 
 ---
 
-## #175 — Template (PRD)
+## #77 — Template (PRD)
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3399,21 +1289,21 @@ are we solving?**
 
 ---
 
-## #176 — Term loan gaps
+## #78 — Term loan gaps
 **Status:** Unknown | **Last edited:** Unknown
 
 # Term loan gaps Last Edited: July 24, 2025 5:10 PM PRD Owner: Vaibhav Arora ### **Spend & Convert Enhancements** - Support for **flat PF (Processing Fee)** values in spend and convert requests. - Allow **knockoff remarks** to be passed in the spend and convert payload. - Support passing **different charge types** and **collecting multiple charges** in a single spend and convert request. --- ### 🧾 **Repayment Logic** - Enable both **loan-level and line-level repayments** to co-exist for term loans. - Mark **repayment at loan level** as a current **gap** in configuration. - Support **EMI-level repayments**. - Include **apportionment details** in the repayment response (internal checks needed). - Support **loan-level excess refunds**. - **Excess amounts**: - Should remain **parked** after due generation (do not auto-settle dues via FIFO). - At **line level**, should **increase available limit**. --- ### 🧮 **Due/Bill Generation** - Bills should be generated **independent of the due generation job**—on demand. --- ### 📆 **Schedule and Simulation** - Provide a **preview schedule API** without needing to create a line. - Enable **tranche-level simulation API** for a given date. - All **date fields** must be passed as **EPOCH timestamps**. --- ### 🧠 **Tagging & Status Configurations** - SMA tagging should be **configurable**. - **NPA to be tracked at client level**, while **SMA is tracked at loan level**. --- ### 📉 **Interest & Limit Management** - Support **interest rate updates** on loans. - **Limit replenishment** should only occur when the **underlying loan is fully closed**, whether via EMI or part-payment.
 
 ---
 
-## #177 — Trackwizz continuos monitoring enhancement
+## #79 — Trackwizz continuos monitoring enhancement
 **Status:** Unknown | **Last edited:** Unknown
 
 # Trackwizz continuos monitoring enhancement Last Edited: November 13, 2025 12:39 PM PRD Owner: Vaibhav Arora # Contract Changes Required for Stopping Continuous Monitoring - AS504 API ## Executive Summary Based on the AS504 API documentation, the following contract modifications are necessary to effectively discontinue continuous monitoring (Purpose 04) for customers while managing ongoing screening operations. --- ## 1. API Purpose Codes & Termination Logic ### Current Purpose Definitions - **Purpose 01**: Initial Screening with API Response and No Storage - **Purpose 03**: Initial Screening with API Response and TW Workflow - **Purpose 04**: Continuous Screening with TW Workflow ### Key Finding To stop continuous monitoring, contracts must clarify the mechanisms for Purpose 04 discontinuation, as there is no explicit "Purpose 05" for stopping monitoring in the current API specification. --- ## 2. Required Contract Amendments ### 2.1 Data Retention & Deactivation Terms **Required Changes:** ### 2.1.1 Customer Status Field Modification - **Field**: `status` (Customer Status Enum) - **Current Values**: Active, Closed, Dormant, Inactive, Suspended - **Contract Change**: Add explicit condition: `When a customer record's purpose changes from "04" (Continuous Screening) to either "01" or "03" (Initial Screening only), the system must: 1. Cease real-time continuous screening operations 2. Maintain historical screening records for audit/compliance purposes 3. Update effectiveDate to reflect when continuous monitoring ended 4. Mark continuous monitoring as "Terminated" in internal tracking` **Effective Date Requirements:** - Must be provided in "DD-MMM-YYYY" format - Should reflect the exact date when continuous monitoring ceases - Cannot be a future date (must be current or past) --- ### 2.2 Purpose Code Combination Restrictions **Contract Required Clause:** The API currently allows: - Purpose 01 & Purpose 04 (combination allowed) - Purpose 03 & Purpose 04 (combination allowed) **To Stop Continuous Monitoring**, the contract must specify: `Transition Rules for Discontinuing Continuous Monitoring: 1. If Purpose 04 is removed from a request while Purpose 01 or 03 remains: - Continuous monitoring CEASES immediately - Initial screening continues as specified - Customer record remains in TrackWizz but without ongoing monitoring 2. If ONLY Purpose 04 is passed in a new request: - Continuous monitoring CONTINUES unchanged 3. If NEITHER Purpose 01, 03, nor 04 is passed: - Request is REJECTED per validation MRV12` --- ### 2.3 Mandatory Fields for Terminating Continuous Monitoring **Contract Clause - Purpose 04 Discontinuation:** When removing Purpose 04, the following fields become mandatory: ``` FieldRequirementFormatPurposesourceSystemCustomerCodeMandatoryString (Max 100)Identifies record to stop monitoringsourceSystemNameMandatoryEnum
 
 ---
 
-## #178 — Transaction Sequencing & Transaction Workflows for
+## #80 — Transaction Sequencing & Transaction Workflows for
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3425,7 +1315,7 @@ Specifically it covers:
 
 ---
 
-## #179 — Unpledge - Stocks selection logic
+## #81 — Unpledge - Stocks selection logic
 **Status:** Completed | **Last edited:** Unknown
 
 **Solution:**
@@ -3433,7 +1323,7 @@ Specifically it covers:
 
 ---
 
-## #180 — Volt - Overdue Communication Enhancement
+## #82 — Volt - Overdue Communication Enhancement
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3454,7 +1344,7 @@ The following enhancements are included in this release:
 
 ---
 
-## #181 — Volt - Shortfall Communication Enhancement – Due D
+## #83 — Volt - Shortfall Communication Enhancement – Due D
 **Status:** Completed | **Last edited:** Unknown
 
 **In scope:**
@@ -3474,7 +1364,7 @@ The following enhancements are included in this release:
 
 ---
 
-## #182 — [Platform] Decoupling of dishonour fees with manda
+## #84 — [Platform] Decoupling of dishonour fees with manda
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -3498,7 +1388,7 @@ We will remove charge application logic from our mandate presentation workflow, 
 
 ---
 
-## #183 — [Platform] Disbursement optimisation to handle cro
+## #85 — [Platform] Disbursement optimisation to handle cro
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -3533,7 +1423,7 @@ Processing fees applied on 31st March 2025 for account opening of
 
 ---
 
-## #184 — [Platform] Foreclosure handling to support Volt fo
+## #86 — [Platform] Foreclosure handling to support Volt fo
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -3580,7 +1470,7 @@ Please note that these payments will not go through a checker approval workflow
 
 ---
 
-## #185 — [Platform] Mandate collection enhancement
+## #87 — [Platform] Mandate collection enhancement
 **Status:** Completed | **Last edited:** Unknown
 
 **Problem:**
@@ -3611,28 +1501,21 @@ We will be enhancing our current mandate presentation workflow to support the us
 
 ---
 
-## #186 — Sameer Minde Vaibhav
-**Status:** Unknown | **Last edited:** Unknown
-
-# Sameer Minde <> Vaibhav Meeting Notes: Preliminary Notes: **Step 1: User requests lien removal from app** - Volt sends email to Bajaj ops. - Zendesk ticket is created - Ticket is created for collateral team at BFL - User is communicated that request is being processed - On Volt app, securities are not removed from Holding statement, but not removed from BFL LMS. **[Need to review this, if we should remove]** - User is shown a lien removal in progress task **Step 2: Request is processed by collateral team** - Request is processed by collateral team - Collateral is removed from LMS - How is holding statement updated? - How is task closed? **Step 3: Request is submitted to AMC** - It take 2-3 business days for AMC to remove lien. - Beyond this not possible to track Amount level selection of folio that can be pledged, this becomes a request which is sent to BFL via email That created a ticket in their CRM if sent before 7 PM on T0, T+1 they send letters to RTA (physical lien removal letters) CAMS and Kfintech T+1 5 PM they get timestamped acknowledgement (BFL) on request they send this acknowledgement to volt. Follow up is sent to BFL for this acknowledgement Important: keep pending requests in a separate section discovery of which is somewhat behind steps so that it is not very apparent to the customer. T+3/T+4 Lien removal happens they get CAMS or KFIN data dump (lien status) Kfin (lien marked date and lien unmarked date)
-
----
-
-## #187 — Term Loan Apportionment Logic
+## #88 — Term Loan Apportionment Logic
 **Status:** Unknown | **Last edited:** Unknown
 
 # Term Loan: Apportionment Logic - Apportionment is the distribution of a paid sum of money across multiple components of a loan/tranche in order to knock off/settle these components. - Apportionment logic will be based in the order of IPC. - In case of a single tranche apportionment the order will be: Interest Overdue>Principal Overdue>Interest Due>Principal Due>Charge. In case there are multiple EMIs of the Tranche which are overdue then apportionment will start from the oldest EMI overdue. - In case of multiple tranches apportionment the order will be: Oldest EMI overdue(Interest>Principal)>Oldest EMI due(Interest>Principal)>Charges. In case of EMIs overdue across multiple tranches the oldest EMI across tranches will be apportioned first then the apportioning will be done for the next oldest EMI across the tranches and so on so forth. In case all the overdue EMIs are cleared/apportioned the next apportioning will be done for the oldest due EMI and once the oldest due EMI is apportioned then apportioning of the next oldest due EMI will be done and so on so forth. Once all the overdue and due EMIs are apportioned across tranches, apportionment of charges will start and it will also be done based in the order of the oldest charge getting apportioned first i.e. in the chronological order. - If after the apportionment of all the components there is an excess which remains then we will ask the user to select the tranche wherein the excess will be adjusted. The excess adjustment will happen in a way that either the Tenure of the Tranche is reduced or the EMI of the Tranche is reduced based on the user’s selection. Default option(in case user does not select) will always be to reduce the tenure keeping the EMI same for the oldest Tranche.
 
 ---
 
-## #188 — Term Loan Charges
+## #89 — Term Loan Charges
 **Status:** Unknown | **Last edited:** Unknown
 
 # Term Loan: Charges 1. No fees will be charged to users for the below scenarios : - Mandate bounce charges - Daily penal charges on interest overdue - Security sell-off charges 2. Business would need visibility on the below scenarios : - How many customers bounced with sourcing channel CRED (at Opportunity ID level) - No of days the EMI was overdue at Opportunity ID level for sourcing channel CRED - No of customers where security sell-off occurred along with sell-off amount and Opportunity ID mapping 3. No communication to be sent from DSP to CRED customers for any penal charges (even if the penal charges are equal to zero)
 
 ---
 
-## #189 — Term Loan Communications
+## #90 — Term Loan Communications
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3651,7 +1534,7 @@ A structured, automated, and multichannel communication framework for **Term Lo
 
 ---
 
-## #190 — Term Loan Customer Statements
+## #91 — Term Loan Customer Statements
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3698,21 +1581,21 @@ If Tranche is closed
 
 ---
 
-## #191 — Term Loan DPD handling
+## #92 — Term Loan DPD handling
 **Status:** Unknown | **Last edited:** Unknown
 
 # Term Loan: DPD handling ## **Handling of Days Past Dues (DPD) for Overdue Tranches** ### **Definition of DPD** - **Days Past Due (DPD)** is the number of calendar days an EMI remains unpaid beyond its scheduled due date. - DPD shall be calculated **per tranche/EMI** and maintained at both: - **Tranche level** → to identify overdue EMIs. - **Loan account level** → to reflect overall delinquency status. --- ### **DPD Lifecycle & Tracking** - **0 DPD:** EMI due on the due date but not yet paid. - **1–13/18 DPD:** Period after the due date until the 2nd Mandate presentation. - **14/19 DPD onwards:** If the 2nd NACH also bounces, account enters persistent delinquency. - Post sell-off, if dues are cleared, DPD for corresponding tranches resets to **0**. - If sell-off proceeds are **insufficient**, DPD continues to accrue on residual overdue balance. --- ### **DPD & Apportionment Interaction** - When sell-off proceeds are received: 1. First, they are applied to the **oldest overdue tranche (highest DPD)**. 2. Within a tranche, proceeds are apportioned as: - Interest component → Principal component → Charges. 3. Once all overdue tranches are cleared, any remaining proceeds are applied towards: - Upcoming EMIs (not yet due), then - Loan-level excess balance. --- ### **DPD in Customer Communication(To be closed)** - Customer statements and notifications shall explicitly display: - Current DPD status per tranche. - Total overdue amount by DPD bucket (e.g., 1–30 days, 31–60 days). - Post-sell-off DPD reset (or residual overdue if sell-off insufficient). --- ### **Regulatory & Credit Bureau Reporting** - DPD values shall be reported to credit bureaus as per regulatory guidelines (CIBIL/Experian/Equifax). - If overdue persists beyond sell-off (due to insufficient collateral proceeds), the updated DPD must continue until full settlement. - Correct mapping of **tranche-level DPD → loan-level delinquency** must be ensured in reporting systems. --- ### **Exception Handling** - If AMC redemption is delayed (T+1/T+2), DPD continues to accrue until proceeds are actually realized. - In case of system error or partial sell-off, DPD is adjusted retrospectively once final proceeds are credited.
 
 ---
 
-## #192 — Term Loan Disbursement
+## #93 — Term Loan Disbursement
 **Status:** Unknown | **Last edited:** Unknown
 
 # Term Loan: Disbursement ### First Drawdown Based on the Submit opportunity status the subsequent flow will be decided: **Submit Opportunity Failure:** - Loan and Tranche Account won’t be created and LSP will have to re-trigger the request **Submit Opportunity Success(Disbursal Success):** - Loan Account is created and Disbursement workflow is triggered. - Once the Disbursement workflow is triggered we will block the DP of the user. - The Disbursement/Payout request is then sent to our Payout partner. - Our payout partner acknowledges the request and initiate the payout from their end. - Once the amount gets debited from our bank account we get a debit success response. - Post the debit from our Bank Account the amount will get credited to the customer’s bank account. This is when we get a credit success response. - Once we receive a credit success response we will be posting the disbursal in the ledger and accordingly a Tranche account will be opened. - Based on the disbursal amount, tenure and interest rate the repayment/EMI schedule gets generated. **Submit Opportunity Success(Disbursal Failure):** - Loan Account is created and Disbursement workflow is triggered. - Once the Disbursement workflow is triggered we will block the DP of the user. - The Disbursement/Payout request is then sent to our Payout partner. There are multiple scenarios once the disbursal/payout request is triggered from our systems: 1. The request is not triggered resulting in an instant failure of the disbursement. In such a case we need to retry initiating the request until it gets triggered to the Payout partner. 2. The request is triggered from our system but due to the Payout partner system being down we get an error resulting in disbursement failure. In such a case we need to re-trigger the request at the same time we receive the error from our payout partner or we can wait for sometime before re-triggering the request. 3. The request is received by the payout partner and the same is acknowledged through a response but the debit from our bank account does not happen and we get a debit failure response. In such a case we need to re-trigger the disbursal request(Depends on tech handling, if we are not able to handle this in V0 then we can mark the disbursal as failure and inform the LSP of the same for them to re-trigger the request and we unblock
 
 ---
 
-## #193 — Term Loan Excess Handling and Refund
+## #94 — Term Loan Excess Handling and Refund
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3734,7 +1617,7 @@ We aim to design
 
 ---
 
-## #194 — Term Loan Foreclosure
+## #95 — Term Loan Foreclosure
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3761,7 +1644,7 @@ For Lender/Business:
 
 ---
 
-## #195 — Term Loan Mandate Repayments
+## #96 — Term Loan Mandate Repayments
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3788,7 +1671,7 @@ are we solving?**
 
 ---
 
-## #196 — Term Loan Manual Repayments(PG)
+## #97 — Term Loan Manual Repayments(PG)
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3819,7 +1702,7 @@ For Lenders:
 
 ---
 
-## #197 — Term Loan Manual Repayments(VA)
+## #98 — Term Loan Manual Repayments(VA)
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3843,7 +1726,7 @@ Enable repayments via static Virtual Accounts (VA) mapped per customer. Custom
 
 ---
 
-## #198 — Term Loan Prepayments and Excess Handling
+## #99 — Term Loan Prepayments and Excess Handling
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3865,7 +1748,7 @@ We need to design a
 
 ---
 
-## #199 — Term Loan Sell off
+## #100 — Term Loan Sell off
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3885,7 +1768,7 @@ Are We Solving?**
 
 ---
 
-## #200 — Term Loan Unpledge Eligibility API(Post loan creat
+## #101 — Term Loan Unpledge Eligibility API(Post loan creat
 **Status:** Unknown | **Last edited:** Unknown
 
 **Problem:**
@@ -3923,132 +1806,49 @@ The Maximum
 
 ---
 
-## #201 — Term Loan Unpledging
+## #102 — Term Loan Unpledging
 **Status:** Unknown | **Last edited:** Unknown
 
 # Term Loan: Unpledging **Pre Loan A/C creation:** 1. If user pledges their collateral but does not proceed with the loan account creation then after 90 days from pledging we will initiate unpledging of the collaterals. The unpledging of the collaterals will be an Ops driven process. 2. If before 90 Days, user reaches out to us to unpledge their collateral instead of going ahead with the loan account creation then Ops will initiate the unpledge on the customer’s request. Customer won’t bear any charge(In V0) for getting their collaterals unpledged. In both the above cases the Ops process remains the same as OD. Ops team will be uploading the collateral unpledge file(Data team will be providing the collateral file to Ops) through the Bulk Upload option on the Command Centre. There won’t be any change in the file type, processing of the bulk upload and further process executions for unpledging of collaterals related to Term Loans. **Post Loan A/C creation:** - Loan Foreclosure: In case user Forecloses the Loan then the unpledging request will go through the non-STP flow same as it is currently happening in OD Loan Foreclosure. - If customer forecloses all the tranches before the expiry of the Facility/Loan tenure, we won’t initiate the collateral unpledging automatically. - If customer takes the first drawdown and closes/cancels the tranche during the Cool-off period then we won’t be unpledging the collaterals automatically until loan foreclosure or Facility(Loan) tenure expiry. Post Cool-off tranche cancellation three cases arise: 1. Customer proceeds to foreclose the Loan: Unpledging request will go through the non-STP flow as currently happening in OD Loan Foreclosure. 2. Facility/Loan Tenure expires: This has currently not happened for OD product as well and no process is in place currently. Hence not a part of V0, we can take this up in V2. 3. Customer requests for collateral unpledging from LSP: If there is a Loan level outstanding then the flow is discussed in Partial Unpledging. If there is no Loan level outstanding then the user will be able to select the fund/s they want to unpledge and raise the request for the same(User can raise the unpledging request either in one go or in multiple times). Once the user raises the unpledge request/s through the LSP to DSP it will either go through the STP or nSTP flow, described below. - Partial Unpledging: Customers can only initiate partial
 
 ---
 
-## #202 — Repayment_Schedule_3900 (4)
-**Status:** Unknown | **Last edited:** Unknown
-
-# Repayment_Schedule_3900 (4) ![](Repayment_Schedule_3900%20(4)/image1.png) --- Repayment Schedule ( Generated on 05/02/2026 16:15:50 ) --- RANJAN SINGH S/O: Dinesh Singh,shivalya bhawan,Sector, 03,nandgawn,Singrauli,Singrauli,Madhya, Pradesh,486887 Singrauli- 486887,Madhya Pradesh 7980565882 ranjan.singh@voltmoney.in --- Branch Name DELHI - RAJENDRA PLACE Product Type LAS Customer Name RANJAN SINGH Currency INR Loan Account No. 3900 Frequency Monthly Rate of Interest per annum [%] 10.19 Loan Status Active Loan Amount [Rs.] 315.00 Total Installment [Rs.] Total Tenure (in month) 12 Balance Installment [Rs.] Loan Sanctioned Amount [Rs.] 50,500.00 Charges Outstanding 0.00 Loan maturity date 07-Oct-2026 [Rs.] Available Amount for 49,998.00 Interest Rate type Floating Disbursement [Rs.] ![](Repayment_Schedule_3900%20(4)/image2.png) --- | | | --- | | Repayment Schedule ( Generated on 05/02/2026 16:15:50 ) | | Installment no . /TypeDue Date / Transaction DateOpening Balance [Rs.]Installment Amount [Rs.]Principal [Rs.]Interest [Rs.]Closing Balance [Rs.]Efftect Rate(%)Transaction TypeF07-Oct-2025407.000.000.000.00407.0010.19Facility DateD13-Oct-2025407.000.000.000.0010,407.0010.19DisbursementD17-Oct-202510,407.000.000.000.0030,407.0010.19DisbursementD20-Oct-202530,407.000.000.000.0045,407.0010.19DisbursementD27-Oct-202545,407.000.000.000.0049,907.0010.19Disbursement131-Oct-202549,907.00196.840.00196.8449,907.0010.19P17-Nov-202549,907.000.000.000.0049,906.0010.19Part Payment230-Nov-202549,906.00417.900.00417.9049,906.0010.19P02-Dec-202549,906.000.000.000.0030,326.0010.19Part PaymentD08-Dec-202530,326.000.000.000.0031,326.0010.19DisbursementP09-Dec-202531,326.000.000.000.0030,325.0010.19Part PaymentP29-Dec-202530,325.000.000.000.0030,315.0010.19Part Payment331-Dec-202530,315.00268.280.00268.2830,315.0010.19P02-Jan-202630,315.000.000.000.00315.0010.19Part Payment431-Jan-2026315.0011.160.0011.16315.0010.19528-Feb-2026315.002.520.002.52315.0010.19631-Mar-2026315.002.790.002.79315.0010.19 | | | | | | | | | | | | | | | | | | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | Repayment Schedule ( Generated on 05/02/2026 16:15:50 ) | | | | | | | | | | | | | | | | | Terms and Condition: The dynamic repayment details provided above are for reference only. Please refer to the Statement of Account (SOA) for actual payments, receipts, and dues. The repayment schedule is drawn from the latest facility date. Interest dues will be basis actual utilisation during the month. The “Available loan amount for disbursement” will be restricted to the net of sanctioned amount and loan amount. | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
-
----
-
-## #203 — Sameer Minde Vaibhav (1)
-**Status:** Unknown | **Last edited:** Unknown
-
-# Sameer Minde <> Vaibhav (1) Meeting Notes: Preliminary Notes: **Step 1: User requests lien removal from app** - Volt sends email to Bajaj ops. - Zendesk ticket is created - Ticket is created for collateral team at BFL - User is communicated that request is being processed - On Volt app, securities are not removed from Holding statement, but not removed from BFL LMS. **[Need to review this, if we should remove]** - User is shown a lien removal in progress task **Step 2: Request is processed by collateral team** - Request is processed by collateral team - Collateral is removed from LMS - How is holding statement updated? - How is task closed? **Step 3: Request is submitted to AMC** - It take 2-3 business days for AMC to remove lien. - Beyond this not possible to track Amount level selection of folio that can be pledged, this becomes a request which is sent to BFL via email That created a ticket in their CRM if sent before 7 PM on T0, T+1 they send letters to RTA (physical lien removal letters) CAMS and Kfintech T+1 5 PM they get timestamped acknowledgement (BFL) on request they send this acknowledgement to volt. Follow up is sent to BFL for this acknowledgement Important: keep pending requests in a separate section discovery of which is somewhat behind steps so that it is not very apparent to the customer. T+3/T+4 Lien removal happens they get CAMS or KFIN data dump (lien status) Kfin (lien marked date and lien unmarked date)
-
----
-
-## #204 — How banks and NBFCs manage rounding of interest an
-**Status:** Unknown | **Last edited:** Unknown
-
-# How banks and NBFCs manage rounding of interest and charges, and how they handle accounting in these cases. ## **1. Regulatory & Industry Context** ### RBI Guidelines: RBI doesn’t dictate **how to round**, but it **expects fairness, transparency, and precision** in: - Customer charging - Auto-debit recovery - Tax invoicing - Reconciliation of ledgers So, banks and NBFCs need to: - Ensure **customers aren’t overcharged** - Match debits with invoices/statements - Maintain proper **audit trail** and **variance accounting** if rounding is applied --- ## 2. Rounding Methods Used by Banks & NBFCs | Type | Common Use Case | Real-world Examples | | --- | --- | --- | | **No Rounding (Post exact value)** | Charges with GST, floating interest | HDFC Bank, Axis Bank, Bajaj Finance (on fees), most NBFCs | | **Round to Nearest Rupee** | Interest on EMI loans, penal charges | SBI, ICICI Bank, Fullerton | | **Round Up (Conservative)** | Micro loans, prepaid cards | Some gold loan NBFCs | | **Cumulative Rounding** | Long tenure loans | Used in housing finance | --- ## 3. Detailed Accounting Treatment by Banks/NBFCs ### **A. Exact Posting (No Rounding)** ### Use Case: - Processing fees + GST - Penal charges ### System Flow: 1. Fee computed: ₹100 2. GST @18% = ₹18 3. Total = ₹118.00 (posted and debited as-is) ### Accounting Entries: | Ledger Name | Debit (₹) | Credit (₹) | | --- | --- | --- | | Customer Loan Account | ₹118.00 | | | Processing Fee Income | | ₹100.00 | | GST Payable (Output) | | ₹18.00 | ✅ Matches invoice and is tax compliant --- ### **B. Round at Posting (Nearest Rupee)** ### Use Case: - Accrued interest - EMI interest - Installment schedules ### Example: - Accrued Interest: ₹199.48 → Rounded: ₹199 - Accrued Interest: ₹199.50 → Rounded: ₹200 ### System Flow: - Round value **at the point of debit** ### Accounting Entries: | Ledger Name | Debit (₹) | Credit (₹) | | --- | --- | --- | | Customer Loan Account | ₹200.00 | | | Interest Income | | ₹199.48 | | **Rounding Reserve GL (Internal)** | | ₹0.52 | > 🔸 If we round down, the 0.52 may be debited to an expense account. > ### Why Rounding Reserve GL? To track small deltas between system-calculated interest and posted amount. ✅ Fair
-
----
-
-## #205 — Discussion with Rohan (Groww)
+## #103 — Discussion with Rohan (Groww)
 **Status:** Unknown | **Last edited:** Unknown
 
 # Discussion with Rohan (Groww) 1. Building in-house after 1 year of operations is recommendable instead of building it in-house from the start 2. VideoSDK has good solution for the video session. 3. Groww built all the in-house cause they were aiming for 4. Hyperverge gives a high amount of false negatives 5. Initially: Success rate → 80% and VKYC completion rate → 70% 6. After spending 2 quarters improving on the Vkyc stack, Success rate → 95% and VKYC completion rate → 80% 7. It is important to store the data correctly and in a reproducible manner. 8. IDfy and Digio are recommended VKYC solution providers 9. Digio uses VideoSDK for their video stack - confirmed 10.
 
 ---
 
-## #206 — LSP Focused VKYC Journey Alignment
+## #104 — LSP Focused VKYC Journey Alignment
 **Status:** Unknown | **Last edited:** Unknown
 
 # LSP Focused VKYC Journey Alignment With the latest updation to Know Your Customer (KYC) Direction, face-to-face KYC is mandatory for all digital lending (except term loans under Rs. 60,000). V-CIP (Video Customer Identification Process) has been presented by the RBI as an alternative to offline KYC. This document outlines the complete V-CIP journey implementation based on competitive benchmarking of 6 Video KYC journeys (of Slice saving account opening, LazyPay BNPL LOS journey, Navi PL LOS journey, Shivalik SFB FD (Super.Money), Unity SFB (Stable Money) and Refyne PL LOS journey). - Brief about VKYC and its process Video KYC is a face-to-face KYC method recognised by RBI as an alternative to offline KYC. This involves the agent (Employee of the RE) following checks: 1. Customer verification 2. 3 way Photo Verification 3. Live location Check (Cx needs to be in India) 4. Liveness Check Pre-VKYC contains following need to be managed steps: 1. Pre-session messaging 2. Device permission enablement and Instructions 3. Consent for doing VKYC 4. Scheduling 5. Queuing During VKYC session following steps need to be completed: 1. Security Questions 2. Livininess Check 3. PAN Capture 4. Face Match 5. Location Capture Post VKYC session following steps need to 1. Based on Agent Marking the session as: 1. Marking Session Success: Customer’s VKYC session is completed and pushed to the Auditor’s bucket for final review. 2. Marking Session Failure: Customer needs to re-attempt VKYC. 3. Marking Session Incomplete: Webhooks to inform the LSP; will require the customer to complete the session using the same video link 2. Once the agent marks the session as a success, next is the Auditor Review: 1. Marking Session Success: Webhooks to inform LSP; complete application and initiate withdrawal on LSPs end 2. Marking Session Failure: Webhooks to inform the LSP; will require the customer to redo their VKYC 3. Marking Session Reopen: Webhooks to inform the LSP; will require the customer to redo their VKYC ![image.png](LSP%20Focused%20VKYC%20Journey%20Alignment/image.png) As an NBFC, our control is limited over the Pre-VKYC and Post-VKYC user experience. Following are the steps of a VKYC journey which we govern: ## Journey Flow: ### Pre-VKYC Session: 1. Check the 3 day rule and Stitch e-KYC flow (depending on the LSP) - What is the 3 days Rule? RBI mandates VKYC be completed within 3 days from completing e-KYC. If the customer does not, lender will need to initiate the e-kyc flow
 
 ---
 
-## #207 — VKYC Regulatory Understanding
+## #105 — VKYC Regulatory Understanding
 **Status:** Unknown | **Last edited:** Unknown
 
 # VKYC: Regulatory Understanding - RBI Direction for V-CIP Infrastructure and Procedure [Reserve Bank of India](https://www.rbi.org.in/CommonPerson/english/scripts/notification.aspx?id=2607) Definition of V-CIP (from Section 3): > "Video based Customer Identification Process (V-CIP)": -CIP an alternate method of customer identification with facial recognition and customer due diligence by an authorised official of the RE by undertaking seamless, secure, live, informed-consent based audio-visual interaction with the customer to obtain identification information required for CDD purpose, and to ascertain the veracity of the information furnished by the customer through independent verification and maintaining audit trail of the process. Such processes complying with prescribed standards and procedures shall be treated on par with face-to-face CIP for the purpose of this Master Direction." > ### **Risk Classification:** - **High Risk designation** for customers until face-to-face KYC completion within 2 years - **VKYC serves as alternative** to in-person verification for borrowal accounts - **Debit restrictions** apply for high risk customers if KYC is not updated every 2 years ### **Documentation Requirements:** - **E-PAN accepted** - no physical PAN card showcase needed - **Photo matching mandatory** - agent must verify customer photo consistency across Aadhaar/OVD and PAN/e-PAN documents ### **Timeline Compliance:** - **3 working days maximum** from initial identification information collection to VKYC completion - The customer's economic and financial profile/information must be confirmed directly with the customer during the V-CIP process - 3 way check of the face of the customer using the selfie, photo on the OVD/Aadhaar Card and the e-PAN/PAN Card - V-CIP technology infrastructure must be housed on the RE's own premises, with connections and interactions originating only from its secured network. Any outsourced technology must comply with RBI guidelines. For cloud deployments, data ownership must remain solely with the RE, and all data—including video recordings—must be immediately transferred to the RE's owned or leased servers after V-CIP completion. Cloud service providers or third-party technology vendors must not retain any data from the V-CIP process. - ###
 
 ---
 
-## #208 — Name
+## #106 — Name
 **Status:** Unknown | **Last edited:** Unknown
 
 # Name Column 1: Does it check if the permissions are given? Column 2: Switch On Permission automatically/guide the customer? Column 3: Is Scheduling Available? Column 4: Configure communications for scheduled customers? Column 5: Is Digi Locker Integrated? Column 6: Is Pan Required? Column 7: Does Dashboard have Analytics Available?
 
 ---
 
-## #209 — VKYC Vendor Evaluation
+## #107 — VKYC Vendor Evaluation
 **Status:** Unknown | **Last edited:** Unknown
 
 # VKYC: Vendor Evaluation # Evaluation Criteria # Vendor List List of vendors. - Hyperverge - Demo completed (SDK) - IDFy - Perfios - Signzy - Demo Complete (API driven) - Digio - Demo Completed - AuthBridge - Demo Completed - Pixl - Demo not Completed - KYC Hub - Demo Completed # Evaluation ## Summary [Untitled](VKYC%20Vendor%20Evaluation/Untitled%20216e8d3af13a80248558f522cbf900a8.csv) ## Hyperverge ## IDFy ## Perfios
 
 ---
 
-## #210 — Volt Focused VKYC Journey Alignment
+## #108 — Volt Focused VKYC Journey Alignment
 **Status:** Unknown | **Last edited:** Unknown
 
 # Volt Focused VKYC Journey Alignment With the latest updation to Know Your Customer (KYC) Direction, face-to-face KYC is mandatory for all digital lending (except term loans under Rs. 60,000). V-CIP (Video Customer Identification Process) has been presented by the RBI as an alternative to offline KYC. This document outlines the complete V-CIP journey implementation based on competitive benchmarking of 6 Video KYC journeys (of Slice saving account opening, LazyPay BNPL LOS journey, Navi PL LOS journey, Shivalik SFB FD (Super.Money), Unity SFB (Stable Money) and Refyne PL LOS journey). - Brief about VKYC and its process Video KYC is a face-to-face KYC method recognised by RBI as an alternative to offline KYC. This involves the agent (Employee of the RE) following checks: 1. Customer verification 2. 3 way Photo Verification 3. Live location Check (Cx needs to be in India) 4. Liveness Check Pre-VKYC contains following need to be managed steps: 1. Pre-session messaging 2. Device permission enablement and Instructions 3. Consent for doing VKYC 4. Scheduling 5. Queuing During VKYC session following steps need to be completed: 1. Security Questions 2. Livininess Check 3. PAN Capture 4. Face Match 5. Location Capture Post VKYC session following steps need to 1. Based on Agent Marking the session as: 1. Marking Session Success: Customer’s VKYC session is completed and pushed to the Auditor’s bucket for final review. 2. Marking Session Failure: Customer needs to re-attempt VKYC. 3. Marking Session Incomplete: Webhooks to inform the LSP; will require the customer to complete the session using the same video link 2. Once the agent marks the session as a success, next is the Auditor Review: 1. Marking Session Success: Webhooks to inform LSP; complete application and initiate withdrawal on LSPs end 2. Marking Session Failure: Webhooks to inform the LSP; will require the customer to redo their VKYC 3. Marking Session Reopen: Webhooks to inform the LSP; will require the customer to redo their VKYC ![image.png](LSP%20Focused%20VKYC%20Journey%20Alignment/image.png) As an LSP, we control the Pre-VKYC and Post-VKYC (except the queuing process). ## Pre-VKYC 1. Initiation Page: 1. Pre-messaging: 1. Educate about VKYC 1. Context Setting for the customer: 1. Mandatory Step by RBI 2. Inform about the 3days rule - What is the 3 days Rule? RBI mandates VKYC be completed within 3 working days from completing e-KYC. If the customer does not, lender will need to initiate the e-KYC flow before initiating VKYC
-
----
-
-## #211 — NBFC LSP Stack GTM
-**Status:** Unknown | **Last edited:** Unknown
-
-# NBFC LSP Stack : GTM Below are the GTM phases of the LSP stack. | Phase | Objective | Partner/s | Number of applications | Timeframe | | --- | --- | --- | --- | --- | | Phase 1 | To augment the existing DSP capabilities into APIs to validate the stack a small scale | 1-2 | 100/day | 30 days | | Phase 2 | To build fall-back capabilities for each part of the journey to handle scale | 3-4 | 500/day | Ongoing | | Phase 3 | To build term loan capabilities over and above the current offerings for newer partners | | | TBD | | | | | | |
-
----
-
-## #212 — NBFC B2B LSP Stack
-**Status:** Unknown | **Last edited:** Unknown
-
-# NBFC B2B LSP Stack # Press Release DSP Finance, a non-banking lender licensed by RBI and part of the DSP group has recently gone live with its retail lending portfolio of Loan against Mutual funds. DSP Finance has been in the news recently for acquiring a majority stake in Volt Money, one of India’s pioneers in the LAMF space as well as the one of the biggest in the market. DSP Finance intends to leverage Volt’s product, distribution as well as technology platform to roll out a suite of products across retail and corporate lending which aims to help individuals and businesses leverage their financial assets better for a better financial profile. DSP Finance has recently been onboarded on Volt Money as one of its lending partners for the Credit line facility offered to individuals. As the business volumes ramps us in this segment, DSP Finance intends to work with other leading online and offline platforms in the country to offer LAMF products. In addition to the current offering of the on-demand loan, DSP Finance intends to offer term loans through its platform where its LSP partners can offer multiple credit products within their app. DSP Finance’s latest offering ‘DSP Flash’ aims to help platforms embed credit offerings into their ecosystem through plug n play APIs and SDKs. These capabilities span the entire credit offerings spanning credit line and term loans against mutual funds as well as securities. DSP finance’s offering not just focusses on customer journey but post servicing as well as operational reconciliation, thus providing an entire suite of offerings compared to most players who offer application related capabilities and rely on offline processes for customer experience. DSP Finance’s capabilities allow platforms to help retain their customers better and at the same time, monetize their base. DSP Finance’s offerings in the credit space comes at a highly flexible yet affordable pricing structure compared to the traditional unsecured loan offerings as well as EMIs against credit cards. This win-win strategy allows platforms to build their own customer experience and ensure trust while DSP Finance focusses on the core activities spanning risk assessment, CDD, compliance and operations as per RBI’s DLG guidelines. --- # FAQs ## External FAQs ## Internal FAQs - **Who will be our target segment for the Flash offering?** Our Target segment for the Flash offering will largely be large online and offline platforms who are
-
----
-
-## #213 — Referral Product Note (1)
-**Status:** Unknown | **Last edited:** Unknown
-
-**In scope:**
-- 
-    - What specific problems are we solving?
-    - Who are we solving it for? Consider both primary and secondary users
-
-# Referral Product Note (1) ## **Background and Context** - - Who is facing the problem (users, internal teams, partners) - **Existing Volt users (borrowers / opportunities)** Existing Volt users have no structured way to refer Volt to friends and get incentivised for the same. - **New potential users (referees)** They lack guidance in terms of trust and credibility on Volt as a platform to avail fast digital loans against Mutual funds and are dependent on friends who have already used Volt. Also there is no incentive that they receive on completing loan journey. - **Business team** Business lacks a scalable, low-CAC acquisition lever to leverage the existing user base to acquire new users - What is the challenge that they are facing? What is broken today? - Referrals might happen **informally** but there is no robust mechanism **to track** end to end and motivate existing users to refer more. - There is no system currently to scale the trust factor and brand of Volt being via low-CAC word of mouth viral mechanism. - Business cannot reliably measure **ROI, conversion** on new acquisitions via referral in an organised and systematic manner. - Why is it important? or What is getting impacted? - **High CAC** from paid channels continues to scale. - We miss out on **trust-led growth** from existing users. - Drop-offs in referee journey remain high due to lack of motivation. - Poor operational scalability risks future campaign launches. - Inability to experiment with referral-led growth limits topline impact. --- ## **1. Problem scope** ### In scope - - What specific problems are we solving? - Who are we solving it for? Consider both primary and secondary users ### Out of scope - - Call out on items out of scope - Rationale for exclusion --- ## **2. Success Criteria** - Top 2-3 **clear outcomes that we are looking to achieve**. - Key success metrics - First 1000 referral signups - # of successful referrals (loan account opened above Rs.25000) --- ## **3. Solution Scope** ### Solution overview - We are introducing a **configurable B2C Referral & Rewards system** that allows eligible Volt users to refer friends, track their progress across the loan lifecycle, and earn rewards when referred user successfully completes the loan application journey along with achieving other defined outcomes as per mentioned Terms & Conditions of the program . The solution includes: - Backend-driven eligibility and
-
----
-
-## #214 — Referral Product Note (1)
-**Status:** Unknown | **Last edited:** Unknown
-
-**In scope:**
-- 
-    - What specific problems are we solving?
-    - Who are we solving it for? Consider both primary and secondary users
-
-# Referral Product Note (1) ## **Background and Context** - - Who is facing the problem (users, internal teams, partners) - **Existing Volt users (borrowers / opportunities)** Existing Volt users have no structured way to refer Volt to friends and get incentivised for the same. - **New potential users (referees)** They lack guidance in terms of trust and credibility on Volt as a platform to avail fast digital loans against Mutual funds and are dependent on friends who have already used Volt. Also there is no incentive that they receive on completing loan journey. - **Business team** Business lacks a scalable, low-CAC acquisition lever to leverage the existing user base to acquire new users - What is the challenge that they are facing? What is broken today? - Referrals might happen **informally** but there is no robust mechanism **to track** end to end and motivate existing users to refer more. - There is no system currently to scale the trust factor and brand of Volt being via low-CAC word of mouth viral mechanism. - Business cannot reliably measure **ROI, conversion** on new acquisitions via referral in an organised and systematic manner. - Why is it important? or What is getting impacted? - **High CAC** from paid channels continues to scale. - We miss out on **trust-led growth** from existing users. - Drop-offs in referee journey remain high due to lack of motivation. - Poor operational scalability risks future campaign launches. - Inability to experiment with referral-led growth limits topline impact. --- ## **1. Problem scope** ### In scope - - What specific problems are we solving? - Who are we solving it for? Consider both primary and secondary users ### Out of scope - - Call out on items out of scope - Rationale for exclusion --- ## **2. Success Criteria** - Top 2-3 **clear outcomes that we are looking to achieve**. - Key success metrics - First 1000 referral signups - # of successful referrals (loan account opened above Rs.25000) --- ## **3. Solution Scope** ### Solution overview - We are introducing a **configurable B2C Referral & Rewards system** that allows eligible Volt users to refer friends, track their progress across the loan lifecycle, and earn rewards when referred user successfully completes the loan application journey along with achieving other defined outcomes as per mentioned Terms & Conditions of the program . The solution includes: - Backend-driven eligibility and
-
----
-
-## #215 — Referral Product Note
-**Status:** Unknown | **Last edited:** Unknown
-
-**In scope:**
-- 
-    - What specific problems are we solving?
-    - Who are we solving it for? Consider both primary and secondary users
-
-# Referral Product Note ## **Background and Context** - - Who is facing the problem (users, internal teams, partners) - **Existing Volt users (borrowers / opportunities)** Existing Volt users have no structured way to refer Volt to friends and get incentivised for the same. - **New potential users (referees)** They lack guidance in terms of trust and credibility on Volt as a platform to avail fast digital loans against Mutual funds and are dependent on friends who have already used Volt. Also there is no incentive that they receive on completing loan journey. - **Business team** Business lacks a scalable, low-CAC acquisition lever to leverage the existing user base to acquire new users - What is the challenge that they are facing? What is broken today? - Referrals might happen **informally** but there is no robust mechanism **to track** end to end and motivate existing users to refer more. - There is no system currently to scale the trust factor and brand of Volt being via low-CAC word of mouth viral mechanism. - Business cannot reliably measure **ROI, conversion** on new acquisitions via referral in an organised and systematic manner. - Why is it important? or What is getting impacted? - **High CAC** from paid channels continues to scale. - We miss out on **trust-led growth** from existing users. - Drop-offs in referee journey remain high due to lack of motivation. - Poor operational scalability risks future campaign launches. - Inability to experiment with referral-led growth limits topline impact. --- ## **1. Problem scope** ### In scope - - What specific problems are we solving? - Who are we solving it for? Consider both primary and secondary users ### Out of scope - - Call out on items out of scope - Rationale for exclusion --- ## **2. Success Criteria** - Top 2-3 **clear outcomes that we are looking to achieve**. - Key success metrics - First 1000 referral signups - # of successful referrals (loan account opened above Rs.25000) --- ## **3. Solution Scope** ### Solution overview - We are introducing a **configurable B2C Referral & Rewards system** that allows eligible Volt users to refer friends, track their progress across the loan lifecycle, and earn rewards when referred user successfully completes the loan application journey along with achieving other defined outcomes as per mentioned Terms & Conditions of the program . The solution includes: - Backend-driven eligibility and program
-
----
-
-## #216 — Referral Product Note [Claim approaches]
-**Status:** Unknown | **Last edited:** Unknown
-
-**In scope:**
-- 
-    - What specific problems are we solving?
-    - Who are we solving it for? Consider both primary and secondary users
-
-# Referral Product Note [Claim approaches] ## **Background and Context** - - Who is facing the problem (users, internal teams, partners) - **Existing Volt users (borrowers / opportunities)** Existing Volt users have no structured way to refer Volt to friends and get incentivised for the same. - **New potential users (referees)** They lack guidance in terms of trust and credibility on Volt as a platform to avail fast digital loans against Mutual funds and are dependent on friends who have already used Volt. Also there is no incentive that they receive on completing loan journey. - **Business team** Business lacks a scalable, low-CAC acquisition lever to leverage the existing user base to acquire new users - What is the challenge that they are facing? What is broken today? - Referrals might happen **informally** but there is no robust mechanism **to track** end to end and motivate existing users to refer more. - There is no system currently to scale the trust factor and brand of Volt being via low-CAC word of mouth viral mechanism. - Business cannot reliably measure **ROI, conversion** on new acquisitions via referral in an organised and systematic manner. - Why is it important? or What is getting impacted? - **High CAC** from paid channels continues to scale. - We miss out on **trust-led growth** from existing users. - Drop-offs in referee journey remain high due to lack of motivation. - Poor operational scalability risks future campaign launches. - Inability to experiment with referral-led growth limits topline impact. --- ## **1. Problem scope** ### In scope - - What specific problems are we solving? - Who are we solving it for? Consider both primary and secondary users ### Out of scope - - Call out on items out of scope - Rationale for exclusion --- ## **2. Success Criteria** - Top 2-3 **clear outcomes that we are looking to achieve**. - Key success metrics - First 1000 referral signups - # of successful referrals (loan account opened above Rs.25000) --- ## **3. Solution Scope** ### Solution overview - We are introducing a **configurable B2C Referral & Rewards system** that allows eligible Volt users to refer friends, track their progress across the loan lifecycle, and earn rewards when referred user successfully completes the loan application journey along with achieving other defined outcomes as per mentioned Terms & Conditions of the program . The solution includes: - Backend-driven eligibility
