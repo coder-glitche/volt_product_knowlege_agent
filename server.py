@@ -127,6 +127,7 @@ class GraphIndex:
 
     def __init__(self):
         self._label_to_db_id: dict[str, int] = {}     # graphify label -> SQLite file id
+        self._label_to_filepath: dict[str, str] = {}  # graphify label -> relative file path
         self._node_id_to_label: dict[str, str] = {}   # graphify node id -> label
         self._links: list[dict] = []
         self._loaded = False
@@ -140,16 +141,18 @@ class GraphIndex:
             self._links = data["links"]
 
             conn = sqlite3.connect(DB_PATH)
-            rows = conn.execute("SELECT id, title FROM files").fetchall()
+            rows = conn.execute("SELECT id, title, file_path FROM files").fetchall()
             conn.close()
 
-            title_to_id = {r[1].lower().strip(): r[0] for r in rows}
+            title_to_id       = {r[1].lower().strip(): r[0] for r in rows}
+            title_to_filepath = {r[1].lower().strip(): r[2] for r in rows}
 
             matched = 0
             for label in self._node_id_to_label.values():
                 label_l = label.lower().strip()
                 if label_l in title_to_id:
-                    self._label_to_db_id[label] = title_to_id[label_l]
+                    self._label_to_db_id[label]    = title_to_id[label_l]
+                    self._label_to_filepath[label] = title_to_filepath[label_l]
                     matched += 1
 
             self._loaded = True
@@ -214,6 +217,9 @@ class GraphIndex:
         related.sort(key=lambda r: (not r["in_index"], -r["confidence"]))
         return related[:limit]
 
+    def get_filepath(self, label: str) -> str:
+        return self._label_to_filepath.get(label, "")
+
     @property
     def loaded(self) -> bool:
         return self._loaded
@@ -234,8 +240,10 @@ def format_search_results(results: list[dict], query: str) -> str:
     lines = [f"## Search results for \"{query}\"\n"]
     for i, r in enumerate(results, 1):
         topics = r.get("topic_areas", "").replace(",", " · ")
+        abs_path = str(ROOT / r["file_path"]) if r.get("file_path") else ""
         lines.append(
             f"### {i}. {r['title']}\n"
+            f"`{abs_path}`\n"
             f"**Topics:** {topics}  |  **Status:** {r.get('status') or '—'}  |  **Last edited:** {r.get('last_edited') or '—'}\n\n"
             f"{r.get('snippet', '').strip()}\n"
         )
@@ -245,10 +253,11 @@ def format_search_results(results: list[dict], query: str) -> str:
 
 def format_prd(row: dict) -> str:
     file_path = ROOT / row["file_path"]
+    abs_path = str(file_path)
     if file_path.exists():
         content = file_path.read_text(errors="ignore")
         content = re.sub(r'!\[.*?\]\(data:image/[^)]+\)', '[image removed]', content)
-        return content
+        return f"`{abs_path}`\n\n{content}"
     return row.get("content", "Content not available.")
 
 
@@ -388,20 +397,23 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         # --- Knowledge graph relationships (graphify) ---
         graph_related = _graph.get_related(title)
         if graph_related:
-            by_relation: dict[str, list[str]] = {}
+            by_relation: dict[str, list[tuple[str, str]]] = {}
             no_index: list[str] = []
             for r in graph_related:
                 if r["in_index"]:
-                    by_relation.setdefault(r["relation"], []).append(r["label"])
+                    fp = _graph.get_filepath(r["label"])
+                    abs_fp = str(ROOT / fp) if fp else ""
+                    by_relation.setdefault(r["relation"], []).append((r["label"], abs_fp))
                 else:
                     no_index.append(r["label"])
 
             lines.append("### Knowledge graph (semantic relationships):")
-            for rel, labels in by_relation.items():
+            for rel, entries in by_relation.items():
                 rel_display = rel.replace("_", " ").title()
                 lines.append(f"\n**{rel_display}:**")
-                for label in labels:
-                    lines.append(f"  - {label}")
+                for label, abs_fp in entries:
+                    path_str = f"\n    `{abs_fp}`" if abs_fp else ""
+                    lines.append(f"  - {label}{path_str}")
 
             if no_index:
                 lines.append(f"\n*Also connected (not in local index): {', '.join(no_index[:5])}*")
@@ -415,8 +427,10 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         if mentions:
             lines.append("\n\n### PRDs that reference this:")
             for r in mentions:
+                abs_fp = str(ROOT / r["file_path"]) if r.get("file_path") else ""
                 lines.append(
-                    f"- **{r['title']}** — {r.get('status') or '—'} | last edited: {r.get('last_edited') or '—'}"
+                    f"- **{r['title']}** — {r.get('status') or '—'} | last edited: {r.get('last_edited') or '—'}\n"
+                    f"  `{abs_fp}`"
                 )
 
         if not graph_related and not mentions:
